@@ -73,11 +73,19 @@ class UserDefaults {
     return sharedPreferences?.setString('type', value);
   }
 
-  static setLanguage(String value) async{
+  static setLanguage(String value) async {
     return await sharedPreferences?.setString('language', value);
   }
 
   static String? getLanguage() {
     return sharedPreferences?.getString('language');
+  }
+
+  static String? getToken() {
+    return sharedPreferences?.getString('ApiToken');
+  }
+
+  static setApiToken(String value) async {
+    return await sharedPreferences?.setString('ApiToken', value);
   }
 }

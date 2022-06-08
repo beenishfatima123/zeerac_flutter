@@ -4,10 +4,22 @@ extension Validations on String {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = RegExp(pattern.toString());
     if (isEmpty) {
-      return "Email Required";
+      return "Required";
     }
     if (!regExp.hasMatch(this)) {
       return "Invalid Email";
+    }
+    return null;
+  }
+
+  String? toValidateCnic() {
+    Pattern pattern = "^[0-9]{5}-[0-9]{7}-[0-9]{1}";
+    RegExp regExp = RegExp(pattern.toString());
+    if (isEmpty) {
+      return "Required";
+    }
+    if (!regExp.hasMatch(this)) {
+      return "Invalid CNIC";
     }
     return null;
   }

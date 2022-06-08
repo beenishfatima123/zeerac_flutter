@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
-
 import '../common/styles.dart';
 
 void printWrapped(String text) {
   final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
   pattern.allMatches(text).forEach(
       // ignore: avoid_print
-      (match) => print("\n********TAGGGG*********\n${match.group(0)}"));
+      (match) => print("${match.group(0)}"));
 }
 
 String formatDateTime(DateTime? dateTime) {
@@ -147,3 +146,5 @@ Future<void> showMyMonthPicker(
     onMonthSelected(result);
   }
 }
+
+

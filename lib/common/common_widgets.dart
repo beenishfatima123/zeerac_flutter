@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 
-import '../utils/utils.dart';
+import '../utils/helpers.dart';
 import 'expandable_tile_model.dart';
 
 
@@ -342,7 +342,6 @@ class _MyDropDownState extends State<MyDropDown> {
         isExpanded: true,
         validator: widget.validator,
         onTap: () {
-          print("on tap");
           FocusScope.of(context).unfocus();
         },
         decoration: InputDecoration(

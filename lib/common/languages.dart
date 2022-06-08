@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
-import 'package:zeerac_flutter/utils/utils.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
 
 enum AppLanguages { english, arabic, hindi, turkish, french }
 
