@@ -30,13 +30,14 @@ class AppPopUps {
       body: body,
       title: title ?? '',
       desc: description ?? '',
+      dismissOnTouchOutside: false,
       btnOkOnPress: onOkPress ??
           () {
-            Get.back();
+            //Navigator.pop(myContext!);
           },
       btnCancelOnPress: onCancelPress ??
           () {
-            Get.back();
+            // Get.back();
           },
     ).show();
   }

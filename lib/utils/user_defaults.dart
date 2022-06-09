@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
 
 class UserDefaults {
   static SharedPreferences? sharedPreferences;
@@ -57,20 +59,21 @@ class UserDefaults {
     return sharedPreferences.getInt(key) ?? defaultValue;
   }
 
-  static setCurrentUserId(String value) {
-    return sharedPreferences?.setString('userId', value);
+  static saveUserSession(UserLoginResponseModel loginResponseModel) async {
+    String user = json.encode(loginResponseModel.toJson());
+    await getPref().then((value) => value..setString('userData', user));
+    printWrapped("user session saved");
   }
 
-  static String? getCurrentUserId() {
-    return sharedPreferences?.getString('userId');
-  }
-
-  static String? getUserType() {
-    return sharedPreferences?.getString('type');
-  }
-
-  static setUserType(String value) {
-    return sharedPreferences?.setString('type', value);
+  static UserLoginResponseModel? getUserSession() {
+    UserLoginResponseModel? user;
+    if (sharedPreferences!.getString('userData') != null) {
+      Map<String, dynamic> json =
+          jsonDecode(sharedPreferences!.getString('userData')!);
+      user = UserLoginResponseModel.fromJson(json);
+      printWrapped(user.toString());
+    }
+    return user;
   }
 
   static setLanguage(String value) async {

@@ -8,7 +8,7 @@ void printWrapped(String text) {
   final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
   pattern.allMatches(text).forEach(
       // ignore: avoid_print
-      (match) => print("${match.group(0)}"));
+      (match) => print("***${match.group(0)}***"));
 }
 
 String formatDateTime(DateTime? dateTime) {
@@ -146,5 +146,3 @@ Future<void> showMyMonthPicker(
     onMonthSelected(result);
   }
 }
-
-

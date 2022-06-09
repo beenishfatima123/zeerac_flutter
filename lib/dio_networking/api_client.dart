@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/user_defaults.dart';
 import '../utils/helpers.dart';
-import 'APis.dart';
+import 'app_apis.dart';
 import 'api_response.dart';
 import 'api_route.dart';
 import 'decodable.dart';
@@ -54,12 +54,12 @@ class APIClient implements BaseAPIClient {
     @required Create<T>? create,
     Function? apiFunction,
   }) async {
-
     final config = route!.getConfig();
     config.baseUrl = baseUrl;
     config.headers = headers;
-    config.connectTimeout = 50000;
-    config.receiveTimeout = 60000;
+    config.sendTimeout = 600000;
+    config.connectTimeout = 600000;
+    config.receiveTimeout = 600000;
     config.followRedirects = false;
     config.validateStatus = (status) {
       return status! <= 500;
@@ -88,11 +88,6 @@ class APIClient implements BaseAPIClient {
         throw errorResponse;
 
       case 200:
-        if (responseData["errors"] != null) {
-          final errorResponse = ErrorResponse.fromJson(responseData);
-          throw errorResponse;
-        }
-
         var finalResponse =
             ResponseWrapper.init(create: create, json: responseData);
         if (finalResponse.error != null) {

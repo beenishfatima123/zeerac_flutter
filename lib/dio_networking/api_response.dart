@@ -1,4 +1,3 @@
-
 import '../utils/helpers.dart';
 import 'decodable.dart';
 
@@ -50,7 +49,7 @@ class APIResponse<T> extends GenericObject<T>
   @override
   APIResponse<T> decode(dynamic json) {
     responseMessage = json['message'] ?? '';
-    success = json['success'] ?? false;
+    success = (json['success'] ?? false) || (json['status'] == 'True');
 
     if (decoding && (success == true)) {
       data = ((json as Map<String, dynamic>).containsKey('result'))
@@ -72,7 +71,7 @@ class APIListResponse<T> extends GenericObject<T>
   @override
   APIListResponse<T> decode(dynamic json) {
     responseMessage = json['message'] ?? '';
-    status = json['success'] ?? false;
+    status = (json['success'] ?? false) || (json['status'] == 'True');
     data = [];
 
     if (json['result'] != null) {
@@ -90,9 +89,7 @@ class ErrorResponse implements Exception {
   ErrorResponse({this.message});
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
-    return ErrorResponse(
-        message: json['message'] ??
-            'Something went wrong');
+    return ErrorResponse(message: json['message'] ?? 'Something went wrong');
   }
 
   @override

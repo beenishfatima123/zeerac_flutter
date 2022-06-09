@@ -1,6 +1,6 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 
-class UserModel implements Decodeable {
+class UserLoginResponseModel implements Decodeable {
   String? token;
   int? id;
   String? username;
@@ -14,7 +14,7 @@ class UserModel implements Decodeable {
   bool? isPasswordChanged;
   String? photo;
 
-  UserModel(
+  UserLoginResponseModel(
       {this.token,
       this.id,
       this.username,
@@ -28,7 +28,7 @@ class UserModel implements Decodeable {
       this.isPasswordChanged,
       this.photo});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserLoginResponseModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     id = json['id'];
     username = json['username'];

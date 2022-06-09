@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void gotoRelevantScreenOnUserType() {
-    String userType = UserDefaults.getUserType() ?? "";
-    Get.toNamed(LoginPage.id);
+    UserDefaults.getUserSession() ?? "";
+    Get.offNamed(LoginPage.id);
   }
 
   @override

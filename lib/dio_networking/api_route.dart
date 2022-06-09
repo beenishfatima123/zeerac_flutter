@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-import 'APis.dart';
+import 'app_apis.dart';
 
 class APIRoute implements APIRouteConfigurable {
-  final APIType? type;
+  final APIType type;
   final String? routeParams;
   Map<String, dynamic>? headers;
   dynamic body;
@@ -23,7 +23,20 @@ class APIRoute implements APIRouteConfigurable {
           data: body,
           method: APIMethod.post,
         );
-
+      case APIType.registerUser:
+        return RequestOptions(
+          path: ApiConstants.registerUser,
+          headers: headers,
+          data: body,
+          method: APIMethod.post,
+        );
+      case APIType.registerCompany:
+        return RequestOptions(
+          path: ApiConstants.registerCompany,
+          headers: headers,
+          data: body,
+          method: APIMethod.post,
+        );
       default:
         return RequestOptions(
           path: ApiConstants.loginUser,
