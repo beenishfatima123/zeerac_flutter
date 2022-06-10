@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 
-import '../../../common/common_widgets.dart';
-import '../../../common/loading_widget.dart';
-import '../../../common/styles.dart';
-import '../controllers/login_controller.dart';
+import '../../../../common/common_widgets.dart';
+import '../../../../common/loading_widget.dart';
+import '../../../../common/styles.dart';
+import '../../controllers/login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {
   LoginPage({Key? key}) : super(key: key);
@@ -119,8 +120,10 @@ class LoginPage extends GetView<LoginController> {
                             if (controller.formKey.currentState!.validate()) {
                               FocusManager.instance.primaryFocus?.unfocus();
                               controller.login(
-                                  completion:
-                                      (UserLoginResponseModel userModel) {});
+                                completion: (UserLoginResponseModel userModel) {
+                                  Get.offNamed(DashBoardPage.id);
+                                },
+                              );
                             }
                           },
                         ),

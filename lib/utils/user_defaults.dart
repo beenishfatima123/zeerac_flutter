@@ -17,6 +17,12 @@ class UserDefaults {
     sharedPreferences.setString(key, value);
   }
 
+  static clearAll() {
+    if (sharedPreferences != null) {
+      sharedPreferences!.clear();
+    }
+  }
+
   static Future<SharedPreferences> getPref() async {
     sharedPreferences ??= await SharedPreferences.getInstance();
     return sharedPreferences!;
@@ -39,12 +45,6 @@ class UserDefaults {
     }
 
     return defaultValue;
-  }
-
-  clearAll() {
-    if (sharedPreferences != null) {
-      sharedPreferences!.clear();
-    }
   }
 
   static void setIntValue(String key, int value) {

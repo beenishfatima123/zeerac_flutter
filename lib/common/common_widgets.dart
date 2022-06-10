@@ -9,7 +9,6 @@ import 'package:zeerac_flutter/common/styles.dart';
 import '../utils/helpers.dart';
 import 'expandable_tile_model.dart';
 
-
 typedef FieldValidator = String? Function(String? data);
 
 class SvgViewer extends StatelessWidget {
@@ -285,6 +284,7 @@ class MyDropDown extends StatefulWidget {
   Function(dynamic? value)? onChange;
   dynamic value;
   Color? borderColor;
+  Color? suffixIconColor;
   final Color? labelColor;
   final Color? textColor;
   final String? prefixIcon;
@@ -298,6 +298,7 @@ class MyDropDown extends StatefulWidget {
   final FormFieldValidator<dynamic>? validator;
   final List<DropdownMenuItem<Object>>? itemFuntion;
   bool isDense;
+
   bool isItalicHint;
 
   MyDropDown(
@@ -315,6 +316,7 @@ class MyDropDown extends StatefulWidget {
       this.hintText,
       this.hintColor,
       this.leftPadding,
+      this.suffixIconColor,
       this.rightPadding,
       this.validator,
       this.itemFuntion,
@@ -336,8 +338,9 @@ class _MyDropDownState extends State<MyDropDown> {
       ),
       child: DropdownButtonFormField(
         icon: SvgViewer(
-            height: 10,
-            width: 10,
+            height: 8,
+            width: 8,
+            color: widget.suffixIconColor,
             svgPath: widget.suffixIcon ?? 'assets/icons/drop_down_ic.svg'),
         isExpanded: true,
         validator: widget.validator,
@@ -359,7 +362,7 @@ class _MyDropDownState extends State<MyDropDown> {
                     child: SvgViewer(svgPath: widget.prefixIcon!),
                   )
                 : null,
-            contentPadding: EdgeInsets.all(10.h),
+            contentPadding: EdgeInsets.all(5.h),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
               borderSide: const BorderSide(
@@ -392,7 +395,7 @@ class _MyDropDownState extends State<MyDropDown> {
         value: widget.value,
         isDense: widget.isDense,
         hint: Text(
-          "",
+          widget.hintText ?? '',
           style: AppTextStyles.textStyleBoldBodySmall.copyWith(
               color: widget.hintColor,
               fontStyle:

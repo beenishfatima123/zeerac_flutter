@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zeerac_flutter/modules/users/pages/login_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import '../utils/user_defaults.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,8 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void gotoRelevantScreenOnUserType() {
-    UserDefaults.getUserSession() ?? "";
-    Get.offNamed(LoginPage.id);
+    Get.offNamed(DashBoardPage.id);
+    /*if (UserDefaults.getUserSession() != null) {
+      Get.offNamed(DashBoardPage.id);
+    } else {
+      Get.offNamed(LoginPage.id);
+    }*/
   }
 
   @override
