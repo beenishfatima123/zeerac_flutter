@@ -49,7 +49,8 @@ class APIResponse<T> extends GenericObject<T>
   @override
   APIResponse<T> decode(dynamic json) {
     responseMessage = json['message'] ?? '';
-    success = (json['success'] ?? false) || (json['status'] == 'True');
+    success = (json['success'] ?? false) ||
+        (json['status'] == 'True' || (json['status'] ?? false));
 
     if (decoding && (success == true)) {
       data = ((json as Map<String, dynamic>).containsKey('result'))
@@ -71,7 +72,8 @@ class APIListResponse<T> extends GenericObject<T>
   @override
   APIListResponse<T> decode(dynamic json) {
     responseMessage = json['message'] ?? '';
-    status = (json['success'] ?? false) || (json['status'] == 'True');
+    status = (json['success'] ?? false) ||
+        (json['status'] == 'True' || (json['status'] ?? false));
     data = [];
 
     if (json['result'] != null) {

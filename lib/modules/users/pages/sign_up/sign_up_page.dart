@@ -11,6 +11,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
+import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_pop_ups.dart';
@@ -203,7 +204,7 @@ class SignupPage extends GetView<SignupController> {
                                           controller: TextEditingController())),
                                   asyncItems: (String filter) async {
                                     var response = await Dio().get(
-                                      "https://maps.googleapis.com/maps/api/place/autocomplete/json?sensor=false&types=(cities)&key=AIzaSyC0-5OqwY75sPwoncSujsbkJD6wDU7BvOw&components=country:pk",
+                                      "https://maps.googleapis.com/maps/api/place/autocomplete/json?sensor=false&types=(cities)&key=${ApiConstants.googleApiKey}&components=country:pk",
                                       queryParameters: {"input": filter},
                                     );
                                     var models =
@@ -238,7 +239,7 @@ class SignupPage extends GetView<SignupController> {
                                                   TextEditingController())),
                                   asyncItems: (String filter) async {
                                     var response = await Dio().get(
-                                      'https://maps.googleapis.com/maps/api/place/autocomplete/json?sensor=false&types=(regions)&key=AIzaSyC0-5OqwY75sPwoncSujsbkJD6wDU7BvOw&components=country:pk',
+                                      'https://maps.googleapis.com/maps/api/place/autocomplete/json?sensor=false&types=(regions)&key=${ApiConstants.googleApiKey}&components=country:pk',
                                       queryParameters: {
                                         "input":
                                             " ${controller.addressCityController.text},$filter}"

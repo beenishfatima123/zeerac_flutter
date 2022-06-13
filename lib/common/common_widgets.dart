@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zeerac_flutter/common/styles.dart';
+import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 
 import '../utils/helpers.dart';
 import 'expandable_tile_model.dart';
@@ -237,12 +238,12 @@ class Button extends StatelessWidget {
       onDoubleTap: () {},
       child: Padding(
         padding: EdgeInsets.only(
-            left: leftPadding == null ? 100.w : leftPadding!,
-            right: rightPading == null ? 100.w : rightPading!),
+            left: leftPadding == null ? 0.w : leftPadding!,
+            right: rightPading == null ? 0.w : rightPading!),
         child: Container(
           width: width,
           height: height,
-          padding: EdgeInsets.all(padding ?? 80.w),
+          padding: EdgeInsets.all(padding ?? 50.w),
           decoration: BoxDecoration(
               border: borderColor == null
                   ? null
@@ -337,11 +338,10 @@ class _MyDropDownState extends State<MyDropDown> {
         right: widget.rightPadding ?? 0.w,
       ),
       child: DropdownButtonFormField(
-        icon: SvgViewer(
-            height: 8,
-            width: 8,
-            color: widget.suffixIconColor,
-            svgPath: widget.suffixIcon ?? 'assets/icons/drop_down_ic.svg'),
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          size: 22,
+        ),
         isExpanded: true,
         validator: widget.validator,
         onTap: () {
@@ -563,7 +563,7 @@ class _NetworkCircularImageState extends State<NetworkCircularImage> {
 }
 
 class NetworkPlainImage extends StatefulWidget {
-  String url;
+  String? url;
 
   double? width;
   double? height;
@@ -581,7 +581,7 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: widget.url,
+      imageUrl: widget.url ?? ApiConstants.imageNetworkPlaceHolder,
       width: widget.width,
       height: widget.height,
       key: UniqueKey(),
