@@ -1,4 +1,11 @@
-enum APIType { loginUser, registerUser, registerCompany, queryPropertiesList }
+enum APIType {
+  loginUser,
+  registerUser,
+  registerCompany,
+  queryPropertiesList,
+  loadMorePropertiesList,
+  loadProjects
+}
 
 class ApiConstants {
   static var imageNetworkPlaceHolder =
@@ -9,4 +16,5 @@ class ApiConstants {
   static const registerUser = 'users/user/';
   static const registerCompany = 'users/company/';
   static const queryPropertiesList = 'users/property/';
+  static const loadProjects = '/users/project/';
 }

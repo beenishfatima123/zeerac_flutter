@@ -32,7 +32,7 @@ class DashBoardPage extends GetView<DashBoardController> {
             child: MyDropDown(
               isDense: false,
               borderColor: AppColor.whiteColor,
-              value: Languages.getCurrentLanguageName(),
+              value: controller.languageName.value,
               textColor: AppColor.blackColor,
               onChange: (value) {
                 Languages.updateLocale(value);

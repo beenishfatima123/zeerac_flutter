@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
+import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_detail_page.dart';
 import 'package:zeerac_flutter/utils/app_utils.dart';
@@ -11,14 +12,14 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../../common/spaces_boxes.dart';
 
-Widget propertiesWidget(Results result) {
-  String firstImage = result.thumbnail == null
+Widget projectWidget(ProjectsResponseModel result) {
+  String firstImage = result.logo == null
       ? ApiConstants.imageNetworkPlaceHolder
-      : "${ApiConstants.baseUrl}${result.thumbnail ?? ''}";
+      : "${ApiConstants.baseUrl}${result.logo ?? ''}";
 
   return InkWell(
     onTap: () {
-      Get.toNamed(PropertyDetailsPage.id, arguments: result);
+      /* Get.toNamed(PropertyDetailsPage.id, arguments: result);*/
     },
     child: Card(
       child: SizedBox(
@@ -42,12 +43,12 @@ Widget propertiesWidget(Results result) {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "${result.image.length}",
+                          "${result.content?.length ?? 0}",
                           style: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
                         const Icon(
-                          Icons.image,
+                          Icons.file_copy_sharp,
                           size: 12,
                         )
                       ],
@@ -59,7 +60,7 @@ Widget propertiesWidget(Results result) {
 
             hSpace,
 
-            ///features and information
+            /// information
             Expanded(
               flex: 6,
               child: Column(
@@ -72,9 +73,9 @@ Widget propertiesWidget(Results result) {
                       children: [
                         Flexible(
                           child: Text(
-                            AppUtils.readTimestamp(
-                                DateTime.parse(result.createdAt!)
-                                    .millisecondsSinceEpoch),
+                            result.propertyType ?? '-',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.textStyleBoldBodyXSmall,
                           ),
                         ),
@@ -96,25 +97,27 @@ Widget propertiesWidget(Results result) {
                   vSpace,
                   Flexible(
                     child: Text(
-                      ("${result.currency ?? ''} ${result.price ?? ''}"),
+                      result.city ?? '-',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.textStyleBoldBodyMedium,
                     ),
                   ),
                   Text(
-                    result.loca ?? '',
+                    result.country ?? '-',
                     style: AppTextStyles.textStyleBoldBodySmall,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Flexible(
                     child: Text(
-                      result.purpose ?? '',
+                      "Price: ${(result.minPrice ?? '-')} - ${(result.maxPrice ?? '-')} ",
                       style: AppTextStyles.textStyleNormalBodySmall,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Flexible(
+                  /* Flexible(
                     child: Row(
                       children: [
                         Row(
@@ -145,20 +148,23 @@ Widget propertiesWidget(Results result) {
                         hSpace,
                       ],
                     ),
-                  ),
+                  ),*/
                   vSpace,
                   Expanded(
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {}, child: const Text('Call')),
-                        hSpace,
-                        ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Message',
-                            )),
-                      ],
+                    child: Opacity(
+                      opacity: 0.2,
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {}, child: const Text('Call')),
+                          hSpace,
+                          ElevatedButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Message',
+                              )),
+                        ],
+                      ),
                     ),
                   )
                 ],

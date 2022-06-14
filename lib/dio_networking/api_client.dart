@@ -57,9 +57,9 @@ class APIClient implements BaseAPIClient {
     final config = route!.getConfig();
     config.baseUrl = baseUrl;
     config.headers = headers;
-    config.sendTimeout = 600000;
-    config.connectTimeout = 600000;
-    config.receiveTimeout = 600000;
+    config.sendTimeout = 6000;
+    config.connectTimeout = 6000;
+    config.receiveTimeout = 6000;
     config.followRedirects = false;
     config.validateStatus = (status) {
       return status! <= 500;
@@ -75,7 +75,7 @@ class APIClient implements BaseAPIClient {
     });
 
     final responseData = response.data;
-
+    print(response.toString());
     printWrapped('\n************response Data=***********\n' +
         response.data.toString() +
         " \n**************\n");

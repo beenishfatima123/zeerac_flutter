@@ -44,6 +44,20 @@ class APIRoute implements APIRouteConfigurable {
           queryParameters: body,
           method: APIMethod.get,
         );
+      case APIType.loadMorePropertiesList:
+        return RequestOptions(
+          path: '',
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadProjects:
+        return RequestOptions(
+          path: ApiConstants.loadProjects,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
       default:
         return RequestOptions(
           path: ApiConstants.loginUser,
