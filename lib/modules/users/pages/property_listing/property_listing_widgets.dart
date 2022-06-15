@@ -11,7 +11,7 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../../common/spaces_boxes.dart';
 
-Widget propertiesWidget(Results result) {
+Widget propertiesWidget(PropertyModel result) {
   String firstImage = result.thumbnail == null
       ? ApiConstants.imageNetworkPlaceHolder
       : "${ApiConstants.baseUrl}${result.thumbnail ?? ''}";

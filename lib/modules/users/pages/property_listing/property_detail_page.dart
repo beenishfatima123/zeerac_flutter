@@ -12,12 +12,13 @@ import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart'
 import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
+import 'property_listing_widgets.dart';
 
 class PropertyDetailsPage extends GetView<PropertyDetailController> {
   PropertyDetailsPage({Key? key}) : super(key: key);
   static const id = '/PropertyDetailsPage';
 
-  final propertyModel.Results? property = Get.arguments;
+  final propertyModel.PropertyModel? property = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                     return <Widget>[
                       SliverAppBar(
                         expandedHeight: 300.h,
-                        backgroundColor: Colors.transparent,
+                        backgroundColor: AppColor.blackColor.withOpacity(0.5),
                         floating: true,
                         stretch: true,
                         pinned: false,
@@ -171,49 +172,49 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                       AppTextStyles.textStyleBoldSubTitleLarge,
                                 ),
                                 vSpace,
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Property Id",
                                     value: property?.propertyId ?? '-',
                                     isGrey: true),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Type",
                                     value: property?.type ?? '-',
                                     isGrey: false),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Price",
                                     value:
                                         "${property?.price ?? '-'} ${property?.currency ?? '-'}",
                                     isGrey: true),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Beds",
                                     value: (property?.beds ?? 0).toString(),
                                     isGrey: false),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Baths",
                                     value: "${property?.bathrooms ?? 0}",
                                     isGrey: true),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Area",
                                     value:
                                         "${property?.space ?? '-'} ${property?.unit ?? '-'}",
                                     isGrey: false),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Purpose",
                                     value: property?.purpose ?? '-',
                                     isGrey: true),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "City",
                                     value: property?.city ?? '-',
                                     isGrey: false),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Location",
                                     value: property?.loca ?? '-',
                                     isGrey: true),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Built on",
                                     value: (property?.year ?? 0).toString(),
                                     isGrey: false),
-                                getDetailsWidget(
+                                keyValueRowWidget(
                                     title: "Condition",
                                     value: property?.condition ?? '-',
                                     isGrey: true),
@@ -247,7 +248,7 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                     children: [
                                       const Icon(
                                         Icons.map,
-                                        size: 80,
+                                        size: 50,
                                       ),
                                       Expanded(
                                           child: Column(
@@ -267,7 +268,7 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                       )),
                                       const Icon(
                                         Icons.arrow_forward,
-                                        size: 40,
+                                        size: 30,
                                       ),
                                     ],
                                   ),
@@ -387,47 +388,6 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  getDetailsWidget(
-      {required String title, required String value, required bool isGrey}) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: isGrey ? AppColor.alphaGrey : AppColor.whiteColor),
-      child: Row(
-        children: [
-          Expanded(
-              child: Center(
-            child: Text(
-              title,
-              style: AppTextStyles.textStyleNormalBodyMedium,
-            ),
-          )),
-          Expanded(
-              child: Center(
-            child: Text(
-              value,
-              style: AppTextStyles.textStyleNormalBodyMedium,
-            ),
-          )),
-        ],
-      ),
-    );
-  }
-
-  Widget getFeatureItem({required String title}) {
-    return Container(
-      margin: const EdgeInsets.all(5),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: AppColor.alphaGrey, borderRadius: BorderRadius.circular(10)),
-      child: Text(
-        title,
-        style: AppTextStyles.textStyleNormalBodyMedium,
       ),
     );
   }

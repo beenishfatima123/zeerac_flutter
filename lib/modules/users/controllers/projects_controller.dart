@@ -13,7 +13,13 @@ import '../../../utils/helpers.dart';
 class ProjectsController extends GetxController {
   RxBool isLoading = false.obs;
 
-  RxList<ProjectsResponseModel> projectsList = <ProjectsResponseModel>[].obs;
+  @override
+  void onInit() {
+    print("on init project controller");
+    super.onInit();
+  }
+
+  RxList<ProjectModel> projectsList = <ProjectModel>[].obs;
 
   bool onScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification) {
@@ -31,7 +37,7 @@ class ProjectsController extends GetxController {
   }
 
   ///loading projects when app starts
-  void loadProjects() {
+  void loadProjects({bool showAlert = false}) {
     isLoading.value = true;
     Map<String, dynamic> body = {};
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
@@ -41,27 +47,32 @@ class ProjectsController extends GetxController {
               APIType.loadProjects,
               body: body,
             ),
-            create: () => APIListResponse<ProjectsResponseModel>(
+            create: () => APIResponse<ProjectsResponseModel>(
                 create: () => ProjectsResponseModel()),
             apiFunction: loadProjects)
         .then((response) {
       isLoading.value = false;
-      if ((response.response?.data?.length ?? 0) > 0) {
+      if ((response.response?.data?.results?.length ?? 0) > 0) {
         projectsList.clear();
-        projectsList.addAll(response.response!.data!);
-      } /* else {
-        AppPopUps.showDialog(
-            title: 'Alert',
-            description: 'No result found',
-            dialogType: DialogType.INFO);
-      }*/
+        projectsList.addAll(response.response!.data!.results!);
+      } else {
+        if (showAlert) {
+          AppPopUps.showDialog(
+              title: 'Alert',
+              description: 'No result found',
+              dialogType: DialogType.INFO);
+        }
+      }
     }).catchError((error) {
+      isLoading.value = false;
+
       ///not showing any dialog because this method will be called on the app start when controller gets initialized
-      /*  isLoading.value = false;
-      AppPopUps.showDialog(
-          title: 'Error',
-          description: error.toString(),
-          dialogType: DialogType.ERROR);*/
+      if (showAlert) {
+        AppPopUps.showDialog(
+            title: 'Error',
+            description: error.toString(),
+            dialogType: DialogType.ERROR);
+      }
       return Future.value(null);
     });
   }

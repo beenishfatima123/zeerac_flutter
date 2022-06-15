@@ -56,6 +56,16 @@ class SideBar extends GetView<DashBoardController> {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.work),
+            selected: controller.selectedIndex.value == 2,
+            title:
+                Text('Companies', style: AppTextStyles.textStyleBoldBodyMedium),
+            onTap: () {
+              controller.selectedIndex.value = 2;
+              controller.scaffoldKey.currentState?.closeDrawer();
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.logout),
             selected: controller.selectedIndex.value == 1,
             title: Text('Logout', style: AppTextStyles.textStyleBoldBodyMedium),

@@ -31,6 +31,7 @@ class PropertyListingPage extends GetView<PropertyListingPageController> {
                     child: NotificationListener(
                       onNotification: controller.onScrollNotification,
                       child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         itemCount: controller.propertiesList?.length ?? 0,
                         itemBuilder: (context, index) {
                           return propertiesWidget(

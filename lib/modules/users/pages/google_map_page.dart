@@ -14,7 +14,6 @@ import '../../../../common/loading_widget.dart';
 class GoogleMapPage extends GetView<MyGoogleMapController> {
   GoogleMapPage({Key? key}) : super(key: key);
   static const id = '/GoogleMapPage';
-  final Completer<GoogleMapController> _mapController = Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +22,9 @@ class GoogleMapPage extends GetView<MyGoogleMapController> {
       body: GetX<MyGoogleMapController>(
         initState: (state) {
           controller.initialize(
-              lat: Get.arguments[0],
-              lng: Get.arguments[1],
-              propertyName: Get.arguments[2]);
+              lat: Get.arguments[0] ?? 31.4713968,
+              lng: Get.arguments[1] ?? 74.2705732,
+              propertyName: Get.arguments[2] ?? '-');
         },
         builder: (_) {
           return SafeArea(

@@ -4,7 +4,7 @@ class PropertyListingModel implements Decodeable {
   int? count;
   String? next;
   String? previous;
-  List<Results>? results;
+  List<PropertyModel>? results;
 
   PropertyListingModel({this.count, this.next, this.previous, this.results});
 
@@ -13,9 +13,9 @@ class PropertyListingModel implements Decodeable {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <PropertyModel>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new PropertyModel.fromJson(v));
       });
     }
   }
@@ -37,9 +37,9 @@ class PropertyListingModel implements Decodeable {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <PropertyModel>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new PropertyModel.fromJson(v));
       });
     }
     return this;
@@ -51,7 +51,7 @@ class PropertyListingModel implements Decodeable {
   }
 }
 
-class Results {
+class PropertyModel {
   int? id;
   String? name;
   String? purpose;
@@ -91,7 +91,7 @@ class Results {
   bool? isSold;
   List<Image> image = const [];
 
-  Results(
+  PropertyModel(
       {this.id,
       this.name,
       this.purpose,
@@ -131,7 +131,7 @@ class Results {
       this.isSold,
       this.image = const []});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  PropertyModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     purpose = json['purpose'];

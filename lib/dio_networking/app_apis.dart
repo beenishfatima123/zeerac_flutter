@@ -5,6 +5,7 @@ enum APIType {
   queryPropertiesList,
   loadMorePropertiesList,
   loadProjects,
+  loadCompanies,
 }
 
 class ApiConstants {
@@ -17,7 +18,8 @@ class ApiConstants {
   static const registerCompany = 'users/company/';
   static const queryPropertiesList = 'users/property/';
   static const loadProjects = '/users/project/';
-
   static const googleNearByPlacesSearch =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+
+  static const loadCompanies = '/users/company/';
 }

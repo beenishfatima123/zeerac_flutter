@@ -6,7 +6,7 @@ class PropertyDetailController extends GetxController {
 
   List<String> featuresList = [];
 
-  void initValues(Results property) {
+  void initValues(PropertyModel property) {
     featuresList.clear();
     if (property.features?.internet ?? false) {
       featuresList.add('Internet');

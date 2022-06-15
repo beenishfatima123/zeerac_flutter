@@ -1,6 +1,52 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 
 class ProjectsResponseModel implements Decodeable {
+  int? count;
+  String? next;
+  String? previous;
+  List<ProjectModel>? results;
+
+  ProjectsResponseModel({this.count, this.next, this.previous, this.results});
+
+  ProjectsResponseModel.fromJson(Map<String, dynamic> json) {
+    count = json['count'];
+    next = json['next'];
+    previous = json['previous'];
+    if (json['results'] != null) {
+      results = <ProjectModel>[];
+      json['results'].forEach((v) {
+        results!.add(new ProjectModel.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['count'] = this.count;
+    data['next'] = this.next;
+    data['previous'] = this.previous;
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+
+  @override
+  decode(json) {
+    count = json['count'];
+    next = json['next'];
+    previous = json['previous'];
+    if (json['results'] != null) {
+      results = <ProjectModel>[];
+      json['results'].forEach((v) {
+        results!.add(new ProjectModel.fromJson(v));
+      });
+    }
+    return this;
+  }
+}
+
+class ProjectModel {
   int? id;
   String? title;
   String? locality;
@@ -14,8 +60,9 @@ class ProjectsResponseModel implements Decodeable {
   num? lat;
   num? lng;
   List<Content>? content;
+  String? currency;
 
-  ProjectsResponseModel(
+  ProjectModel(
       {this.id,
       this.title,
       this.locality,
@@ -28,9 +75,10 @@ class ProjectsResponseModel implements Decodeable {
       this.propertyUrl,
       this.lat,
       this.lng,
-      this.content});
+      this.content,
+      this.currency});
 
-  ProjectsResponseModel.fromJson(Map<String, dynamic> json) {
+  ProjectModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     locality = json['locality'];
@@ -49,6 +97,7 @@ class ProjectsResponseModel implements Decodeable {
         content!.add(new Content.fromJson(v));
       });
     }
+    currency = json['currency'];
   }
 
   Map<String, dynamic> toJson() {
@@ -68,30 +117,8 @@ class ProjectsResponseModel implements Decodeable {
     if (this.content != null) {
       data['content'] = this.content!.map((v) => v.toJson()).toList();
     }
+    data['currency'] = this.currency;
     return data;
-  }
-
-  @override
-  decode(json) {
-    id = json['id'];
-    title = json['title'];
-    locality = json['locality'];
-    propertyType = json['property_type'];
-    logo = json['logo'];
-    city = json['city'];
-    country = json['country'];
-    minPrice = json['min_price'];
-    maxPrice = json['max_price'];
-    propertyUrl = json['property_url'];
-    lat = json['lat'];
-    lng = json['lng'];
-    if (json['content'] != null) {
-      content = <Content>[];
-      json['content'].forEach((v) {
-        content!.add(Content.fromJson(v));
-      });
-    }
-    return this;
   }
 }
 

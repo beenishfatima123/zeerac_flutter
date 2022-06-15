@@ -13,7 +13,7 @@ class PropertyListingPageController extends GetxController {
   RxBool isLoading = false.obs;
 
   PropertyListingModel? propertiesListingModel;
-  List<Results>? propertiesList;
+  List<PropertyModel>? propertiesList;
   String? nextPageUrl;
 
   void initialiseValue(PropertyListingModel? propertyListingModel) {

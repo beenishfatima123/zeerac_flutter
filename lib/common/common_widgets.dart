@@ -601,3 +601,44 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
     );
   }
 }
+
+Widget keyValueRowWidget(
+    {required String title, required String value, required bool isGrey}) {
+  return Container(
+    padding: const EdgeInsets.all(8.0),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: isGrey ? AppColor.alphaGrey : AppColor.whiteColor),
+    child: Row(
+      children: [
+        Expanded(
+            child: Center(
+          child: Text(
+            title,
+            style: AppTextStyles.textStyleNormalBodyMedium,
+          ),
+        )),
+        Expanded(
+            child: Center(
+          child: Text(
+            value,
+            style: AppTextStyles.textStyleNormalBodyMedium,
+          ),
+        )),
+      ],
+    ),
+  );
+}
+
+Widget getFeatureItem({required String title}) {
+  return Container(
+    margin: const EdgeInsets.all(5),
+    padding: const EdgeInsets.all(8),
+    decoration: BoxDecoration(
+        color: AppColor.alphaGrey, borderRadius: BorderRadius.circular(10)),
+    child: Text(
+      title,
+      style: AppTextStyles.textStyleNormalBodyMedium,
+    ),
+  );
+}
