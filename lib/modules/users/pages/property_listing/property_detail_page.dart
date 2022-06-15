@@ -237,7 +237,11 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                 ///location and nearby
                                 InkWell(
                                   onTap: () {
-                                    Get.toNamed(GoogleMapPage.id);
+                                    Get.toNamed(GoogleMapPage.id, arguments: [
+                                      property?.lat,
+                                      property?.lng,
+                                      property?.name
+                                    ]);
                                   },
                                   child: Row(
                                     children: [

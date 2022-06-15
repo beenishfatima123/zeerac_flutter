@@ -72,8 +72,8 @@ appRoutes() {
         name: GoogleMapPage.id,
         page: () => GoogleMapPage(),
         binding: BindingsBuilder(() {
-          Get.lazyPut<GoogleMapController>(
-            () => GoogleMapController(),
+          Get.lazyPut<MyGoogleMapController>(
+            () => MyGoogleMapController(),
           );
         })),
   ];
