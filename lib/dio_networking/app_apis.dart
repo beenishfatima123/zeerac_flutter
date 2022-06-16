@@ -6,6 +6,7 @@ enum APIType {
   loadMorePropertiesList,
   loadProjects,
   loadCompanies,
+  loadCompanyPropertiesListing,
 }
 
 class ApiConstants {
@@ -22,4 +23,6 @@ class ApiConstants {
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 
   static const loadCompanies = '/users/company/';
+
+  static const loadCompanyPropertiesListing = 'users/agency-listings/';
 }

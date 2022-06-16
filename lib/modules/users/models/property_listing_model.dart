@@ -1,14 +1,15 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 
-class PropertyListingModel implements Decodeable {
+class PropertyListingResponseModel implements Decodeable {
   int? count;
   String? next;
   String? previous;
   List<PropertyModel>? results;
 
-  PropertyListingModel({this.count, this.next, this.previous, this.results});
+  PropertyListingResponseModel(
+      {this.count, this.next, this.previous, this.results});
 
-  PropertyListingModel.fromJson(Map<String, dynamic> json) {
+  PropertyListingResponseModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];

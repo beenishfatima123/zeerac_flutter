@@ -463,7 +463,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                 cornerRadius: 12,
                                 onTap: () {
                                   controller.loadListings(onComplete:
-                                      (PropertyListingModel
+                                      (PropertyListingResponseModel
                                           propertyListingModel) {
                                     Get.offAndToNamed(PropertyListingPage.id,
                                         arguments: propertyListingModel);

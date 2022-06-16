@@ -121,8 +121,8 @@ class SearchFilterListingController extends GetxController {
               APIType.queryPropertiesList,
               body: body,
             ),
-            create: () => APIResponse<PropertyListingModel>(
-                create: () => PropertyListingModel()),
+            create: () => APIResponse<PropertyListingResponseModel>(
+                create: () => PropertyListingResponseModel()),
             apiFunction: loadListings)
         .then((response) {
       isLoading.value = false;

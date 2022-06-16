@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:zeerac_flutter/modules/users/controllers/company_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/google_map_controller.dart';
@@ -9,6 +10,7 @@ import 'package:zeerac_flutter/modules/users/controllers/property_detail_control
 import 'package:zeerac_flutter/modules/users/controllers/property_listing_page_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/search_filter_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/signup_controller.dart';
+import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
@@ -85,6 +87,14 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<ProjectDetailController>(
             () => ProjectDetailController(),
+          );
+        })),
+    GetPage(
+        name: CompanyDetailPage.id,
+        page: () => CompanyDetailPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<CompanyDetailController>(
+            () => CompanyDetailController(),
           );
         })),
   ];

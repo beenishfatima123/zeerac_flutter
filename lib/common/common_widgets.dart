@@ -596,8 +596,14 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
       ),
       placeholder: (context, url) =>
           const Center(child: CircularProgressIndicator()),
-      errorWidget: (context, url, error) =>
-          const Center(child: Icon(Icons.error)),
+      errorWidget: (context, url, error) => Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: AppColor.redColor.withOpacity(0.5)),
+        child: const Center(
+          child: Icon(Icons.error),
+        ),
+      ),
     );
   }
 }

@@ -12,11 +12,11 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 class PropertyListingPageController extends GetxController {
   RxBool isLoading = false.obs;
 
-  PropertyListingModel? propertiesListingModel;
+  PropertyListingResponseModel? propertiesListingModel;
   List<PropertyModel>? propertiesList;
   String? nextPageUrl;
 
-  void initialiseValue(PropertyListingModel? propertyListingModel) {
+  void initialiseValue(PropertyListingResponseModel? propertyListingModel) {
     propertiesListingModel = propertyListingModel;
     propertiesList = propertyListingModel?.results ?? [];
     nextPageUrl = propertyListingModel?.next;
@@ -32,7 +32,7 @@ class PropertyListingPageController extends GetxController {
         if ((nextPageUrl ?? '').isNotEmpty) {
           loadMoreListings(
               url: nextPageUrl!,
-              onComplete: (PropertyListingModel propertyListingModel) {
+              onComplete: (PropertyListingResponseModel propertyListingModel) {
                 if (propertyListingModel.results != null) {
                   propertiesList?.addAll(propertyListingModel.results!);
                   nextPageUrl = propertyListingModel.next;
@@ -58,8 +58,8 @@ class PropertyListingPageController extends GetxController {
               APIType.loadMorePropertiesList,
               body: body,
             ),
-            create: () => APIResponse<PropertyListingModel>(
-                create: () => PropertyListingModel()),
+            create: () => APIResponse<PropertyListingResponseModel>(
+                create: () => PropertyListingResponseModel()),
             apiFunction: loadMoreListings)
         .then((response) {
       isLoading.value = false;

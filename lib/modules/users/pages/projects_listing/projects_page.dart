@@ -4,6 +4,8 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/modules/users/controllers/projects_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/projects_widgets.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
+import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
 
 class ProjectsPage extends GetView<ProjectsController> {
@@ -17,6 +19,9 @@ class ProjectsPage extends GetView<ProjectsController> {
         initState: (state) {
           if (controller.projectsList.isEmpty) {
             controller.loadProjects();
+            controller.searchController.addListener(() {
+              controller.searchFromList();
+            });
           }
         },
         builder: (_) {
@@ -46,19 +51,35 @@ class ProjectsPage extends GetView<ProjectsController> {
                           ),
                         ],
                       ))
-                    : Padding(
-                        padding: const EdgeInsets.all(14),
-                        child: NotificationListener(
-                          onNotification: controller.onScrollNotification,
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: controller.projectsList.length,
-                            itemBuilder: (context, index) {
-                              return projectWidget(
-                                  controller.projectsList[index]);
-                            },
+                    : Column(
+                        children: [
+                          myAppBar(goBack: false, title: 'Projects', actions: [
+                            MyAnimSearchBar(
+                                rtl: true,
+                                width: MediaQuery.of(context).size.width,
+                                textController: controller.searchController,
+                                closeSearchOnSuffixTap: true,
+                                onSuffixTap: () {
+                                  controller.searchController.clear();
+                                }),
+                          ]),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(14),
+                              child: NotificationListener(
+                                onNotification: controller.onScrollNotification,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: controller.filteredItemList.length,
+                                  itemBuilder: (context, index) {
+                                    return projectWidget(
+                                        controller.filteredItemList[index]!);
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                 if (controller.isLoading.isTrue) LoadingWidget(),
               ],

@@ -10,7 +10,7 @@ import '../../../../common/loading_widget.dart';
 class PropertyListingPage extends GetView<PropertyListingPageController> {
   PropertyListingPage({Key? key}) : super(key: key);
   static const id = '/PropertyListingPage';
-  final PropertyListingModel? _propertyListingModel = Get.arguments;
+  final PropertyListingResponseModel? _propertyListingModel = Get.arguments;
 
   @override
   Widget build(BuildContext context) {

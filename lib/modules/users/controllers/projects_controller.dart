@@ -12,14 +12,28 @@ import '../../../utils/helpers.dart';
 
 class ProjectsController extends GetxController {
   RxBool isLoading = false.obs;
+  int pageToLoad = 1;
+  bool hasNewPage = false;
 
-  @override
-  void onInit() {
-    print("on init project controller");
-    super.onInit();
+  TextEditingController searchController = TextEditingController();
+  RxList<ProjectModel?> projectsList = <ProjectModel?>[].obs;
+  RxList<ProjectModel?> filteredItemList = <ProjectModel?>[].obs;
+
+  void searchFromList() {
+    filteredItemList.clear();
+    if (searchController.text.isEmpty) {
+      filteredItemList.addAll(projectsList);
+    } else {
+      String query = searchController.text.toLowerCase();
+      for (var element in projectsList) {
+        if (((element?.title ?? "null").toLowerCase()).contains(query) ||
+            ((element?.city ?? "null").toLowerCase()).contains(query) ||
+            ((element?.country ?? "null").toLowerCase()).contains(query)) {
+          filteredItemList.add(element);
+        }
+      }
+    }
   }
-
-  RxList<ProjectModel> projectsList = <ProjectModel>[].obs;
 
   bool onScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification) {
@@ -28,8 +42,9 @@ class ProjectsController extends GetxController {
 
       if (before == max) {
         printWrapped("end of the page");
-
-        // load next page
+        if (hasNewPage) {
+          loadProjects();
+        } // load next page
         // code here will be called only if scrolled to the very bottom
       }
     }
@@ -39,7 +54,7 @@ class ProjectsController extends GetxController {
   ///loading projects when app starts
   void loadProjects({bool showAlert = false}) {
     isLoading.value = true;
-    Map<String, dynamic> body = {};
+    Map<String, dynamic> body = {'page': pageToLoad.toString()};
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
     client
         .request(
@@ -53,8 +68,15 @@ class ProjectsController extends GetxController {
         .then((response) {
       isLoading.value = false;
       if ((response.response?.data?.results?.length ?? 0) > 0) {
-        projectsList.clear();
+        if ((response.response?.data?.next ?? '').isNotEmpty) {
+          pageToLoad++;
+          hasNewPage = true;
+        } else {
+          hasNewPage = false;
+        }
         projectsList.addAll(response.response!.data!.results!);
+
+        filteredItemList.addAll(response.response!.data!.results!);
       } else {
         if (showAlert) {
           AppPopUps.showDialog(
