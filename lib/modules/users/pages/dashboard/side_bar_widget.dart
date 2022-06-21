@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import 'package:get/get.dart';
+import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
+import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
+import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 class SideBar extends GetView<DashBoardController> {
   SideBar({Key? key}) : super(key: key);
+  var session = UserDefaults.getUserSession();
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +23,40 @@ class SideBar extends GetView<DashBoardController> {
             decoration: const BoxDecoration(
               color: Colors.blueAccent,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Center(
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 50.0,
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    "User",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.textStyleBoldTitleLarge,
-                  ),
-                ),
-              ],
-            ),
+            child: session != null
+                ? InkWell(
+                    onTap: () {
+                      Get.toNamed(UserProfilePage.id);
+                      controller.scaffoldKey.currentState?.closeDrawer();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                          child: NetworkCircularImage(
+                            url:
+                                "${ApiConstants.baseUrl}${session?.photo ?? ''}",
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            session?.username ?? '',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.textStyleBoldTitleLarge
+                                .copyWith(color: AppColor.whiteColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Button(
+                    buttonText: 'Login now !',
+                    textStyle: AppTextStyles.textStyleBoldSubTitleLarge
+                        .copyWith(color: AppColor.whiteColor),
+                    onTap: () {
+                      controller.scaffoldKey.currentState?.closeDrawer();
+                      Get.toNamed(LoginPage.id);
+                    }),
           ),
           ListTile(
             leading: const Icon(Icons.home),
@@ -75,9 +96,17 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
-          IgnorePointer(
-            ignoring: true,
-            child: ListTile(
+          ListTile(
+            leading: const Icon(Entypo.bookmark),
+            selected: controller.selectedIndex.value == 4,
+            title: Text('Blogs', style: AppTextStyles.textStyleBoldBodyMedium),
+            onTap: () {
+              controller.selectedIndex.value = 4;
+              controller.scaffoldKey.currentState?.closeDrawer();
+            },
+          ),
+          if (session != null)
+            ListTile(
               leading: const Icon(Icons.logout),
               selected: controller.selectedIndex.value == 1,
               title:
@@ -87,7 +116,6 @@ class SideBar extends GetView<DashBoardController> {
                 controller.scaffoldKey.currentState?.closeDrawer();
               },
             ),
-          ),
         ],
       ),
     );

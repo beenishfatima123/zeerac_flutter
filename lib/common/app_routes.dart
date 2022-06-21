@@ -3,6 +3,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:zeerac_flutter/modules/users/controllers/add_new_agent_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/agent_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/agents_listing_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/blog_detail_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/blog_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
@@ -13,14 +15,18 @@ import 'package:zeerac_flutter/modules/users/controllers/property_detail_control
 import 'package:zeerac_flutter/modules/users/controllers/property_listing_page_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/search_filter_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/signup_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/user_profile_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
 import '../modules/users/controllers/login_controller.dart';
 import '../modules/users/controllers/project_detail_controller.dart';
 import '../modules/users/pages/agents_listing/add_new_agent_page.dart';
@@ -55,6 +61,7 @@ appRoutes() {
           Get.put(ProjectsController());
           Get.put(CompanyListingController());
           Get.put(AgentsListingController());
+          Get.put(BlogListingController());
         })),
     GetPage(
         name: SearchFilterListingPage.id,
@@ -118,6 +125,22 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<AddNewAgentController>(
             () => AddNewAgentController(),
+          );
+        })),
+    GetPage(
+        name: BlogDetailPage.id,
+        page: () => BlogDetailPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<BlogDetailController>(
+            () => BlogDetailController(),
+          );
+        })),
+    GetPage(
+        name: UserProfilePage.id,
+        page: () => UserProfilePage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<UserProfileController>(
+            () => UserProfileController(),
           );
         })),
   ];

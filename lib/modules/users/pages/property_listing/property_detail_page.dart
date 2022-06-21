@@ -122,7 +122,7 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                 ///location
 
                                 Text(
-                                  property?.address ?? 'dummy location',
+                                  property?.address ?? '-',
                                   style:
                                       AppTextStyles.textStyleNormalBodyMedium,
                                 ),

@@ -136,10 +136,10 @@ class CompanyModel {
   }
 }
 
-class User {
+class User implements Decodeable {
   int? id;
   String? password;
-  Null? lastLogin;
+  String? lastLogin;
   bool? isSuperuser;
   String? username;
   String? firstName;
@@ -154,24 +154,24 @@ class User {
   String? phoneNumber;
   String? city;
   String? area;
-  Null? address;
-  Null? resetPassToken;
+  String? address;
+  String? resetPassToken;
   String? resetTokenCreatedAt;
-  Null? country;
-  Null? nationality;
-  Null? languages;
+  String? country;
+  String? nationality;
+  String? languages;
   bool? isInvited;
   bool? isPasswordChanged;
-  Null? balance;
-  Null? areas;
-  Null? currency;
+  num? balance;
+  String? areas;
+  String? currency;
   String? createdAt;
-  Null? verifyAccountToken;
+  String? verifyAccountToken;
   String? accountTokenCreatedAt;
   bool? isVerified;
-  List<Null>? groups;
-  List<Null>? userPermissions;
-  List<Null>? permissions;
+  List<String>? groups;
+  List<String>? userPermissions;
+  List<String>? permissions;
 
   User(
       {this.id,
@@ -309,6 +309,43 @@ class User {
     }*/
     return data;
   }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    password = json['password'];
+    lastLogin = json['last_login'];
+    isSuperuser = json['is_superuser'];
+    username = json['username'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    email = json['email'];
+    isStaff = json['is_staff'];
+    isActive = json['is_active'];
+    dateJoined = json['date_joined'];
+    photo = json['photo'];
+    userType = json['user_type'];
+    cnic = json['cnic'];
+    phoneNumber = json['phone_number'];
+    city = json['city'];
+    area = json['area'];
+    address = json['address'];
+    resetPassToken = json['reset_pass_token'];
+    resetTokenCreatedAt = json['reset_token_created_at'];
+    country = json['country'];
+    nationality = json['nationality'];
+    languages = json['languages'];
+    isInvited = json['is_invited'];
+    isPasswordChanged = json['is_password_changed'];
+    balance = json['balance'];
+    areas = json['areas'];
+    currency = json['currency'];
+    createdAt = json['created_at'];
+    verifyAccountToken = json['verify_account_token'];
+    accountTokenCreatedAt = json['account_token_created_at'];
+    isVerified = json['is_verified'];
+    return this;
+  }
 }
 
 class Admin {
@@ -330,23 +367,23 @@ class Admin {
   String? city;
   String? area;
   String? address;
-  Null? resetPassToken;
+  String? resetPassToken;
   String? resetTokenCreatedAt;
-  Null? country;
-  Null? nationality;
-  Null? languages;
+  String? country;
+  String? nationality;
+  String? languages;
   bool? isInvited;
   bool? isPasswordChanged;
   int? balance;
-  Null? areas;
-  Null? currency;
+  String? areas;
+  String? currency;
   String? createdAt;
-  Null? verifyAccountToken;
+  String? verifyAccountToken;
   String? accountTokenCreatedAt;
   bool? isVerified;
-  List<Null>? groups;
-  List<Null>? userPermissions;
-  List<Null>? permissions;
+  List<String>? groups;
+  List<String>? userPermissions;
+  List<String>? permissions;
 
   Admin(
       {this.id,

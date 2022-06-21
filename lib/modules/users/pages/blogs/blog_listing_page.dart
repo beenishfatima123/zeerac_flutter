@@ -1,48 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/styles.dart';
-import 'package:zeerac_flutter/modules/users/controllers/company_listing_controller.dart';
-import 'package:zeerac_flutter/modules/users/controllers/projects_controller.dart';
-import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
-import 'package:zeerac_flutter/modules/users/pages/company_listing/company_listing_widgets.dart';
-import 'package:zeerac_flutter/modules/users/pages/projects_listing/projects_widgets.dart';
+import 'package:zeerac_flutter/modules/users/controllers/blog_listing_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
+import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/blogs/blog_widgets.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
 
-class CompanyListingPage extends GetView<CompanyListingController>
-    with companyWidgets {
-  const CompanyListingPage({Key? key}) : super(key: key);
-  static const id = '/CompanyListingPage';
+class BlogListingPage extends GetView<BlogListingController> with BlogsWidgets {
+  const BlogListingPage({Key? key}) : super(key: key);
+  static const id = '/BlogListingPage';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetX<CompanyListingController>(
+      body: GetX<BlogListingController>(
         initState: (state) {
-          if (controller.companiesList.isEmpty) {
-            controller.loadCompanies();
-            controller.searchController.addListener(() {
-              controller.searchFromList();
-            });
-          }
+          controller.loadBlogs();
+          controller.searchController.addListener(() {
+            controller.searchFromList();
+          });
         },
         builder: (_) {
           return SafeArea(
             child: Stack(
               children: [
                 ((controller.isLoading.value == false &&
-                        controller.companiesList.isEmpty))
+                        controller.blogsList.isEmpty))
                     ? Center(
                         child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("No Company Found",
+                          Text("No Blog Found",
                               style: AppTextStyles.textStyleBoldBodyMedium),
                           InkWell(
                             onTap: () {
-                              controller.loadCompanies(showAlert: true);
+                              controller.loadBlogs(showAlert: true);
                             },
                             child: Text(
                               "Refresh",
@@ -56,7 +52,7 @@ class CompanyListingPage extends GetView<CompanyListingController>
                       ))
                     : Column(
                         children: [
-                          myAppBar(goBack: false, title: 'Companies', actions: [
+                          myAppBar(goBack: false, title: 'Blogs', actions: [
                             MyAnimSearchBar(
                                 rtl: true,
                                 width: MediaQuery.of(context).size.width,
@@ -68,15 +64,22 @@ class CompanyListingPage extends GetView<CompanyListingController>
                           ]),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.all(14),
+                              padding: const EdgeInsets.all(10),
                               child: NotificationListener(
                                 onNotification: controller.onScrollNotification,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   itemCount: controller.filteredItemList.length,
                                   itemBuilder: (context, index) {
-                                    return companyListingWidget(
-                                        controller.filteredItemList[index]!);
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.toNamed(BlogDetailPage.id,
+                                            arguments: controller
+                                                .filteredItemList[index]!);
+                                      },
+                                      child: getBlogWidget(
+                                          controller.filteredItemList[index]!),
+                                    );
                                   },
                                 ),
                               ),

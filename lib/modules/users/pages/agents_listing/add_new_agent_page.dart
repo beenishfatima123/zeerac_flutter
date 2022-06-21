@@ -35,7 +35,8 @@ import 'package:zeerac_flutter/utils/app_utils.dart';
 import '../../../../common/loading_widget.dart';
 import '../../controllers/add_new_agent_controller.dart';
 
-class AddNewAgentPage extends GetView<AddNewAgentController> {
+class AddNewAgentPage extends GetView<AddNewAgentController>
+    with signupWidgets {
   AddNewAgentPage({Key? key}) : super(key: key);
   static const id = '/AddNewAgentPage';
 

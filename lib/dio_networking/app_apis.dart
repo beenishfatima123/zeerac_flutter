@@ -9,11 +9,13 @@ enum APIType {
   loadCompanyPropertiesListing,
   loadAgents,
   agentzPropertyListing,
+  loadBlogs,
+  loadUserDetails
 }
 
 class ApiConstants {
   static var imageNetworkPlaceHolder =
-      'https://demofree.sirv.com/nope-not-here.jpg';
+      'https://rsjlawang.com/assets/images/lightbox/image-3.jpg';
   static const googleApiKey = 'AIzaSyC0-5OqwY75sPwoncSujsbkJD6wDU7BvOw';
   static const baseUrl = "https://api.zeerac.com/";
   static const loginUser = 'users/api/login';
@@ -29,4 +31,6 @@ class ApiConstants {
   static const loadCompanyPropertiesListing = 'users/agency-listings/';
   static const loadAgents = '/users/agents/';
   static const agentzPropertyListing = '/users/agent-listings/';
+  static const loadBlogs = '/users/blogs/';
+  static const loadUserDetails = 'users/user/';
 }

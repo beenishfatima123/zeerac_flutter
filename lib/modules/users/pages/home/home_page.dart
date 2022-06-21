@@ -97,6 +97,13 @@ class HomePage extends GetView<HomeController> {
                           ),
                         ),
                         vSpace,
+                        Button(
+                          buttonText: 'Submit new listing',
+                          textColor: AppColor.blackColor,
+                          textStyle: AppTextStyles.textStyleNormalBodyMedium,
+                          color: AppColor.whiteColor,
+                          onTap: () {},
+                        ),
                         vSpace,
                         vSpace,
                         vSpace,

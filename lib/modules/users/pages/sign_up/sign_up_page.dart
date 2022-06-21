@@ -25,7 +25,7 @@ import '../../controllers/signup_controller.dart';
 import '../../models/cities_model.dart';
 import 'sign_up_widgets.dart';
 
-class SignupPage extends GetView<SignupController> {
+class SignupPage extends GetView<SignupController> with signupWidgets {
   const SignupPage({Key? key}) : super(key: key);
   static const id = '/SignupPage';
 
