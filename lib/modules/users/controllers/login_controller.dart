@@ -24,7 +24,7 @@ class LoginController extends GetxController {
   login({required completion}) async {
     isLoading.value = true;
     Map<String, dynamic> body = {
-      "username": emailController.text,
+      "email": emailController.text,
       "password": passwordController.text,
     };
 

@@ -7,6 +7,8 @@ enum APIType {
   loadProjects,
   loadCompanies,
   loadCompanyPropertiesListing,
+  loadAgents,
+  agentzPropertyListing,
 }
 
 class ApiConstants {
@@ -25,4 +27,6 @@ class ApiConstants {
   static const loadCompanies = '/users/company/';
 
   static const loadCompanyPropertiesListing = 'users/agency-listings/';
+  static const loadAgents = '/users/agents/';
+  static const agentzPropertyListing = '/users/agent-listings/';
 }

@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:zeerac_flutter/my_application.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
 
 import 'app_pop_ups.dart';
 
@@ -87,9 +89,16 @@ class AppUtils {
     try {
       final pickedFile = await ImagePicker().pickImage(
           source: source == 1 ? ImageSource.camera : ImageSource.gallery);
-
       if (pickedFile != null) {
-        onCompletedd(File(pickedFile.path));
+        int fileSize = await pickedFile.length();
+        printWrapped('file size = ${fileSize}');
+        if (fileSize > 1000000) {
+          AppPopUps.showSnackBar(
+              message: 'File size should be less than 1 mb',
+              context: myContext!);
+        } else {
+          onCompletedd(File(pickedFile.path));
+        }
       } else {
         Get.log('No image selected.');
         return null;

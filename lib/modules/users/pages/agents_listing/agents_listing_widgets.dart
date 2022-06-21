@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
+import 'package:zeerac_flutter/modules/users/models/agents_listing_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/project_details_page.dart';
 import 'package:zeerac_flutter/my_application.dart';
@@ -12,14 +14,14 @@ import '../../../../common/common_widgets.dart';
 import '../../../../common/styles.dart';
 import '../../../../dio_networking/app_apis.dart';
 
-Widget companyListingWidget(CompanyModel result) {
-  String firstImage = result.logo == null
+Widget agentsListingWidget(AgentsModel result) {
+  String firstImage = ((result.photo ?? '').isEmpty)
       ? ApiConstants.imageNetworkPlaceHolder
-      : "${ApiConstants.baseUrl}${result.logo ?? ''}";
+      : "${ApiConstants.baseUrl}${result.photo ?? ''}";
 
   return InkWell(
     onTap: () {
-      Get.toNamed(CompanyDetailPage.id, arguments: result);
+      Get.toNamed(AgentDetailPage.id, arguments: result);
     },
     child: Card(
       child: SizedBox(
@@ -46,7 +48,7 @@ Widget companyListingWidget(CompanyModel result) {
                   vSpace,
                   Flexible(
                     child: Text(
-                      result.name ?? '-',
+                      result.username ?? '-',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.textStyleBoldBodyMedium,
@@ -59,7 +61,13 @@ Widget companyListingWidget(CompanyModel result) {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    result.areas ?? '-',
+                    result.company ?? '-',
+                    style: AppTextStyles.textStyleBoldBodyXSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    result.country ?? '-',
                     style: AppTextStyles.textStyleBoldBodyXSmall,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -73,7 +81,7 @@ Widget companyListingWidget(CompanyModel result) {
                   vSpace,
                   Flexible(
                     child: Text(
-                      "${result.activeListings.toString()} Active listings",
+                      "${(result.activeListingCount ?? 0).toString()} Active listings",
                       style: AppTextStyles.textStyleNormalBodySmall,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -86,7 +94,7 @@ Widget companyListingWidget(CompanyModel result) {
                         ElevatedButton(
                           onPressed: () {
                             AppUtils.dialNumber(
-                                phoneNumber: result.phone ?? '123',
+                                phoneNumber: result.phoneNumber ?? '123',
                                 context: myContext!);
                           },
                           child: const Text('Call'),

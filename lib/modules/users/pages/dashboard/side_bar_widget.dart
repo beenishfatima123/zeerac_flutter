@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/entypo_icons.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
@@ -56,7 +57,7 @@ class SideBar extends GetView<DashBoardController> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.work),
+            leading: const Icon(Icons.account_balance_outlined),
             selected: controller.selectedIndex.value == 2,
             title:
                 Text('Companies', style: AppTextStyles.textStyleBoldBodyMedium),
@@ -66,13 +67,26 @@ class SideBar extends GetView<DashBoardController> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            selected: controller.selectedIndex.value == 1,
-            title: Text('Logout', style: AppTextStyles.textStyleBoldBodyMedium),
+            leading: const Icon(Entypo.feather),
+            selected: controller.selectedIndex.value == 3,
+            title: Text('Agents', style: AppTextStyles.textStyleBoldBodyMedium),
             onTap: () {
-              UserDefaults.clearAll();
+              controller.selectedIndex.value = 3;
               controller.scaffoldKey.currentState?.closeDrawer();
             },
+          ),
+          IgnorePointer(
+            ignoring: true,
+            child: ListTile(
+              leading: const Icon(Icons.logout),
+              selected: controller.selectedIndex.value == 1,
+              title:
+                  Text('Logout', style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                UserDefaults.clearAll();
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
           ),
         ],
       ),
