@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:zeerac_flutter/common/app_constants.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
@@ -198,7 +199,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                           textColor: AppColor.green,
                                           value:
                                               controller.selectedPurpose.value,
-                                          items: controller.purposes,
+                                          items: AppConstants.purposes,
                                           onChange: (value) {
                                             controller.selectedPurpose.value =
                                                 value;
@@ -248,7 +249,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                           suffixIconColor: AppColor.green,
                                           borderColor: Colors.transparent,
                                           textColor: AppColor.green,
-                                          items: controller.propertiesType,
+                                          items: AppConstants.propertiesType,
                                           value: controller
                                               .propertyTypeMainValue.value,
                                           onChange: (value) {
@@ -285,13 +286,13 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: controller
+                                        itemCount: AppConstants
                                             .propertiesTypeList[controller
                                                 .activePropertyTypeList.value]
                                             .length,
                                         itemBuilder: (context, index) {
                                           String value =
-                                              controller.propertiesTypeList[
+                                              AppConstants.propertiesTypeList[
                                                   controller
                                                       .activePropertyTypeList
                                                       .value][index];
@@ -353,7 +354,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                             suffixIconColor: AppColor.green,
                                             borderColor: Colors.transparent,
                                             textColor: AppColor.green,
-                                            items: controller.beds,
+                                            items: AppConstants.beds,
                                             onChange: (value) {
                                               controller.selectedBeds;
                                             },
@@ -386,7 +387,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                             suffixIconColor: AppColor.green,
                                             borderColor: Colors.transparent,
                                             textColor: AppColor.green,
-                                            items: controller.baths,
+                                            items: AppConstants.baths,
                                             onChange: (value) {
                                               controller.selectedBaths;
                                             },

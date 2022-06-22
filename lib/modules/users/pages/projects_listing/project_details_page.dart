@@ -11,7 +11,7 @@ import 'package:zeerac_flutter/modules/users/controllers/property_detail_control
 import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart'
     as propertyModel;
-import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/google_map_nearby_places_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/projects_widgets.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
@@ -174,7 +174,7 @@ class ProjectDetailPage extends GetView<ProjectDetailController> {
                       vSpace,
                       InkWell(
                         onTap: () {
-                          Get.toNamed(GoogleMapPage.id, arguments: [
+                          Get.toNamed(GoogleMapPageNearByPlaces.id, arguments: [
                             controller.projectsResponseModel?.lat,
                             controller.projectsResponseModel?.lng,
                             controller.projectsResponseModel?.title

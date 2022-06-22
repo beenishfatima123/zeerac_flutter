@@ -11,8 +11,8 @@ import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 
-class GoogleMapPage extends GetView<MyGoogleMapController> {
-  GoogleMapPage({Key? key}) : super(key: key);
+class GoogleMapPageNearByPlaces extends GetView<MyGoogleMapController> {
+  GoogleMapPageNearByPlaces({Key? key}) : super(key: key);
   static const id = '/GoogleMapPage';
 
   @override

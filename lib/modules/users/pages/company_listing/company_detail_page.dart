@@ -14,7 +14,8 @@ import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
 import '../../models/property_listing_model.dart';
 
-class CompanyDetailPage extends GetView<CompanyDetailController> {
+class CompanyDetailPage extends GetView<CompanyDetailController>
+    with PropertyListingWidgets {
   CompanyDetailPage({Key? key}) : super(key: key);
   static const id = '/CompanyDetailPage';
   final CompanyModel? companyModel = Get.arguments;

@@ -64,6 +64,9 @@ dependencies:
   google_maps_flutter: ^2.1.7
   #icons extra
   fluttericon: ^2.0.0
+  #location picker
+  google_maps_place_picker_mb: ^2.0.0-mb.20
+  geolocator:
 
 
 

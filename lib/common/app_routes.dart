@@ -11,6 +11,7 @@ import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.d
 import 'package:zeerac_flutter/modules/users/controllers/google_map_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/projects_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/property_create_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/property_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/property_listing_page_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/search_filter_listing_controller.dart';
@@ -22,8 +23,9 @@ import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
-import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/google_map_nearby_places_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/property_listing/property_create_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
@@ -88,8 +90,8 @@ appRoutes() {
           );
         })),
     GetPage(
-        name: GoogleMapPage.id,
-        page: () => GoogleMapPage(),
+        name: GoogleMapPageNearByPlaces.id,
+        page: () => GoogleMapPageNearByPlaces(),
         binding: BindingsBuilder(() {
           Get.lazyPut<MyGoogleMapController>(
             () => MyGoogleMapController(),
@@ -141,6 +143,14 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<UserProfileController>(
             () => UserProfileController(),
+          );
+        })),
+    GetPage(
+        name: PropertyCreatePage.id,
+        page: () => PropertyCreatePage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<PropertyCreateController>(
+            () => PropertyCreateController(),
           );
         })),
   ];

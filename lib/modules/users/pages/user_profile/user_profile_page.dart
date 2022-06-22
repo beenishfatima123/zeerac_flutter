@@ -20,7 +20,7 @@ import '../../../../common/loading_widget.dart';
 import '../../models/cities_model.dart';
 
 class UserProfilePage extends GetView<UserProfileController>
-    with signupWidgets {
+    with SignupWidgetsMixin {
   UserProfilePage({Key? key}) : super(key: key);
   static const id = '/UserProfilePage';
 

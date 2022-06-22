@@ -7,6 +7,7 @@ import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/property_listing/property_create_page.dart';
 import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
 import '../../../../common/loading_widget.dart';
@@ -102,7 +103,9 @@ class HomePage extends GetView<HomeController> {
                           textColor: AppColor.blackColor,
                           textStyle: AppTextStyles.textStyleNormalBodyMedium,
                           color: AppColor.whiteColor,
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(PropertyCreatePage.id);
+                          },
                         ),
                         vSpace,
                         vSpace,

@@ -7,7 +7,8 @@ import 'package:zeerac_flutter/modules/users/pages/property_listing/property_lis
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 
-class PropertyListingPage extends GetView<PropertyListingPageController> {
+class PropertyListingPage extends GetView<PropertyListingPageController>
+    with PropertyListingWidgets {
   PropertyListingPage({Key? key}) : super(key: key);
   static const id = '/PropertyListingPage';
   final PropertyListingResponseModel? _propertyListingModel = Get.arguments;

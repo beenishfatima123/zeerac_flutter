@@ -9,7 +9,7 @@ import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/property_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart'
     as propertyModel;
-import 'package:zeerac_flutter/modules/users/pages/google_map_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/google_map_nearby_places_page.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
 import 'property_listing_widgets.dart';
@@ -238,11 +238,12 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                                 ///location and nearby
                                 InkWell(
                                   onTap: () {
-                                    Get.toNamed(GoogleMapPage.id, arguments: [
-                                      property?.lat,
-                                      property?.lng,
-                                      property?.name
-                                    ]);
+                                    Get.toNamed(GoogleMapPageNearByPlaces.id,
+                                        arguments: [
+                                          property?.lat,
+                                          property?.lng,
+                                          property?.name
+                                        ]);
                                   },
                                   child: Row(
                                     children: [

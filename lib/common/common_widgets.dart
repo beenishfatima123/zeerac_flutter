@@ -108,8 +108,8 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: leftPadding ?? 100.w,
-        right: rightPadding ?? 100.w,
+        left: leftPadding ?? 50.w,
+        right: rightPadding ?? 50.w,
       ),
       child: TextFormField(
         obscureText: obsecureText ?? false,
@@ -243,7 +243,7 @@ class Button extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          padding: EdgeInsets.all(padding ?? 50.w),
+          padding: EdgeInsets.all(padding ?? 80.w),
           decoration: BoxDecoration(
               border: borderColor == null
                   ? null
@@ -334,8 +334,8 @@ class _MyDropDownState extends State<MyDropDown> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: widget.leftPadding ?? 0.w,
-        right: widget.rightPadding ?? 0.w,
+        left: widget.leftPadding ?? 50.w,
+        right: widget.rightPadding ?? 50.w,
       ),
       child: DropdownButtonFormField(
         icon: const Icon(
@@ -350,7 +350,7 @@ class _MyDropDownState extends State<MyDropDown> {
         decoration: InputDecoration(
             labelText: widget.labelText,
             hintText: widget.hintText,
-            labelStyle: AppTextStyles.textStyleBoldBodyMedium.copyWith(
+            labelStyle: AppTextStyles.textStyleNormalBodySmall.copyWith(
                 fontStyle:
                     widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
             hintStyle: AppTextStyles.textStyleNormalBodySmall.copyWith(
@@ -396,7 +396,7 @@ class _MyDropDownState extends State<MyDropDown> {
         isDense: widget.isDense,
         hint: Text(
           widget.hintText ?? '',
-          style: AppTextStyles.textStyleBoldBodySmall.copyWith(
+          style: AppTextStyles.textStyleNormalBodySmall.copyWith(
               color: widget.hintColor,
               fontStyle:
                   widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
@@ -636,15 +636,17 @@ Widget keyValueRowWidget(
   );
 }
 
-Widget getFeatureItem({required String title}) {
+Widget getFeatureItem({required String title, Color? color}) {
   return Container(
     margin: const EdgeInsets.all(5),
     padding: const EdgeInsets.all(8),
     decoration: BoxDecoration(
-        color: AppColor.alphaGrey, borderRadius: BorderRadius.circular(10)),
+        color: color ?? AppColor.alphaGrey,
+        borderRadius: BorderRadius.circular(10)),
     child: Text(
       title,
-      style: AppTextStyles.textStyleNormalBodyMedium,
+      style: AppTextStyles.textStyleNormalBodyMedium.copyWith(
+          color: color != null ? AppColor.whiteColor : AppColor.blackColor),
     ),
   );
 }

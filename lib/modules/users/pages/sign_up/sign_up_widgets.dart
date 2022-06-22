@@ -8,7 +8,7 @@ import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 
-mixin signupWidgets {
+mixin SignupWidgetsMixin {
   getTextField(
       {required String hintText,
       required TextEditingController controller,
