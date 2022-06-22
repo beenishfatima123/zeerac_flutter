@@ -33,11 +33,11 @@ class PropertyCreateController extends GetxController {
 
   ///property type
   RxInt activePropertyTypeList = (0).obs;
-  RxString propertyTypeMainValue = 'Commercial'.obs;
+  RxString propertyTypeMainValue = ''.obs;
 
   RxInt currentViewIndex = (0).obs;
 
-  final viewsList = const [
+  final viewsList = [
     PropertyBasicInformationWidget(),
     PropertyDetailWidget(),
     PropertyLocationPicker(),

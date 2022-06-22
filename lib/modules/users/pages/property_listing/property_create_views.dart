@@ -24,7 +24,9 @@ import '../../../../utils/app_utils.dart';
 ///basic information widget
 class PropertyBasicInformationWidget extends GetView<PropertyCreateController>
     with PropertyListingWidgets {
-  const PropertyBasicInformationWidget({Key? key}) : super(key: key);
+  PropertyBasicInformationWidget({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,169 +36,184 @@ class PropertyBasicInformationWidget extends GetView<PropertyCreateController>
       },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            vSpace,
-            Text(
-              "Basic information",
-              style: AppTextStyles.textStyleBoldBodyMedium,
-            ),
-            vSpace,
-            getTextField(
-                hintText: 'Property name',
-                controller: controller.propertyNameController),
-            vSpace,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              vSpace,
+              Text(
+                "Basic information",
+                style: AppTextStyles.textStyleBoldBodyMedium,
+              ),
+              vSpace,
+              getTextField(
+                  hintText: 'Property name',
+                  controller: controller.propertyNameController),
+              vSpace,
 
-            getTextField(
-                hintText: 'Property Price',
-                inputType: TextInputType.number,
-                controller: controller.propertyPriceController),
+              getTextField(
+                  hintText: 'Property Price',
+                  inputType: TextInputType.number,
+                  controller: controller.propertyPriceController),
 
-            vSpace,
+              vSpace,
 
-            ///Property Listing Purpose
-            MyDropDown(
-              suffixIconColor: AppColor.green,
-              borderColor: Colors.transparent,
-              textColor: AppColor.green,
-              labelText: 'Purpose',
-              hintText: 'Select',
-              fillColor: AppColor.alphaGrey,
-              items: AppConstants.purposes,
-              onChange: (value) {
-                controller.selectedPurpose.value = value;
-              },
-            ),
-            vSpace,
+              ///Property Listing Purpose
+              MyDropDown(
+                suffixIconColor: AppColor.green,
+                borderColor: Colors.transparent,
+                textColor: AppColor.green,
+                labelText: 'Purpose',
+                hintText: 'Select',
+                fillColor: AppColor.alphaGrey,
+                items: AppConstants.purposes,
+                onChange: (value) {
+                  controller.selectedPurpose.value = value;
+                },
+              ),
+              vSpace,
 
-            ///Property Type
-            MyDropDown(
-              suffixIconColor: AppColor.green,
-              borderColor: Colors.transparent,
-              textColor: AppColor.green,
-              labelText: 'Property Type',
-              hintText: 'Select',
-              fillColor: AppColor.alphaGrey,
-              items: AppConstants.propertiesType,
-              onChange: (value) {
-                controller.propertyTypeMainValue.value = value;
-                controller.changeSelectedPropertyType(value);
-              },
-            ),
+              ///Property Type
+              MyDropDown(
+                suffixIconColor: AppColor.green,
+                borderColor: Colors.transparent,
+                textColor: AppColor.green,
+                labelText: 'Property Type',
+                hintText: 'Select',
+                fillColor: AppColor.alphaGrey,
+                items: AppConstants.propertiesType,
+                onChange: (value) {
+                  controller.propertyTypeMainValue.value = value;
+                  controller.changeSelectedPropertyType(value);
+                },
+              ),
 
-            vSpace,
+              vSpace,
 
-            ///Property Type sub
-            SizedBox(
-              height: 40,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: AppConstants
-                      .propertiesTypeList[
-                          controller.activePropertyTypeList.value]
-                      .length,
-                  itemBuilder: (context, index) {
-                    String value = AppConstants.propertiesTypeList[
-                        controller.activePropertyTypeList.value][index];
-                    return Obx(() {
-                      return Container(
-                        margin: const EdgeInsets.all(5),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color:
-                              controller.selectedSubPropertyType.value == value
-                                  ? AppColor.orangeColor
-                                  : AppColor.alphaGrey,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            controller.selectedSubPropertyType.value = value;
-                          },
-                          child: Text(
-                            value,
-                            style: AppTextStyles.textStyleBoldBodyXSmall
-                                .copyWith(color: AppColor.green),
-                          ),
-                        ),
-                      );
-                    });
+              ///Property Type sub
+
+              Obx(() {
+                return (controller.propertyTypeMainValue.isNotEmpty)
+                    ? SizedBox(
+                        height: 40,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: AppConstants
+                                .propertiesTypeList[
+                                    controller.activePropertyTypeList.value]
+                                .length,
+                            itemBuilder: (context, index) {
+                              String value = AppConstants.propertiesTypeList[
+                                      controller.activePropertyTypeList.value]
+                                  [index];
+                              return Obx(() {
+                                return Container(
+                                  margin: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: controller.selectedSubPropertyType
+                                                .value ==
+                                            value
+                                        ? AppColor.orangeColor
+                                        : AppColor.alphaGrey,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      controller.selectedSubPropertyType.value =
+                                          value;
+                                    },
+                                    child: Text(
+                                      value,
+                                      style: AppTextStyles
+                                          .textStyleBoldBodyXSmall
+                                          .copyWith(color: AppColor.green),
+                                    ),
+                                  ),
+                                );
+                              });
+                            }),
+                      )
+                    : const IgnorePointer();
+              }),
+
+              vSpace,
+
+              ///Currency
+              MyDropDown(
+                suffixIconColor: AppColor.green,
+                borderColor: Colors.transparent,
+                textColor: AppColor.green,
+                labelText: 'Currency',
+                hintText: 'Select',
+                fillColor: AppColor.alphaGrey,
+                items: AppConstants.currenciesType,
+                onChange: (value) {
+                  controller.selectedCurrencyType.value = value;
+                },
+              ),
+
+              vSpace,
+
+              ///Property Space Unit
+              MyDropDown(
+                suffixIconColor: AppColor.green,
+                borderColor: Colors.transparent,
+                textColor: AppColor.green,
+                labelText: 'Property Space Unit',
+                hintText: 'Select',
+                fillColor: AppColor.alphaGrey,
+                items: AppConstants.spaceUnits,
+                onChange: (value) {
+                  controller.selectedSpaceUnit.value = value;
+                },
+              ),
+
+              vSpace,
+
+              ///Property Space
+              getTextField(
+                  hintText: 'Property Space',
+                  maxLines: 1,
+                  inputType: TextInputType.number,
+                  controller: controller.propertySpaceController),
+
+              vSpace,
+
+              ///Property Video Url
+              getTextField(
+                  hintText: 'Video Url',
+                  maxLines: 1,
+                  controller: controller.propertyVideoUrlController),
+
+              vSpace,
+
+              ///Property Description
+              getTextField(
+                  hintText: 'Property Description',
+                  maxLines: 6,
+                  minLines: 4,
+                  controller: controller.propertyDescriptionController),
+
+              vSpace,
+
+              Button(
+                  textColor: AppColor.whiteColor,
+                  leftPadding: 50.w,
+                  rightPading: 50.w,
+                  buttonText: 'Proceed',
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      controller.goForward();
+                    }
                   }),
-            ),
 
-            vSpace,
-
-            ///Currency
-            MyDropDown(
-              suffixIconColor: AppColor.green,
-              borderColor: Colors.transparent,
-              textColor: AppColor.green,
-              labelText: 'Currency',
-              hintText: 'Select',
-              fillColor: AppColor.alphaGrey,
-              items: AppConstants.currenciesType,
-              onChange: (value) {
-                controller.selectedCurrencyType.value = value;
-              },
-            ),
-
-            vSpace,
-
-            ///Property Space Unit
-            MyDropDown(
-              suffixIconColor: AppColor.green,
-              borderColor: Colors.transparent,
-              textColor: AppColor.green,
-              labelText: 'Property Space Unit',
-              hintText: 'Select',
-              fillColor: AppColor.alphaGrey,
-              items: AppConstants.spaceUnits,
-              onChange: (value) {
-                controller.selectedSpaceUnit.value = value;
-              },
-            ),
-
-            vSpace,
-
-            ///Property Space
-            getTextField(
-                hintText: 'Property Space',
-                maxLines: 1,
-                controller: controller.propertySpaceController),
-
-            vSpace,
-
-            ///Property Video Url
-            getTextField(
-                hintText: 'Video Url',
-                maxLines: 1,
-                controller: controller.propertyVideoUrlController),
-
-            vSpace,
-
-            ///Property Description
-            getTextField(
-                hintText: 'Property Description',
-                maxLines: 6,
-                minLines: 4,
-                controller: controller.propertyDescriptionController),
-
-            vSpace,
-
-            Button(
-                textColor: AppColor.whiteColor,
-                leftPadding: 50.w,
-                rightPading: 50.w,
-                buttonText: 'Proceed',
-                onTap: () {
-                  controller.goForward();
-                }),
-
-            vSpace,
-          ],
+              vSpace,
+            ],
+          ),
         ),
       ),
     );
