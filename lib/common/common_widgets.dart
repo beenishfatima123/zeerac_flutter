@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print, must_be_immutable, unnecessary_question_mark, prefer_typing_uninitialized_variables
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../utils/helpers.dart';
 import 'expandable_tile_model.dart';
@@ -280,47 +282,51 @@ class Button extends StatelessWidget {
   }
 }
 
+typedef String ItemAsString(dynamic x);
+
 class MyDropDown extends StatefulWidget {
   Color? fillColor;
   Function(dynamic? value)? onChange;
-  dynamic value;
+  dynamic? value;
   Color? borderColor;
-  Color? suffixIconColor;
   final Color? labelColor;
   final Color? textColor;
   final String? prefixIcon;
   final String? suffixIcon;
-  List<dynamic>? items = [];
+  List<dynamic> items = [];
   final String? labelText;
   final String? hintText;
   final Color? hintColor;
   final double? leftPadding;
   final double? rightPadding;
   final FormFieldValidator<dynamic>? validator;
-  final List<DropdownMenuItem<Object>>? itemFuntion;
   bool isDense;
-
   bool isItalicHint;
+  Color? suffixIconColor;
+  ItemAsString? itemAsString;
+
+  bool isValidate = true;
 
   MyDropDown(
       {Key? key,
       this.fillColor,
+      this.isValidate = true,
       required this.onChange,
       this.textColor,
+      this.suffixIconColor,
       this.value,
-      this.items,
+      this.items = const [],
       this.borderColor,
       this.labelColor,
       this.prefixIcon,
+      this.itemAsString,
       this.suffixIcon,
       this.labelText,
       this.hintText,
       this.hintColor,
       this.leftPadding,
-      this.suffixIconColor,
       this.rightPadding,
       this.validator,
-      this.itemFuntion,
       this.isDense = true,
       this.isItalicHint = false})
       : super(key: key);
@@ -337,82 +343,67 @@ class _MyDropDownState extends State<MyDropDown> {
         left: widget.leftPadding ?? 50.w,
         right: widget.rightPadding ?? 50.w,
       ),
-      child: DropdownButtonFormField(
-        icon: const Icon(
-          Icons.arrow_drop_down,
-          size: 22,
-        ),
-        isExpanded: true,
-        validator: widget.validator,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        decoration: InputDecoration(
-            labelText: widget.labelText,
-            hintText: widget.hintText,
-            labelStyle: AppTextStyles.textStyleNormalBodySmall.copyWith(
-                fontStyle:
-                    widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
-            hintStyle: AppTextStyles.textStyleNormalBodySmall.copyWith(
-                fontStyle:
-                    widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
-            prefixIcon: (widget.prefixIcon != null)
-                ? Padding(
-                    padding: EdgeInsets.all(50.w),
-                    child: SvgViewer(svgPath: widget.prefixIcon!),
-                  )
-                : null,
-            contentPadding: EdgeInsets.all(5.h),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.r),
-              borderSide: const BorderSide(
-                width: 0,
-                style: BorderStyle.none,
+      child: DropdownSearch<dynamic>(
+        // showClearButton: true,
+        selectedItem: widget.value,
+        itemAsString: widget.itemAsString,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+              labelText: widget.labelText,
+              hintText: widget.hintText,
+              suffixIconColor: widget.suffixIconColor,
+              isCollapsed: false,
+              hintStyle: AppTextStyles.textStyleBoldBodySmall.copyWith(
+                  fontStyle: widget.isItalicHint
+                      ? FontStyle.italic
+                      : FontStyle.normal),
+              prefixIcon: (widget.prefixIcon != null)
+                  ? Padding(
+                      padding: EdgeInsets.all(100.w),
+                      child: SvgViewer(svgPath: widget.prefixIcon!),
+                    )
+                  : null,
+              contentPadding: EdgeInsets.all(10.h),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.r),
+                borderSide: const BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
               ),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.r),
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.r),
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.r),
-              borderSide: const BorderSide(color: AppColor.orangeColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.r),
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
-            ),
-            filled: true,
-            fillColor: widget.fillColor ?? Colors.transparent),
-        onChanged: widget.onChange,
-        value: widget.value,
-        isDense: widget.isDense,
-        hint: Text(
-          widget.hintText ?? '',
-          style: AppTextStyles.textStyleNormalBodySmall.copyWith(
-              color: widget.hintColor,
-              fontStyle:
-                  widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.r),
+                borderSide: BorderSide(
+                    color: widget.borderColor ?? AppColor.greenColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.r),
+                borderSide: BorderSide(
+                    color: widget.borderColor ?? AppColor.greenColor),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.r),
+                borderSide: const BorderSide(color: AppColor.orangeColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.r),
+                borderSide: BorderSide(
+                    color: widget.borderColor ?? AppColor.greenColor),
+              ),
+              filled: true,
+              fillColor: widget.fillColor ?? Colors.transparent),
         ),
-        items: widget.items != null
-            ? widget.items?.map((dynamic value) {
-                return DropdownMenuItem<dynamic>(
-                    value: value,
-                    child: Text(
-                      value.toString(),
-                      style: TextStyle(
-                        color: widget.textColor,
-                      ),
-                    ));
-              }).toList()
-            : widget.itemFuntion,
+        popupProps: const PopupProps.modalBottomSheet(showSearchBox: true),
+        onChanged: widget.onChange,
+        validator: widget.isValidate
+            ? (value) {
+                if ((value ?? '') == '') {
+                  return 'Required';
+                }
+                return null;
+              }
+            : null,
+        items: widget.items,
       ),
     );
   }
@@ -518,12 +509,14 @@ class NetworkCircularImage extends StatefulWidget {
   double? width;
   double? height;
   BoxFit? fit;
+  bool clearCache = false;
 
   NetworkCircularImage(
       {Key? key,
       required this.url,
       this.radius = 34,
       this.width,
+      this.clearCache = false,
       this.height,
       this.fit})
       : super(key: key);
@@ -545,10 +538,10 @@ class _NetworkCircularImageState extends State<NetworkCircularImage> {
         radius: widget.radius,
       ),
       placeholder: (context, url) => CircleAvatar(
+        radius: widget.radius,
         child: const CircularProgressIndicator(
           color: AppColor.primaryBlueColor,
         ),
-        radius: widget.radius,
       ),
       errorWidget: (context, url, error) {
         printWrapped(error.toString());
@@ -559,6 +552,14 @@ class _NetworkCircularImageState extends State<NetworkCircularImage> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.clearCache) {
+      DefaultCacheManager().removeFile(widget.url);
+    }
   }
 }
 

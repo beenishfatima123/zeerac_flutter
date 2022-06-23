@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,30 +9,31 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 
 class MyGoogleMapController extends GetxController {
   RxBool isLoading = false.obs;
-
+  Set<Circle>? circles;
   late LatLng propertyLatLng;
   Set<Marker> markers = {};
-
+  RxDouble radiusForCircle = (500.0).obs;
   GoogleMapController? googleMapController;
   late CameraPosition propertyPosition;
-
   final items = ['school', 'restaurant', 'hospital', 'pharmacy', 'museum'];
-
   RxInt selectedItem = (-1).obs;
   String? propertyName;
 
+/////////////////////////////
   void initialize(
       {required double lat,
       required double lng,
       required String? propertyName}) {
     this.propertyName = propertyName;
     propertyLatLng = LatLng(lat, lng);
+
     propertyPosition = CameraPosition(
       ///if not found then showing office address
       target: propertyLatLng,
       zoom: 14.4746,
     );
     addMarker(propertyLatLng, propertyName ?? '-', '');
+    setCircleRadius();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -51,13 +53,25 @@ class MyGoogleMapController extends GetxController {
     ));
   }
 
+  void setCircleRadius() {
+    circles = {
+      Circle(
+        circleId: const CircleId('radius'),
+        center: propertyLatLng,
+        radius: radiusForCircle.value,
+        fillColor: Colors.blue.shade100.withOpacity(0.5),
+        strokeColor: Colors.blue.shade100.withOpacity(0.1),
+      )
+    };
+  }
+
   void searchForLocation({required String type}) async {
     isLoading.value = true;
     Map<String, dynamic> query = {
       'type': type,
       'location':
           "${propertyLatLng.latitude.toString()},${propertyLatLng.longitude.toString()}",
-      'radius': 500,
+      'radius': radiusForCircle.value,
       'key': ApiConstants.googleApiKey,
     };
     dio.Response response = await dio.Dio()

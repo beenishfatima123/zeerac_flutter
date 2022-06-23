@@ -7,9 +7,11 @@ import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_create_page.dart';
 import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
+import 'package:zeerac_flutter/utils/user_defaults.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
 
@@ -104,7 +106,11 @@ class HomePage extends GetView<HomeController> {
                           textStyle: AppTextStyles.textStyleNormalBodyMedium,
                           color: AppColor.whiteColor,
                           onTap: () {
-                            Get.toNamed(PropertyCreatePage.id);
+                            if (UserDefaults.getUserSession() != null) {
+                              Get.toNamed(PropertyCreatePage.id);
+                            } else {
+                              Get.toNamed(LoginPage.id);
+                            }
                           },
                         ),
                         vSpace,

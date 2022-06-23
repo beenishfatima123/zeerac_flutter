@@ -16,6 +16,7 @@ import 'package:zeerac_flutter/modules/users/controllers/property_detail_control
 import 'package:zeerac_flutter/modules/users/controllers/property_listing_page_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/search_filter_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/signup_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/terms_and_condtions_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/user_profile_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
@@ -28,6 +29,7 @@ import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_pa
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_create_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/terms_and_conditions/terms_and_conditions_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
 import '../modules/users/controllers/login_controller.dart';
 import '../modules/users/controllers/project_detail_controller.dart';
@@ -151,6 +153,15 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<PropertyCreateController>(
             () => PropertyCreateController(),
+          );
+        })),
+    GetPage(
+        name: TermsAndConditionsPage.id,
+        transition: Transition.cupertinoDialog,
+        page: () => const TermsAndConditionsPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<TermsAndConditionsController>(
+            () => TermsAndConditionsController(),
           );
         })),
   ];

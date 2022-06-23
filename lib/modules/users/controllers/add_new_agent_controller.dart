@@ -56,7 +56,7 @@ class AddNewAgentController extends GetxController {
     isLoading.value = true;
     var data = dio.FormData.fromMap({
       "photo": await dio.MultipartFile.fromFile(profileImage.value!.path,
-          filename: "profileimage"),
+          filename: "profileimage.png"),
       "address": addressDescription.text,
       "area": areasTextController.text,
       "city": addressCityController.text,

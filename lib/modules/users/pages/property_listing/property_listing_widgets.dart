@@ -209,12 +209,12 @@ mixin PropertyListingWidgets {
       fit: StackFit.expand,
       children: [
         (file.value != null)
-            ? core.Image.file(file.value!)
+            ? core.Image.file(file.value!, fit: BoxFit.fill)
             : (networkImage != ''
                 ? NetworkPlainImage(url: "${ApiConstants.baseUrl}$networkImage")
                 : core.Image.asset(
                     'assets/images/place_your_image.png',
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fill,
                   )),
         Positioned(
           bottom: 5,

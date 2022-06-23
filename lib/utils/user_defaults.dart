@@ -84,7 +84,7 @@ class UserDefaults {
     return sharedPreferences?.getString('language');
   }
 
-  static String? getToken() {
+  static String? getApiToken() {
     return sharedPreferences?.getString('ApiToken');
   }
 

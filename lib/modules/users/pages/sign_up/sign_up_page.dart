@@ -36,6 +36,8 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
         SizedBox(
           width: 120,
           child: MyDropDown(
+            leftPadding: 0,
+            rightPadding: 0,
             isDense: true,
             value: Languages.getCurrentLanguageName(),
             textColor: AppColor.blackColor,
@@ -283,7 +285,7 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                             messageColor: AppColor.blackColor,
                             fillColor: AppColor.primaryBlueColor,
                             checkColor: AppColor.whiteColor,
-                            onTap: () {
+                            onTickTap: () {
                               controller.isSignUpAsAgency.value =
                                   !controller.isSignUpAsAgency.value;
                             }),

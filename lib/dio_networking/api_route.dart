@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:zeerac_flutter/common/app_constants.dart';
 
 import 'app_apis.dart';
 
@@ -99,6 +100,34 @@ class APIRoute implements APIRouteConfigurable {
           queryParameters: body,
           headers: headers,
           method: APIMethod.get,
+        );
+      case APIType.updateUserDetails:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.createProperty:
+        return RequestOptions(
+          path: ApiConstants.createProperty,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateProperty:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.uploadImages:
+        return RequestOptions(
+          path: ApiConstants.uploadImages,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
         );
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(

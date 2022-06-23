@@ -10,7 +10,11 @@ enum APIType {
   loadAgents,
   agentzPropertyListing,
   loadBlogs,
-  loadUserDetails
+  loadUserDetails,
+  updateUserDetails,
+  createProperty,
+  updateProperty,
+  uploadImages
 }
 
 class ApiConstants {
@@ -32,5 +36,7 @@ class ApiConstants {
   static const loadAgents = '/users/agents/';
   static const agentzPropertyListing = '/users/agent-listings/';
   static const loadBlogs = '/users/blogs/';
-  static const loadUserDetails = 'users/user/';
+  static const users = 'users/user/';
+  static const createProperty = '/users/property/';
+  static const uploadImages = '/users/images/';
 }

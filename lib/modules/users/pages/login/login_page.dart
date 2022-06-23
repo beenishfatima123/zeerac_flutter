@@ -26,7 +26,8 @@ class LoginPage extends GetView<LoginController> {
         SizedBox(
           width: 120,
           child: MyDropDown(
-            isDense: true,
+            leftPadding: 0,
+            rightPadding: 0,
             value: Languages.getCurrentLanguageName(),
             textColor: AppColor.blackColor,
             onChange: (value) {

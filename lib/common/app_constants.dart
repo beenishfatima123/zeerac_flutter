@@ -1,16 +1,14 @@
+import 'package:get_storage/get_storage.dart';
+
 class AppConstants {
-  ///purpose of property
-  static final purposes = ['For Rent', 'For Sale', 'For Installment'];
+  ///purpose of property     //1   //2      //11
+  static final List<String> purposes = ['Buy', 'Rent', 'For Installment'];
 
-  ///properties type
-  static final propertiesType = ['Commercial', 'Residential', 'Apartment'];
-
-  ///properties type
-  static final currenciesType = [
-    'PKR (Pakistan)',
-    'Dollar (US)',
-    'Lira (Turkey)'
-  ];
+  static final currenciesType = {
+    'PKR': 'Pakistani Rupee',
+    'TRY': 'Turkish Lira',
+    'USD': 'US Dollar',
+  };
 
   ///space Units
   static final spaceUnits = ['Marla', 'Square feet', 'Kanal'];
@@ -21,10 +19,13 @@ class AppConstants {
   ///baths
   static final baths = ['1', '2', '3', '4', '5', '5+'];
 
+  ///properties type
+  static final propertiesType = ['Commercial', 'Residential'];
   static final propertiesTypeList = [
-    ['Shop', 'Mall', 'Hostel', 'Building'],
-    ['Single story', 'Complete house', 'Upper portion'],
-    ['Studio apartment']
+    //3            //4      //5       //6
+    ['Shop', 'Buildings', 'Offices', 'Plots'],
+    //7          //8         //9          //10
+    ['House', 'Flats', 'Upper portion', 'Single Story'],
   ];
 
   ///baths
@@ -39,4 +40,32 @@ class AppConstants {
     'sewerage',
     'internet'
   ];
+
+  static int getTagId(String key) {
+    int value = 0;
+    if (key == purposes[0]) {
+      value = 1;
+    } else if (key == purposes[1]) {
+      value = 2;
+    } else if (key == purposes[2]) {
+      value = 11;
+    } else if (key == propertiesTypeList[0][0]) {
+      value = 3;
+    } else if (key == propertiesTypeList[0][1]) {
+      value = 4;
+    } else if (key == propertiesTypeList[0][2]) {
+      value = 5;
+    } else if (key == propertiesTypeList[0][3]) {
+      value = 6;
+    } else if (key == propertiesTypeList[1][0]) {
+      value = 7;
+    } else if (key == propertiesTypeList[1][1]) {
+      value = 8;
+    } else if (key == propertiesTypeList[1][2]) {
+      value = 9;
+    } else if (key == propertiesTypeList[1][3]) {
+      value = 10;
+    }
+    return value;
+  }
 }

@@ -66,15 +66,21 @@ class UserProfilePage extends GetView<UserProfileController>
                           hintText: 'User name',
                           controller: controller.usernameController,
                           enabled: false),
+
                       vSpace,
                       getTextField(
                           hintText: 'Email',
                           controller: controller.emailController,
-                          enabled: false),
+                          enabled: true),
                       vSpace,
                       getTextField(
                           hintText: 'First name',
                           controller: controller.firstNameController),
+                      vSpace,
+                      getTextField(
+                          hintText: 'Last name',
+                          controller: controller.lastNameController,
+                          enabled: false),
                       vSpace,
                       getTextField(
                           hintText: 'Address',
@@ -171,7 +177,7 @@ class UserProfilePage extends GetView<UserProfileController>
                         color: AppColor.primaryBlueDarkColor,
                         buttonText: 'Update',
                         onTap: () {
-                          controller.updateUser();
+                          controller.updateUser(onComplete: () {});
                         },
                       ),
                       vSpace,

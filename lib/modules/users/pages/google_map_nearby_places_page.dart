@@ -12,7 +12,7 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 
 class GoogleMapPageNearByPlaces extends GetView<MyGoogleMapController> {
-  GoogleMapPageNearByPlaces({Key? key}) : super(key: key);
+  const GoogleMapPageNearByPlaces({Key? key}) : super(key: key);
   static const id = '/GoogleMapPage';
 
   @override
@@ -36,11 +36,33 @@ class GoogleMapPageNearByPlaces extends GetView<MyGoogleMapController> {
                   children: [
                     Expanded(
                       flex: 4,
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: controller.propertyPosition,
-                        markers: controller.markers,
-                        onMapCreated: controller.onMapCreated,
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            mapType: MapType.normal,
+                            circles: controller.circles!,
+                            initialCameraPosition: controller.propertyPosition,
+                            markers: controller.markers,
+                            onMapCreated: controller.onMapCreated,
+                          ),
+                          Container(
+                              width: double.infinity,
+                              height: 80.h,
+                              padding: EdgeInsets.zero,
+                              color: AppColor.green.withOpacity(0.5),
+                              child: Slider(
+                                label:
+                                    "${controller.radiusForCircle.value.toInt()} Radius",
+                                value: controller.radiusForCircle.value,
+                                max: 2000,
+                                min: 500,
+                                onChanged: (double value) {
+                                  controller.radiusForCircle.value = value;
+                                  controller.setCircleRadius();
+                                },
+                                divisions: 200,
+                              ))
+                        ],
                       ),
                     ),
                     vSpace,

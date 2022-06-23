@@ -34,6 +34,7 @@ class SideBar extends GetView<DashBoardController> {
                       children: [
                         Center(
                           child: NetworkCircularImage(
+                            clearCache: true,
                             url:
                                 "${ApiConstants.baseUrl}${session?.photo ?? ''}",
                           ),

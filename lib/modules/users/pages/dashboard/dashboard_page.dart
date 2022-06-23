@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
@@ -31,9 +32,11 @@ class DashBoardPage extends GetView<DashBoardController> {
         ),
         actions: [
           SizedBox(
-            width: 90,
+            width: 650.w,
             child: MyDropDown(
               isDense: false,
+              leftPadding: 0,
+              rightPadding: 0,
               borderColor: AppColor.whiteColor,
               value: controller.languageName.value,
               textColor: AppColor.blackColor,

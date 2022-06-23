@@ -52,7 +52,7 @@ class PropertyListingResponseModel implements Decodeable {
   }
 }
 
-class PropertyModel {
+class PropertyModel implements Decodeable {
   int? id;
   String? name;
   String? purpose;
@@ -85,7 +85,7 @@ class PropertyModel {
   String? loca;
   String? unit;
   bool? isActiveListing;
-  List<String>? tagFks;
+  // List<String>? tagFks;
   int? searchCount;
   String? currency;
   String? block;
@@ -125,7 +125,7 @@ class PropertyModel {
       this.loca,
       this.unit,
       this.isActiveListing,
-      this.tagFks,
+      //this.tagFks,
       this.searchCount,
       this.currency,
       this.block,
@@ -238,7 +238,64 @@ class PropertyModel {
 
   @override
   String toString() {
-    return 'Results{id: $id, name: $name, purpose: $purpose, type: $type, price: $price, period: $period, space: $space, country: $country, description: $description, video: $video, propertyId: $propertyId, beds: $beds, bathrooms: $bathrooms, lat: $lat, lng: $lng, condition: $condition, year: $year, neighborhood: $neighborhood, region: $region, spaceSqft: $spaceSqft, user: $user, predictedPrice: $predictedPrice, thumbnail: $thumbnail, address: $address, company: $company, features: $features, city: $city, createdAt: $createdAt, area: $area, loca: $loca, unit: $unit, isActiveListing: $isActiveListing, tagFks: $tagFks, searchCount: $searchCount, currency: $currency, block: $block, isSold: $isSold, image: $image}';
+    return 'Results{id: $id, name: $name, purpose: $purpose, type: $type, price: $price, period: $period, space: $space, country: $country, description: $description, video: $video, propertyId: $propertyId, beds: $beds, bathrooms: $bathrooms, lat: $lat, lng: $lng, condition: $condition, year: $year, neighborhood: $neighborhood, region: $region, spaceSqft: $spaceSqft, user: $user, predictedPrice: $predictedPrice, thumbnail: $thumbnail, address: $address, company: $company, features: $features, city: $city, createdAt: $createdAt, area: $area, loca: $loca, unit: $unit, isActiveListing: $isActiveListing, tagFks: , searchCount: $searchCount, currency: $currency, block: $block, isSold: $isSold, image: $image}';
+  }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    name = json['name'];
+    purpose = json['purpose'];
+    type = json['type'];
+    price = json['price'];
+    period = json['period'];
+    space = json['space'];
+    country = json['country'];
+    description = json['description'];
+    video = json['video'];
+    propertyId = json['property_id'];
+    beds = json['beds'];
+    bathrooms = json['bathrooms'];
+    lat = json['lat'];
+    lng = json['lng'];
+    condition = json['condition'];
+    year = json['year'];
+    neighborhood = json['neighborhood'];
+    region = json['region'];
+    spaceSqft = json['space_sqft'];
+    user = ((json['user'] != null) && (json['user'].runtimeType == Object))
+        ? User.fromJson(json['user'])
+        : null;
+    predictedPrice = json['predicted_price'];
+    thumbnail = json['thumbnail'];
+    address = json['address'];
+    company = json['company'];
+    features =
+        json['features'] != null ? Features.fromJson(json['features']) : null;
+    city = json['city'];
+    createdAt = json['created_at'];
+    area = json['area'];
+    loca = json['loca'];
+    unit = json['unit'];
+    isActiveListing = json['is_active_listing'];
+    /*if (json['tag_fks'] != null) {
+      tagFks = <Null>[];
+      json['tag_fks'].forEach((v) {
+        tagFks!.add(new Null.fromJson(v));
+      });
+    }*/
+    searchCount = json['search_count'];
+    currency = json['currency'];
+    block = json['block'];
+    isSold = json['is_sold'];
+    if (json['image'] != null) {
+      image = <Image>[];
+      json['image'].forEach((v) {
+        image.add(Image.fromJson(v));
+      });
+    }
+
+    return this;
   }
 }
 

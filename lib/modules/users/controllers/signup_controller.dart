@@ -180,8 +180,6 @@ class SignupController extends GetxController {
             dialogType: DialogType.ERROR);
       }
     }).catchError((error) {
-      print(error);
-      print(error);
       isLoading.value = false;
       AppPopUps.showDialog(
           title: 'Error',

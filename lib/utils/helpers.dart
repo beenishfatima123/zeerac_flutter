@@ -44,38 +44,44 @@ myAppBar(
 }
 
 mySwitch(
-    {onTap,
+    {onTickTap,
+    onMessageTap,
     Color? fillColor,
     bool isActive = false,
     Color? checkColor,
     required String message,
     Color? messageColor}) {
-  return InkWell(
-    onTap: onTap,
-    child: Row(
-      children: [
-        Container(
-          padding: EdgeInsets.all(8.r),
-          decoration: BoxDecoration(
-            color: fillColor ?? AppColor.whiteColor,
-            borderRadius: BorderRadius.circular(4),
-          ),
+  return Row(
+    children: [
+      Container(
+        padding: EdgeInsets.all(8.r),
+        decoration: BoxDecoration(
+          color: fillColor ?? AppColor.whiteColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: InkWell(
+          onTap: onTickTap,
           child: Icon(
             Icons.check,
             size: 15.0,
-            color: isActive ? (checkColor ?? Colors.black) : fillColor,
+            color: isActive
+                ? (checkColor ?? Colors.black)
+                : fillColor ?? AppColor.whiteColor,
           ),
         ),
-        SizedBox(
-          width: 50.w,
-        ),
-        Text(
+      ),
+      SizedBox(
+        width: 50.w,
+      ),
+      InkWell(
+        onTap: onMessageTap,
+        child: Text(
           message,
           style: AppTextStyles.textStyleNormalBodySmall
               .copyWith(color: messageColor ?? AppColor.whiteColor),
-        )
-      ],
-    ),
+        ),
+      )
+    ],
   );
 }
 
