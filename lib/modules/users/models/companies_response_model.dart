@@ -62,8 +62,8 @@ class CompanyModel {
   String? history;
   int? soldListings;
   int? activeListings;
-  Null? areas;
-  Null? city;
+  String? areas;
+  String? city;
 
   CompanyModel(
       {this.id,

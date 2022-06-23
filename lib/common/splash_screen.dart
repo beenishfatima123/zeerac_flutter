@@ -23,12 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void gotoRelevantScreenOnUserType() {
-    //Get.offNamed(DashBoardPage.id);
-    if (UserDefaults.getUserSession() != null) {
+    Get.offNamed(DashBoardPage.id);
+    /*if (UserDefaults.getUserSession() != null) {
       Get.offNamed(DashBoardPage.id);
     } else {
       Get.offNamed(LoginPage.id);
-    }
+    }*/
   }
 
   @override

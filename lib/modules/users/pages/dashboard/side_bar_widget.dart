@@ -115,6 +115,7 @@ class SideBar extends GetView<DashBoardController> {
               onTap: () {
                 UserDefaults.clearAll();
                 controller.scaffoldKey.currentState?.closeDrawer();
+                Get.offAndToNamed(LoginPage.id);
               },
             ),
         ],

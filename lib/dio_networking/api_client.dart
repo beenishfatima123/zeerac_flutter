@@ -45,7 +45,8 @@ class APIClient implements BaseAPIClient {
   }
 
   Map<String, dynamic> headers = {
-    'Authorization': 'token ${UserDefaults.getApiToken() ?? ""}'
+    'Authorization': UserDefaults.getApiToken() ?? "",
+    'Accept':'*/*'
   };
 
   @override

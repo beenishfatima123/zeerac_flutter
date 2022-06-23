@@ -89,6 +89,6 @@ class UserDefaults {
   }
 
   static setApiToken(String value) async {
-    return await sharedPreferences?.setString('ApiToken', value);
+    return await sharedPreferences?.setString('ApiToken', "token $value");
   }
 }
