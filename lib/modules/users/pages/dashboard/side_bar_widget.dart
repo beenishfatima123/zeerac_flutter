@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
+import 'package:fluttericon/fontelico_icons.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
@@ -16,6 +17,7 @@ class SideBar extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+    session = UserDefaults.getUserSession();
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -59,6 +61,8 @@ class SideBar extends GetView<DashBoardController> {
                       Get.toNamed(LoginPage.id);
                     }),
           ),
+
+          ///Home
           ListTile(
             leading: const Icon(Icons.home),
             selected: controller.selectedIndex.value == 0,
@@ -68,6 +72,8 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
+
+          ///Projects
           ListTile(
             leading: const Icon(Icons.work),
             selected: controller.selectedIndex.value == 1,
@@ -78,6 +84,8 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
+
+          ///Companies
           ListTile(
             leading: const Icon(Icons.account_balance_outlined),
             selected: controller.selectedIndex.value == 2,
@@ -88,6 +96,8 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
+
+          ///Agents
           ListTile(
             leading: const Icon(Entypo.feather),
             selected: controller.selectedIndex.value == 3,
@@ -97,6 +107,8 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
+
+          ///blogs
           ListTile(
             leading: const Icon(Entypo.bookmark),
             selected: controller.selectedIndex.value == 4,
@@ -106,16 +118,31 @@ class SideBar extends GetView<DashBoardController> {
               controller.scaffoldKey.currentState?.closeDrawer();
             },
           ),
+
+          ///trends
+          ListTile(
+            leading: const Icon(Fontelico.spin3),
+            selected: controller.selectedIndex.value == 5,
+            title: Text('Trends', style: AppTextStyles.textStyleBoldBodyMedium),
+            onTap: () {
+              controller.selectedIndex.value = 5;
+              controller.scaffoldKey.currentState?.closeDrawer();
+            },
+          ),
+
+          ///logout
           if (session != null)
             ListTile(
               leading: const Icon(Icons.logout),
               selected: controller.selectedIndex.value == 1,
               title:
                   Text('Logout', style: AppTextStyles.textStyleBoldBodyMedium),
-              onTap: () {
-                UserDefaults.clearAll();
-                controller.scaffoldKey.currentState?.closeDrawer();
-                Get.offAndToNamed(LoginPage.id);
+              onTap: () async {
+                bool? result = await UserDefaults.clearAll();
+                if (result ?? false) {
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                  Get.offAndToNamed(LoginPage.id);
+                }
               },
             ),
         ],

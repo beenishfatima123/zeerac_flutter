@@ -119,6 +119,7 @@ mixin PropertyListingWidgets {
                     ),
                     Flexible(
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Row(
                             children: [
@@ -126,26 +127,27 @@ mixin PropertyListingWidgets {
                               Text("${result.beds ?? 0}"),
                             ],
                           ),
-                          hSpace,
+                          SizedBox(width: 10.h),
                           Row(
                             children: [
                               const Icon(Icons.bathtub, size: 12),
                               Text("${result.bathrooms ?? 0}"),
                             ],
                           ),
-                          hSpace,
-                          Expanded(
+                          SizedBox(width: 10.h),
+                          Flexible(
                             child: Row(
                               children: [
                                 const Icon(Icons.area_chart, size: 12),
-                                Expanded(
+                                Flexible(
                                     child: Text(
-                                        "${result.space ?? '0'} ${result.unit ?? ''}")),
+                                        "${result.space ?? '0'} ${result.unit ?? ''}",
+                                        overflow: TextOverflow.ellipsis)),
                               ],
                             ),
                           ),
+                          SizedBox(width: 10.h),
                           const Icon(Icons.favorite_border),
-                          hSpace,
                         ],
                       ),
                     ),

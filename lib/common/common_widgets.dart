@@ -366,10 +366,6 @@ class _MyDropDownState extends State<MyDropDown> {
               contentPadding: EdgeInsets.all(10.h),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.r),
-                borderSide: const BorderSide(
-                  width: 0,
-                  style: BorderStyle.none,
-                ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.r),

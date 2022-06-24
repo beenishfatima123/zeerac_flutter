@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 
@@ -17,10 +18,8 @@ class UserDefaults {
     sharedPreferences.setString(key, value);
   }
 
-  static clearAll() {
-    if (sharedPreferences != null) {
-      sharedPreferences!.clear();
-    }
+  static Future<bool?> clearAll() async {
+    return await sharedPreferences?.clear();
   }
 
   static Future<SharedPreferences> getPref() async {
@@ -59,18 +58,18 @@ class UserDefaults {
     return sharedPreferences.getInt(key) ?? defaultValue;
   }
 
-  static saveUserSession(UserLoginResponseModel loginResponseModel) async {
-    String user = json.encode(loginResponseModel.toJson());
-    await getPref().then((value) => value..setString('userData', user));
+  static saveUserSession(UserModel userModel) async {
+    String user = json.encode(userModel.toJson());
+    return await getPref().then((value) => value..setString('userData', user));
     printWrapped("user session saved");
   }
 
-  static UserLoginResponseModel? getUserSession() {
-    UserLoginResponseModel? user;
+  static UserModel? getUserSession() {
+    UserModel? user;
     if (sharedPreferences!.getString('userData') != null) {
       Map<String, dynamic> json =
           jsonDecode(sharedPreferences!.getString('userData')!);
-      user = UserLoginResponseModel.fromJson(json);
+      user = UserModel.fromJson(json);
       printWrapped(user.toString());
     }
     return user;

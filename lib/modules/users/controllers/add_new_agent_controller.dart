@@ -12,7 +12,7 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 import '../../../dio_networking/api_route.dart';
-import '../models/register_user_response_model.dart';
+import '../models/user_model.dart';
 
 class AddNewAgentController extends GetxController {
   RxBool isLoading = false.obs;
@@ -52,11 +52,10 @@ class AddNewAgentController extends GetxController {
   }
 
   Future<void> _registerUser({required completion}) async {
-    printWrapped("registering agemt");
     isLoading.value = true;
     var data = dio.FormData.fromMap({
       "photo": await dio.MultipartFile.fromFile(profileImage.value!.path,
-          filename: "profileimage.png"),
+          filename: "profile_image.png"),
       "address": addressDescription.text,
       "area": areasTextController.text,
       "city": addressCityController.text,
@@ -77,8 +76,7 @@ class AddNewAgentController extends GetxController {
               APIType.registerUser,
               body: data,
             ),
-            create: () => APIResponse<RegisterUserResponseModel>(
-                create: () => RegisterUserResponseModel()),
+            create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _registerUser)
         .then((response) {
       isLoading.value = false;

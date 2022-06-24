@@ -44,19 +44,20 @@ class APIClient implements BaseAPIClient {
     }
   }
 
-  Map<String, dynamic> headers = {
-    'Authorization': UserDefaults.getApiToken() ?? "",
-    'Accept':'*/*'
-  };
+  Map<String, dynamic> headers = {'Accept': '*/*'};
 
   @override
   Future<ResponseWrapper<T>> request<T extends Decodeable>({
     @required APIRouteConfigurable? route,
     @required Create<T>? create,
     Function? apiFunction,
+    bool needToAuthenticate = true,
   }) async {
     final config = route!.getConfig();
     config.baseUrl = baseUrl;
+    if (needToAuthenticate && (UserDefaults.getApiToken() != null)) {
+      headers['Authorization'] = UserDefaults.getApiToken() ?? "";
+    }
     config.headers = headers;
     config.sendTimeout = 60000;
     config.connectTimeout = 60000;

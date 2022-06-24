@@ -17,6 +17,8 @@ import '../../../utils/app_pop_ups.dart';
 import '../models/companies_response_model.dart';
 import 'package:dio/dio.dart' as dio;
 
+import '../models/user_model.dart';
+
 class UserProfileController extends GetxController {
   RxBool isLoading = false.obs;
   Rxn<File?> profileImage = Rxn<File>();
@@ -32,30 +34,28 @@ class UserProfileController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
-  User? user;
+  UserModel? user;
 
   var selectedCityPrediction = Predictions(description: '').obs;
   var selectedArea = Predictions(description: '').obs;
 
   void initValues() {
-    _getUserDetails(onComplete: (User user) {
+    UserModel? user = UserDefaults.getUserSession();
+    if (user != null) {
       this.user = user;
-
       networkImage.value = user.photo ?? '';
       emailController.text = user.email ?? '-';
       usernameController.text = user.username ?? '-';
       firstNameController.text = user.firstName ?? '-';
       lastNameController.text = user.lastName ?? '-';
-
       cnicController.text = user.cnic ?? '-';
       phoneController.text = user.phoneNumber ?? '-';
       countryController.text = user.country ?? '-';
       selectedCityPrediction.value = Predictions(description: user.city);
       selectedArea.value = Predictions(description: user.area ?? '');
-
       addressController.text = user.address ?? '-';
       emailController.text = user.email ?? '-';
-    });
+    }
   }
 
   Future<void> updateUser({required onComplete}) async {
@@ -85,18 +85,22 @@ class UserProfileController extends GetxController {
               APIType.updateUserDetails,
               body: body,
             ),
-            create: () => APIResponse<User>(create: () => User()),
-            apiFunction: _getUserDetails)
+            create: () => APIResponse<UserModel>(create: () => UserModel()),
+            apiFunction: updateUser)
         .then((response) {
       isLoading.value = false;
-      if (response.response != null) {
-        _getUserDetails(onComplete: (User user) {
-          // UserDefaults.saveUserSession(user);
-          AppPopUps.showSnackBar(
-              message: 'Profile updated',
-              context: myContext!,
-              color: AppColor.green);
-        });
+      UserModel? userModel = response.response?.data;
+      if (userModel != null) {
+        UserDefaults.saveUserSession(userModel);
+        AppPopUps.showSnackBar(
+            message: 'Profile updated',
+            context: myContext!,
+            color: AppColor.green);
+      } else {
+        AppPopUps.showDialog(
+            title: 'Failed to update profile',
+            description: response.response?.responseMessage ?? '-',
+            dialogType: DialogType.ERROR);
       }
     }).catchError((error) {
       isLoading.value = false;
@@ -112,7 +116,7 @@ class UserProfileController extends GetxController {
     });
   }
 
-  void _getUserDetails({required onComplete}) {
+  /* void _getUserDetails({required onComplete}) {
     String url =
         "${ApiConstants.baseUrl}${ApiConstants.users}${UserDefaults.getUserSession()?.id}/";
     isLoading.value = true;
@@ -124,7 +128,7 @@ class UserProfileController extends GetxController {
               APIType.loadUserDetails,
               body: body,
             ),
-            create: () => APIResponse<User>(create: () => User()),
+            create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _getUserDetails)
         .then((response) {
       isLoading.value = false;
@@ -143,5 +147,5 @@ class UserProfileController extends GetxController {
 
       return Future.value(null);
     });
-  }
+  }*/
 }

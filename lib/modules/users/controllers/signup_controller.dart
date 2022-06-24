@@ -8,7 +8,7 @@ import 'package:zeerac_flutter/dio_networking/api_response.dart';
 import 'package:zeerac_flutter/dio_networking/api_route.dart';
 import 'package:zeerac_flutter/main.dart';
 import 'package:zeerac_flutter/modules/users/models/register_company_response_model.dart';
-import 'package:zeerac_flutter/modules/users/models/register_user_response_model.dart';
+import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
@@ -58,7 +58,7 @@ class SignupController extends GetxController {
       if (agencyInfoFormKey.currentState!.validate() &&
           formKeyUserInfo.currentState!.validate()) {
         if (profileImage.value != null && agencyLogo.value != null) {
-          _registerUser(completion: (RegisterUserResponseModel responseModel) {
+          _registerUser(completion: (UserModel responseModel) {
             ///registering company with the response of the register user
             printWrapped("registering company");
             _registerCompany(
@@ -74,8 +74,7 @@ class SignupController extends GetxController {
     } else {
       if (formKeyUserInfo.currentState!.validate()) {
         if (profileImage.value != null) {
-          _registerUser(completion:
-              (RegisterUserResponseModel registerUserResponseModel) {
+          _registerUser(completion: (UserModel registerUserResponseModel) {
             mainCompletion("User registered successfully");
           });
         } else {
@@ -90,7 +89,7 @@ class SignupController extends GetxController {
     isLoading.value = true;
     var data = dio.FormData.fromMap({
       "photo": await dio.MultipartFile.fromFile(profileImage.value!.path,
-          filename: "profileimage"),
+          filename: "profile_image.png"),
       "address": addressDescription.text,
       "area": areasTextController.text,
       "city": addressCityController.text,
@@ -106,12 +105,12 @@ class SignupController extends GetxController {
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
     client
         .request(
+            needToAuthenticate: false,
             route: APIRoute(
               APIType.registerUser,
               body: data,
             ),
-            create: () => APIResponse<RegisterUserResponseModel>(
-                create: () => RegisterUserResponseModel()),
+            create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _registerUser)
         .then((response) {
       if (!isSignUpAsAgency.value) {
@@ -141,11 +140,11 @@ class SignupController extends GetxController {
   }
 
   void _registerCompany(
-      {required RegisterUserResponseModel registerUserResponseModel,
+      {required UserModel registerUserResponseModel,
       required completion}) async {
     var data = dio.FormData.fromMap({
       "logo": await dio.MultipartFile.fromFile(agencyLogo.value!.path,
-          filename: "agencyLogo"),
+          filename: "agencyLogo.png"),
       "name": companyNameController.text,
       "description": companyDescription.text,
       "phone": companyPhoneController.text,
@@ -159,6 +158,7 @@ class SignupController extends GetxController {
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
     client
         .request(
+            needToAuthenticate: false,
             route: APIRoute(
               APIType.registerCompany,
               body: data,

@@ -18,8 +18,14 @@ class SearchFilterListingController extends GetxController {
 
   RxBool isBuying = false.obs;
 
-  var selectedPredictionArea = Predictions(description: '').obs;
-  var selectedPredictionCity = Predictions(description: '').obs;
+  var selectedPredictionArea = Predictions(
+          description: '',
+          structuredFormatting: StructuredFormatting(mainText: ''))
+      .obs;
+  var selectedPredictionCity = Predictions(
+          description: '',
+          structuredFormatting: StructuredFormatting(mainText: ''))
+      .obs;
 
   List<Predictions?>? selectedLocationsList;
 
@@ -59,8 +65,12 @@ class SearchFilterListingController extends GetxController {
   void resetValues() {
     isLoading.value = false;
     isBuying.value = false;
-    selectedPredictionArea.value = Predictions(description: '');
-    selectedPredictionCity.value = Predictions(description: '');
+    selectedPredictionArea.value = Predictions(
+        description: '',
+        structuredFormatting: StructuredFormatting(mainText: ''));
+    selectedPredictionCity.value = Predictions(
+        description: '',
+        structuredFormatting: StructuredFormatting(mainText: ''));
     activePropertyTypeList.value = 0;
     selectedPropertyType.value = '';
     selectedPurpose.value = 'For Rent';

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -29,7 +30,9 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
         actions: [
           hSpace,
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.back();
+            },
             child: Center(
               child: Text(
                 'Done',
@@ -45,7 +48,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
         builder: (_) {
           return SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: EdgeInsets.all(18.h),
               child: Stack(
                 children: [
                   Column(
@@ -66,11 +69,17 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                     controller.selectedPredictionCity.value,
                                 clearButtonProps:
                                     const ClearButtonProps(isVisible: true),
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(labelText: 'City')),
-                                popupProps: PopupProps.bottomSheet(
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                        labelText: 'City',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.r),
+                                          borderSide: const BorderSide(
+                                              color: AppColor.alphaGrey),
+                                        ),
+                                        isDense: true)),
+                                popupProps: PopupProps.modalBottomSheet(
                                     showSearchBox: true,
                                     isFilterOnline: true,
                                     searchFieldProps: TextFieldProps(
@@ -106,11 +115,17 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                     controller.selectedPredictionArea.value,
                                 clearButtonProps:
                                     const ClearButtonProps(isVisible: true),
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(labelText: 'Area')),
-                                popupProps: PopupProps.bottomSheet(
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                        labelText: 'Area',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.r),
+                                          borderSide: const BorderSide(
+                                              color: AppColor.alphaGrey),
+                                        ),
+                                        isDense: true)),
+                                popupProps: PopupProps.modalBottomSheet(
                                     showSearchBox: true,
                                     isFilterOnline: true,
                                     searchFieldProps: TextFieldProps(
@@ -141,19 +156,34 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                 itemAsString: (item) {
                                   return item.description ?? '';
                                 },
-                                dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                  dropdownSearchDecoration:
-                                      InputDecoration(labelText: 'Locations'),
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      labelText: 'Locations',
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.r),
+                                        borderSide: const BorderSide(
+                                            color: AppColor.alphaGrey),
+                                      ),
+                                      isDense: true),
                                 ),
                                 popupProps:
-                                    PopupPropsMultiSelection.bottomSheet(
+                                    PopupPropsMultiSelection.modalBottomSheet(
                                         showSearchBox: true,
                                         isFilterOnline: true,
                                         searchFieldProps: TextFieldProps(
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                                 labelText:
-                                                    'search for the locations'),
+                                                    'search for the locations',
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50.r),
+                                                  borderSide: const BorderSide(
+                                                      color:
+                                                          AppColor.alphaGrey),
+                                                ),
+                                                isDense: true),
                                             controller:
                                                 TextEditingController())),
                                 asyncItems: (String filter) async {
@@ -418,7 +448,7 @@ class SearchFilterListingPage extends GetView<SearchFilterListingController> {
                                 ),
                                 selectedItems: controller.selectedKeyWordsList,
                                 popupProps:
-                                    PopupPropsMultiSelection.bottomSheet(
+                                    PopupPropsMultiSelection.modalBottomSheet(
                                         showSearchBox: true,
                                         isFilterOnline: false,
                                         showSelectedItems: true,

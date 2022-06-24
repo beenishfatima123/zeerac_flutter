@@ -1,6 +1,6 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 
-class RegisterUserResponseModel implements Decodeable {
+class UserModel implements Decodeable {
   int? id;
   String? username;
   String? email;
@@ -21,12 +21,12 @@ class RegisterUserResponseModel implements Decodeable {
   String? nationality;
   String? languages;
   String? createdAt;
-  String? balance;
+  num? balance;
   String? company;
   int? activeListingCount;
   int? totalListings;
 
-  RegisterUserResponseModel(
+  UserModel(
       {this.id,
       this.username,
       this.email,
@@ -52,7 +52,7 @@ class RegisterUserResponseModel implements Decodeable {
       this.activeListingCount,
       this.totalListings});
 
-  RegisterUserResponseModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
     email = json['email'];

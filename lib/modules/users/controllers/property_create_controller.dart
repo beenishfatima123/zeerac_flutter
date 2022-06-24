@@ -11,6 +11,7 @@ import 'package:zeerac_flutter/dio_networking/api_client.dart';
 import 'package:zeerac_flutter/dio_networking/api_response.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart';
+import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
 import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
@@ -174,7 +175,7 @@ class PropertyCreateController extends GetxController {
   }
 
   submit({required completion}) async {
-    UserLoginResponseModel? user = UserDefaults.getUserSession();
+    UserModel? user = UserDefaults.getUserSession();
     Map<String, bool> features = {};
     for (var element in AppConstants.propertyFeatures) {
       if (selectedFeaturesSet.contains(element)) {

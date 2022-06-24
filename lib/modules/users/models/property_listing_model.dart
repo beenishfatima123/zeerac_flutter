@@ -1,4 +1,7 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
+import 'package:zeerac_flutter/modules/users/models/user_model.dart';
+
+import 'companies_response_model.dart';
 
 class PropertyListingResponseModel implements Decodeable {
   int? count;
@@ -73,7 +76,7 @@ class PropertyModel implements Decodeable {
   String? neighborhood;
   String? region;
   int? spaceSqft;
-  User? user;
+  UserModel? user;
   int? predictedPrice;
   String? thumbnail;
   String? address;
@@ -153,7 +156,7 @@ class PropertyModel implements Decodeable {
     neighborhood = json['neighborhood'];
     region = json['region'];
     spaceSqft = json['space_sqft'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? new UserModel.fromJson(json['user']) : null;
     predictedPrice = json['predicted_price'];
     thumbnail = json['thumbnail'];
     address = json['address'];
@@ -264,7 +267,7 @@ class PropertyModel implements Decodeable {
     region = json['region'];
     spaceSqft = json['space_sqft'];
     user = ((json['user'] != null) && (json['user'].runtimeType == Object))
-        ? User.fromJson(json['user'])
+        ? UserModel.fromJson(json['user'])
         : null;
     predictedPrice = json['predicted_price'];
     thumbnail = json['thumbnail'];
@@ -296,190 +299,6 @@ class PropertyModel implements Decodeable {
     }
 
     return this;
-  }
-}
-
-class User {
-  int? id;
-  String? password;
-  String? lastLogin;
-  bool? isSuperuser;
-  String? username;
-  String? firstName;
-  String? lastName;
-  String? email;
-  bool? isStaff;
-  bool? isActive;
-  String? dateJoined;
-  String? photo;
-  int? userType;
-  String? cnic;
-  String? phoneNumber;
-  String? city;
-  String? area;
-  String? address;
-  String? resetPassToken;
-  String? resetTokenCreatedAt;
-  String? country;
-  String? nationality;
-  String? languages;
-  bool? isInvited;
-  bool? isPasswordChanged;
-  int? balance;
-  String? areas;
-  String? currency;
-  String? createdAt;
-  String? verifyAccountToken;
-  String? accountTokenCreatedAt;
-  bool? isVerified;
-  List<String>? groups;
-  List<String>? userPermissions;
-  List<String>? permissions;
-  String? company;
-
-  User(
-      {this.id,
-      this.password,
-      this.lastLogin,
-      this.isSuperuser,
-      this.username,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.isStaff,
-      this.isActive,
-      this.dateJoined,
-      this.photo,
-      this.userType,
-      this.cnic,
-      this.phoneNumber,
-      this.city,
-      this.area,
-      this.address,
-      this.resetPassToken,
-      this.resetTokenCreatedAt,
-      this.country,
-      this.nationality,
-      this.languages,
-      this.isInvited,
-      this.isPasswordChanged,
-      this.balance,
-      this.areas,
-      this.currency,
-      this.createdAt,
-      this.verifyAccountToken,
-      this.accountTokenCreatedAt,
-      this.isVerified,
-      this.groups,
-      this.userPermissions,
-      this.permissions,
-      this.company});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    password = json['password'];
-    lastLogin = json['last_login'];
-    isSuperuser = json['is_superuser'];
-    username = json['username'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    email = json['email'];
-    isStaff = json['is_staff'];
-    isActive = json['is_active'];
-    dateJoined = json['date_joined'];
-    photo = json['photo'];
-    userType = json['user_type'];
-    cnic = json['cnic'];
-    phoneNumber = json['phone_number'];
-    city = json['city'];
-    area = json['area'];
-    address = json['address'];
-    resetPassToken = json['reset_pass_token'].toString();
-    resetTokenCreatedAt = json['reset_token_created_at'];
-    country = json['country'];
-    nationality = json['nationality'];
-    languages = json['languages'];
-    isInvited = json['is_invited'];
-    isPasswordChanged = json['is_password_changed'];
-    balance = json['balance'];
-    areas = json['areas'];
-    currency = json['currency'];
-    createdAt = json['created_at'];
-    verifyAccountToken = json['verify_account_token'].toString();
-    accountTokenCreatedAt = json['account_token_created_at'];
-    isVerified = json['is_verified'];
-    /*if (json['groups'] != null) {
-      groups = <Null>[];
-      json['groups'].forEach((v) {
-        groups!.add(new Null.fromJson(v));
-      });
-    }*/
-    /*if (json['user_permissions'] != null) {
-      userPermissions = <Null>[];
-      json['user_permissions'].forEach((v) {
-        userPermissions!.add(new Null.fromJson(v));
-      });
-    }*/
-    /*if (json['permissions'] != null) {
-      permissions = <Null>[];
-      json['permissions'].forEach((v) {
-        permissions!.add(new Null.fromJson(v));
-      });
-    }*/
-    company = json['company'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['password'] = this.password;
-    data['last_login'] = this.lastLogin;
-    data['is_superuser'] = this.isSuperuser;
-    data['username'] = this.username;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['is_staff'] = this.isStaff;
-    data['is_active'] = this.isActive;
-    data['date_joined'] = this.dateJoined;
-    data['photo'] = this.photo;
-    data['user_type'] = this.userType;
-    data['cnic'] = this.cnic;
-    data['phone_number'] = this.phoneNumber;
-    data['city'] = this.city;
-    data['area'] = this.area;
-    data['address'] = this.address;
-    data['reset_pass_token'] = this.resetPassToken;
-    data['reset_token_created_at'] = this.resetTokenCreatedAt;
-    data['country'] = this.country;
-    data['nationality'] = this.nationality;
-    data['languages'] = this.languages;
-    data['is_invited'] = this.isInvited;
-    data['is_password_changed'] = this.isPasswordChanged;
-    data['balance'] = this.balance;
-    data['areas'] = this.areas;
-    data['currency'] = this.currency;
-    data['created_at'] = this.createdAt;
-    data['verify_account_token'] = this.verifyAccountToken;
-    data['account_token_created_at'] = this.accountTokenCreatedAt;
-    data['is_verified'] = this.isVerified;
-    /*if (this.groups != null) {
-      data['groups'] = this.groups!.map((v) => v.toJson()).toList();
-    }
-    if (this.userPermissions != null) {
-      data['user_permissions'] =
-          this.userPermissions!.map((v) => v.toJson()).toList();
-    }
-    if (this.permissions != null) {
-      data['permissions'] = this.permissions!.map((v) => v.toJson()).toList();
-    }*/
-    data['company'] = this.company;
-    return data;
-  }
-
-  @override
-  String toString() {
-    return 'User{id: $id, password: $password, lastLogin: $lastLogin, isSuperuser: $isSuperuser, username: $username, firstName: $firstName, lastName: $lastName, email: $email, isStaff: $isStaff, isActive: $isActive, dateJoined: $dateJoined, photo: $photo, userType: $userType, cnic: $cnic, phoneNumber: $phoneNumber, city: $city, area: $area, address: $address, resetPassToken: $resetPassToken, resetTokenCreatedAt: $resetTokenCreatedAt, country: $country, nationality: $nationality, languages: $languages, isInvited: $isInvited, isPasswordChanged: $isPasswordChanged, balance: $balance, areas: $areas, currency: $currency, createdAt: $createdAt, verifyAccountToken: $verifyAccountToken, accountTokenCreatedAt: $accountTokenCreatedAt, isVerified: $isVerified, groups: $groups, userPermissions: $userPermissions, permissions: $permissions, company: $company}';
   }
 }
 
