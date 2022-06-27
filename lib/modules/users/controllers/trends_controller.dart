@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/dio_networking/api_client.dart';
@@ -51,7 +52,14 @@ class TrendsController extends GetxController {
       if (response.response?.data != null) {
         trendsModelList.clear();
         trendsModelList.addAll(response.response!.data!);
+      }
+      if (trendsModelList.isNotEmpty) {
         onComplete();
+      } else {
+        AppPopUps.showDialog(
+            title: 'Alert',
+            description: 'No data found..',
+            dialogType: DialogType.INFO);
       }
     }).catchError((error) {
       isLoading.value = false;
