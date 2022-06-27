@@ -19,133 +19,155 @@ class SideBar extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
     session = UserDefaults.getUserSession();
     return Drawer(
-      child: Column(
-        children: <Widget>[
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blueAccent,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: session != null
+                  ? InkWell(
+                      onTap: () {
+                        Get.toNamed(UserProfilePage.id);
+                        controller.scaffoldKey.currentState?.closeDrawer();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Center(
+                            child: NetworkCircularImage(
+                              clearCache: true,
+                              url:
+                                  "${ApiConstants.baseUrl}${session?.photo ?? ''}",
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              session?.username ?? '',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.textStyleBoldTitleLarge
+                                  .copyWith(color: AppColor.whiteColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Button(
+                      buttonText: 'Login now !',
+                      textStyle: AppTextStyles.textStyleBoldSubTitleLarge
+                          .copyWith(color: AppColor.whiteColor),
+                      onTap: () {
+                        controller.scaffoldKey.currentState?.closeDrawer();
+                        Get.toNamed(LoginPage.id);
+                      }),
             ),
-            child: session != null
-                ? InkWell(
-                    onTap: () {
-                      Get.toNamed(UserProfilePage.id);
-                      controller.scaffoldKey.currentState?.closeDrawer();
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Center(
-                          child: NetworkCircularImage(
-                            clearCache: true,
-                            url:
-                                "${ApiConstants.baseUrl}${session?.photo ?? ''}",
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            session?.username ?? '',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.textStyleBoldTitleLarge
-                                .copyWith(color: AppColor.whiteColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Button(
-                    buttonText: 'Login now !',
-                    textStyle: AppTextStyles.textStyleBoldSubTitleLarge
-                        .copyWith(color: AppColor.whiteColor),
-                    onTap: () {
-                      controller.scaffoldKey.currentState?.closeDrawer();
-                      Get.toNamed(LoginPage.id);
-                    }),
-          ),
 
-          ///Home
-          ListTile(
-            leading: const Icon(Icons.home),
-            selected: controller.selectedIndex.value == 0,
-            title: Text('Home', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 0;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///Projects
-          ListTile(
-            leading: const Icon(Icons.work),
-            selected: controller.selectedIndex.value == 1,
-            title:
-                Text('Projects', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 1;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///Companies
-          ListTile(
-            leading: const Icon(Icons.account_balance_outlined),
-            selected: controller.selectedIndex.value == 2,
-            title:
-                Text('Companies', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 2;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///Agents
-          ListTile(
-            leading: const Icon(Entypo.feather),
-            selected: controller.selectedIndex.value == 3,
-            title: Text('Agents', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 3;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///blogs
-          ListTile(
-            leading: const Icon(Entypo.bookmark),
-            selected: controller.selectedIndex.value == 4,
-            title: Text('Blogs', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 4;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///trends
-          ListTile(
-            leading: const Icon(Fontelico.spin3),
-            selected: controller.selectedIndex.value == 5,
-            title: Text('Trends', style: AppTextStyles.textStyleBoldBodyMedium),
-            onTap: () {
-              controller.selectedIndex.value = 5;
-              controller.scaffoldKey.currentState?.closeDrawer();
-            },
-          ),
-
-          ///logout
-          if (session != null)
+            ///Home
             ListTile(
-              leading: const Icon(Icons.logout),
-              selected: controller.selectedIndex.value == 1,
-              title:
-                  Text('Logout', style: AppTextStyles.textStyleBoldBodyMedium),
-              onTap: () async {
-                bool? result = await UserDefaults.clearAll();
-                if (result ?? false) {
-                  controller.scaffoldKey.currentState?.closeDrawer();
-                  Get.offAndToNamed(LoginPage.id);
-                }
+              leading: const Icon(Icons.home),
+              selected: controller.selectedIndex.value == 0,
+              title: Text('Home', style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 0;
+                controller.scaffoldKey.currentState?.closeDrawer();
               },
             ),
-        ],
+
+            ///Projects
+            ListTile(
+              leading: const Icon(Icons.work),
+              selected: controller.selectedIndex.value == 1,
+              title: Text('Projects',
+                  style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 1;
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///Companies
+            ListTile(
+              leading: const Icon(Icons.account_balance_outlined),
+              selected: controller.selectedIndex.value == 2,
+              title: Text('Companies',
+                  style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 2;
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///Agents
+            ListTile(
+              leading: const Icon(Entypo.feather),
+              selected: controller.selectedIndex.value == 3,
+              title:
+                  Text('Agents', style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 3;
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///blogs
+            ListTile(
+              leading: const Icon(Entypo.bookmark),
+              selected: controller.selectedIndex.value == 4,
+              title:
+                  Text('Blogs', style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 4;
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///trends
+            ListTile(
+              leading: const Icon(Fontelico.spin3),
+              selected: controller.selectedIndex.value == 5,
+              title:
+                  Text('Trends', style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                controller.selectedIndex.value = 5;
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///trends
+            ListTile(
+              leading: const Icon(Fontelico.emo_coffee),
+              selected: controller.selectedIndex.value == 6,
+              title: Text('Tutorials',
+                  style: AppTextStyles.textStyleBoldBodyMedium),
+              onTap: () {
+                if (session != null) {
+                  controller.selectedIndex.value = 6;
+                } else {
+                  Get.toNamed(LoginPage.id);
+                }
+                controller.scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+
+            ///logout
+            if (session != null)
+              ListTile(
+                leading: const Icon(Icons.logout),
+                selected: controller.selectedIndex.value == 1,
+                title: Text('Logout',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () async {
+                  bool? result = await UserDefaults.clearAll();
+                  if (result ?? false) {
+                    controller.scaffoldKey.currentState?.closeDrawer();
+                    Get.offAndToNamed(LoginPage.id);
+                  }
+                },
+              ),
+          ],
+        ),
       ),
     );
   }

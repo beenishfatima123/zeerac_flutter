@@ -43,7 +43,7 @@ mixin BlogsWidgets {
                             .copyWith(color: AppColor.whiteColor)),
                     Text(
                         formatDateTime(
-                                DateTime.parse(blogModel.createdAt ?? '-'))
+                                DateTime.tryParse(blogModel.createdAt ?? '-'))
                             .toString(),
                         style: AppTextStyles.textStyleNormalBodyXSmall
                             .copyWith(color: AppColor.whiteColor)),
