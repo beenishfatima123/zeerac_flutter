@@ -168,7 +168,7 @@ class PropertyBasicInformationWidget extends GetView<PropertyCreateController>
                 labelText: 'Property Space Unit',
                 hintText: 'Select',
                 fillColor: AppColor.alphaGrey,
-                items: AppConstants.spaceUnits,
+                items: AppConstants.spaceUnits.keys.toList(),
                 onChange: (value) {
                   controller.selectedSpaceUnit.value = value;
                 },
@@ -222,7 +222,7 @@ class PropertyBasicInformationWidget extends GetView<PropertyCreateController>
   }
 }
 
-///basic detail widget
+///property detail widget
 class PropertyDetailWidget extends GetView<PropertyCreateController>
     with PropertyListingWidgets {
   PropertyDetailWidget({Key? key}) : super(key: key);

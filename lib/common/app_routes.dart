@@ -11,6 +11,7 @@ import 'package:zeerac_flutter/modules/users/controllers/company_listing_control
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/google_map_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/looking_for_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/projects_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/property_create_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/property_detail_controller.dart';
@@ -36,7 +37,9 @@ import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/terms_and_conditions/terms_and_conditions_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/trends/trends_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/tutorials/video_player_scoring_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
+import '../modules/users/controllers/change_user_preferences_controller.dart';
 import '../modules/users/controllers/login_controller.dart';
 import '../modules/users/controllers/project_detail_controller.dart';
 import '../modules/users/pages/agents_listing/add_new_agent_page.dart';
@@ -74,6 +77,7 @@ appRoutes() {
           Get.put(BlogListingController());
           Get.put(TrendsController());
           Get.put(TutorialsController());
+          Get.put(LookingForController());
         })),
     GetPage(
         name: SearchFilterListingPage.id,
@@ -179,6 +183,15 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<VideoPlayerScoringController>(
             () => VideoPlayerScoringController(),
+          );
+        })),
+    GetPage(
+        name: ChangeUserPreferencesPage.id,
+        transition: Transition.rightToLeft,
+        page: () => ChangeUserPreferencesPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<ChangeUserPreferenceController>(
+            () => ChangeUserPreferenceController(),
           );
         })),
   ];

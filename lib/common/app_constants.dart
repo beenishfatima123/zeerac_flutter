@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AppConstants {
@@ -11,7 +12,11 @@ class AppConstants {
   };
 
   ///space Units
-  static final spaceUnits = ['Marla', 'Square feet', 'Kanal'];
+  static final spaceUnits = {
+    'Marla': 'marla',
+    'Square Feet': 'sqft',
+    'Kanal': 'kanal',
+  };
 
   ///beds
   static final beds = ['1', '2', '3', '4', '5', '5+'];
@@ -67,5 +72,35 @@ class AppConstants {
       value = 10;
     }
     return value;
+  }
+
+  static String getTagName(int value) {
+    switch (value) {
+      case 1:
+        return purposes[0];
+      case 2:
+        return purposes[1];
+      case 3:
+        return propertiesTypeList[0][0];
+      case 4:
+        return propertiesTypeList[0][1];
+      case 5:
+        return propertiesTypeList[0][2];
+      case 6:
+        return propertiesTypeList[0][3];
+      case 7:
+        return propertiesTypeList[1][0];
+      case 8:
+        return propertiesTypeList[1][1];
+      case 9:
+        return propertiesTypeList[1][2];
+      case 10:
+        return propertiesTypeList[1][3];
+      case 11:
+        return purposes[2];
+
+      default:
+        return '';
+    }
   }
 }

@@ -8,6 +8,7 @@ import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 
@@ -135,7 +136,7 @@ class SideBar extends GetView<DashBoardController> {
               },
             ),
 
-            ///trends
+            ///Tutorials
             ListTile(
               leading: const Icon(Fontelico.emo_coffee),
               selected: controller.selectedIndex.value == 6,
@@ -151,10 +152,44 @@ class SideBar extends GetView<DashBoardController> {
               },
             ),
 
+            ///User Preferences
+            if (session != null)
+              ListTile(
+                leading: const Icon(Icons.account_balance),
+                selected: controller.selectedIndex.value == 7,
+                title: Text('Looking For',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  if (session != null) {
+                    controller.selectedIndex.value = 7;
+                  } else {
+                    Get.toNamed(LoginPage.id);
+                  }
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
+            ///Change User Preferences
+            if (session != null)
+              ListTile(
+                leading: const Icon(Icons.account_tree),
+                selected: controller.selectedIndex.value == 8,
+                title: Text('Change Preferences',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  if (session != null) {
+                    Get.toNamed(ChangeUserPreferencesPage.id);
+                  } else {
+                    Get.toNamed(LoginPage.id);
+                  }
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
             ///logout
             if (session != null)
               ListTile(
-                leading: const Icon(Icons.logout),
+                leading: const Icon(Icons.power_settings_new),
                 selected: controller.selectedIndex.value == 1,
                 title: Text('Logout',
                     style: AppTextStyles.textStyleBoldBodyMedium),

@@ -1,5 +1,6 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 import 'package:zeerac_flutter/modules/users/models/user_model.dart';
+import 'package:zeerac_flutter/modules/users/models/user_preference_post_response_model.dart';
 
 import 'companies_response_model.dart';
 
@@ -88,7 +89,7 @@ class PropertyModel implements Decodeable {
   String? loca;
   String? unit;
   bool? isActiveListing;
-  // List<String>? tagFks;
+  List<TagFks>? tagFks;
   int? searchCount;
   String? currency;
   String? block;
@@ -128,7 +129,7 @@ class PropertyModel implements Decodeable {
       this.loca,
       this.unit,
       this.isActiveListing,
-      //this.tagFks,
+      this.tagFks,
       this.searchCount,
       this.currency,
       this.block,
@@ -170,12 +171,13 @@ class PropertyModel implements Decodeable {
     loca = json['loca'];
     unit = json['unit'];
     isActiveListing = json['is_active_listing'];
-    /*if (json['tag_fks'] != null) {
-      tagFks = <Null>[];
+
+    if (json['tag_fks'] != null) {
+      tagFks = <TagFks>[];
       json['tag_fks'].forEach((v) {
-        tagFks!.add(new Null.fromJson(v));
+        tagFks!.add(new TagFks.fromJson(v));
       });
-    }*/
+    }
     searchCount = json['search_count'];
     currency = json['currency'];
     block = json['block'];
@@ -226,9 +228,9 @@ class PropertyModel implements Decodeable {
     data['loca'] = this.loca;
     data['unit'] = this.unit;
     data['is_active_listing'] = this.isActiveListing;
-    /* if (this.tagFks != null) {
+    if (this.tagFks != null) {
       data['tag_fks'] = this.tagFks!.map((v) => v.toJson()).toList();
-    }*/
+    }
     data['search_count'] = this.searchCount;
     data['currency'] = this.currency;
     data['block'] = this.block;
@@ -367,6 +369,28 @@ class Image {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['image'] = this.image;
     data['id'] = this.id;
+    return data;
+  }
+}
+
+class TagFks {
+  int? id;
+  String? tag;
+  String? category;
+
+  TagFks({this.id, this.tag, this.category});
+
+  TagFks.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    tag = json['tag'];
+    category = json['category'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['tag'] = this.tag;
+    data['category'] = this.category;
     return data;
   }
 }

@@ -189,7 +189,7 @@ class PropertyCreateController extends GetxController {
       "type": propertyTypeMainValue.value,
       "price": propertyPriceController.text,
       "space": propertySpaceController.text,
-      "unit": selectedSpaceUnit.value,
+      "unit": AppConstants.spaceUnits[selectedSpaceUnit.value],
       "description": propertyDescriptionController.text,
       "video": propertyVideoUrlController.text,
       "beds": selectedBeds.value,

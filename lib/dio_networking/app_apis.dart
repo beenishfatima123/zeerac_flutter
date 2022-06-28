@@ -17,6 +17,9 @@ enum APIType {
   uploadImages,
   searchForTrends,
   loadTutorials,
+  postUserPreference,
+  getUserPreferences,
+  getUserPreferenceListing
 }
 
 class ApiConstants {
@@ -43,4 +46,6 @@ class ApiConstants {
   static const uploadImages = '/users/images/';
   static const searchForTrends = 'users/property/trends/';
   static const loadTutorials = 'users/video-course/';
+  static const userPreferences = '/users/preference/';
+  static const getUserPreference = '/users/preference/listings/';
 }

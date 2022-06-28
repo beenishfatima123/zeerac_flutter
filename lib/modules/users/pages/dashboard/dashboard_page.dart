@@ -15,6 +15,7 @@ import '../../../../common/loading_widget.dart';
 import '../../../../common/styles.dart';
 import '../projects_listing/projects_page.dart';
 import '../trends/trends_page.dart';
+import '../user_preferences/looking_for_page.dart';
 
 class DashBoardPage extends GetView<DashBoardController> {
   DashBoardPage({Key? key}) : super(key: key);
@@ -64,7 +65,8 @@ class DashBoardPage extends GetView<DashBoardController> {
                     const AgentsListingPage(),
                     const BlogListingPage(),
                     TrendsPage(),
-                    TutorialsPage(),
+                    const TutorialsPage(),
+                    const LookingForPage()
                   ]),
             );
           }),

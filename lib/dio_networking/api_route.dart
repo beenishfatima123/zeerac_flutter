@@ -143,6 +143,27 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.get,
         );
+      case APIType.postUserPreference:
+        return RequestOptions(
+          path: ApiConstants.userPreferences,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.getUserPreferences:
+        return RequestOptions(
+          path: ApiConstants.userPreferences,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.getUserPreferenceListing:
+        return RequestOptions(
+          path: ApiConstants.getUserPreference,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(
           path: ApiConstants.googleNearByPlacesSearch,
