@@ -157,6 +157,13 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.get,
         );
+      case APIType.updateUserPreferences:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
       case APIType.getUserPreferenceListing:
         return RequestOptions(
           path: ApiConstants.getUserPreference,

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:zeerac_flutter/common/app_constants.dart';
 import 'package:zeerac_flutter/modules/users/models/user_preference_post_response_model.dart';
 
@@ -91,11 +92,12 @@ class ChangeUserPreferenceController extends GetxController {
       isLoading.value = false;
 
       UserPreferencePostModel? model = response.response?.data;
-      print(model.toString());
-      completion();
+      if (model != null) {
+        completion();
+      }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -128,7 +130,7 @@ class ChangeUserPreferenceController extends GetxController {
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -139,8 +141,82 @@ class ChangeUserPreferenceController extends GetxController {
   void _setValues(UserPreferencePostModel model) {
     previousPreferenceValue.value = model.id ?? -1;
     propertyBuiltYearController.text = model.yearBuild.toString();
-    selectedPurpose.value = AppConstants.getTagName(model.tagFks![0].id ?? -1);
+    selectedPurpose.value = AppConstants.getTagName(model.tagFks?[0].id ?? -1);
+
+    ///for main selection of type
+    propertyTypeMainValue.value = model.tagFks?[1].category ?? '';
+    changeSelectedPropertyType(model.tagFks?[1].category ?? '');
+
+    /// for sub selection of type
+    selectedSubPropertyType.value =
+        AppConstants.getTagName(model.tagFks?[1].id ?? -1);
+
+    //space unit
+    for (final value in AppConstants.spaceUnits.entries) {
+      if (value.value == (model.unit ?? '')) {
+        selectedSpaceUnit.value = value.key;
+      }
+    }
+
+    selectedCountry.value = CountryModel(name: model.country ?? '');
+    selectedPredictionCity.value = Predictions(
+        structuredFormatting: StructuredFormatting(mainText: model.city ?? ''));
+    selectedPredictionArea.value = Predictions(
+        structuredFormatting: StructuredFormatting(mainText: model.area ?? ''));
+    isNewlyConstructed.value = model.newlyConstructed ?? false;
+
+    ///range slider remains because don't know the highest range
   }
 
-  void updatePreference({required completion}) {}
+  void updatePreference({required completion}) {
+    Map<String, dynamic> body = {
+      "price_min": propertyPriceRangeValue.value.start.round().toString(),
+      "price_max": propertyPriceRangeValue.value.end.round().toString(),
+      "year_build": propertyBuiltYearController.text,
+      "space_min": propertyPlotRangeValue.value.start.round().toString(),
+      "space_max": propertyPlotRangeValue.value.end.round().toString(),
+      "unit": AppConstants.spaceUnits[selectedSpaceUnit.value],
+      "city":
+          selectedPredictionCity.value?.structuredFormatting?.mainText ?? '',
+      "area":
+          selectedPredictionArea.value?.structuredFormatting?.mainText ?? '',
+      "country": selectedCountry.value?.name ?? '',
+      "newly_constructed": isNewlyConstructed.value,
+      'tag_fks': [
+        AppConstants.getTagId(selectedPurpose.value),
+        AppConstants.getTagId(selectedSubPropertyType.value)
+      ]
+    };
+
+    isLoading.value = true;
+
+    String url =
+        "${ApiConstants.baseUrl}${ApiConstants.userPreferences}/${previousPreferenceValue.value}/";
+
+    var client = APIClient(isCache: false, baseUrl: url);
+    client
+        .request(
+            route: APIRoute(
+              APIType.updateUserPreferences,
+              body: body,
+            ),
+            create: () => APIResponse<UserPreferencePostModel>(
+                create: () => UserPreferencePostModel()),
+            apiFunction: updatePreference)
+        .then((response) {
+      isLoading.value = false;
+
+      UserPreferencePostModel? model = response.response?.data;
+      if (model != null) {
+        completion();
+      }
+    }).catchError((error) {
+      isLoading.value = false;
+      AppPopUps.showDialogContent(
+          title: 'Error',
+          description: error.toString(),
+          dialogType: DialogType.ERROR);
+      return Future.value(null);
+    });
+  }
 }

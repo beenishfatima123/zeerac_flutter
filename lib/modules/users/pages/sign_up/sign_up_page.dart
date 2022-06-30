@@ -303,7 +303,7 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                             onTap: () {
                               controller.registerAction(
                                   mainCompletion: (String message) {
-                                AppPopUps.showDialog(
+                                AppPopUps.showDialogContent(
                                     title: 'Success',
                                     description: message,
                                     dialogType: DialogType.SUCCES);

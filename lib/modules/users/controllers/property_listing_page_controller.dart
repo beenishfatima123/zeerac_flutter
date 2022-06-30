@@ -66,14 +66,14 @@ class PropertyListingPageController extends GetxController {
       if ((response.response?.data?.count ?? 0) > 0) {
         onComplete(response.response?.data);
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Alert',
             description: 'No result found',
             dialogType: DialogType.INFO);
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

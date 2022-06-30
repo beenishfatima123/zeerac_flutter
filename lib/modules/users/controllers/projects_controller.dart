@@ -79,7 +79,7 @@ class ProjectsController extends GetxController {
         filteredItemList.addAll(response.response!.data!.results!);
       } else {
         if (showAlert) {
-          AppPopUps.showDialog(
+          AppPopUps.showDialogContent(
               title: 'Alert',
               description: 'No result found',
               dialogType: DialogType.INFO);
@@ -90,7 +90,7 @@ class ProjectsController extends GetxController {
 
       ///not showing any dialog because this method will be called on the app start when controller gets initialized
       if (showAlert) {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: error.toString(),
             dialogType: DialogType.ERROR);

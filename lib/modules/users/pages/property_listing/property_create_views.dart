@@ -1012,7 +1012,7 @@ class PropertyFinalSubmitViewDetails extends GetView<PropertyCreateController>
                             onTap: () {
                               if (controller.isTermsAccepted.value) {
                                 controller.submit(completion: () {
-                                  AppPopUps.showDialog(
+                                  AppPopUps.showDialogContent(
                                       description:
                                           'Property created successfully',
                                       dialogType: DialogType.SUCCES,

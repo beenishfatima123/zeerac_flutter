@@ -250,7 +250,7 @@ class PropertyCreateController extends GetxController {
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -283,14 +283,14 @@ class PropertyCreateController extends GetxController {
         onComplete();
       } else {
         isLoading.value = false;
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: "Failed to create property",
             dialogType: DialogType.ERROR);
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -334,14 +334,14 @@ class PropertyCreateController extends GetxController {
         onComplete();
       } else {
         isLoading.value = false;
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: "Failed to create property",
             dialogType: DialogType.ERROR);
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

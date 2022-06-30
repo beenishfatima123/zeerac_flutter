@@ -1,9 +1,9 @@
 class CountryModel {
-  String? name;
-  String? dialCode;
-  String? code;
+  String? name = '';
+  String? dialCode = '';
+  String? code = '';
 
-  CountryModel({this.name, this.dialCode, this.code});
+  CountryModel({this.name = '', this.dialCode = '', this.code = ''});
 
   CountryModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];

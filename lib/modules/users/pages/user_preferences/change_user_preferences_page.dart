@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../../../common/app_constants.dart';
 import '../../../../common/common_widgets.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../dio_networking/app_apis.dart';
+import '../../../../utils/app_pop_ups.dart';
 import '../../controllers/change_user_preferences_controller.dart';
 import '../../models/country_model.dart';
 import '../property_listing/property_listing_widgets.dart';
@@ -76,6 +78,7 @@ class ChangeUserPreferencesPage extends GetView<ChangeUserPreferenceController>
                                 textColor: AppColor.green,
                                 labelText: 'Property Type',
                                 hintText: 'Select',
+                                value: controller.propertyTypeMainValue.value,
                                 fillColor: AppColor.alphaGrey,
                                 items: AppConstants.propertiesType,
                                 onChange: (value) {
@@ -157,6 +160,7 @@ class ChangeUserPreferencesPage extends GetView<ChangeUserPreferenceController>
                                 labelText: 'Property Space Unit',
                                 hintText: 'Select',
                                 fillColor: AppColor.alphaGrey,
+                                value: controller.selectedSpaceUnit.value,
                                 items: AppConstants.spaceUnits.keys.toList(),
                                 onChange: (value) {
                                   controller.selectedSpaceUnit.value = value;
@@ -483,11 +487,19 @@ class ChangeUserPreferencesPage extends GetView<ChangeUserPreferenceController>
                                   false)) {
                                 if (controller.previousPreferenceValue.value ==
                                     -1) {
-                                  controller.submitPreferences(
-                                      completion: () {});
+                                  controller.submitPreferences(completion: () {
+                                    AppPopUps.showDialogContent(
+                                        title: 'Success',
+                                        description: 'User preferences set',
+                                        dialogType: DialogType.SUCCES);
+                                  });
                                 } else {
-                                  controller.updatePreference(
-                                      completion: () {});
+                                  controller.updatePreference(completion: () {
+                                    AppPopUps.showDialogContent(
+                                        title: 'Success',
+                                        description: 'User preferences set',
+                                        dialogType: DialogType.SUCCES);
+                                  });
                                 }
                               }
                             },

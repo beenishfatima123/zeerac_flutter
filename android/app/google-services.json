@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1075891869622",
+    "project_id": "zeerac-8328d",
+    "storage_bucket": "zeerac-8328d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075891869622:android:5563f61e719aa1f3a29317",
+        "android_client_info": {
+          "package_name": "com.beelogix.zeerac.zeerac_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075891869622-tcbcfdm0at0d49i3fstmm263ocn3e77b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi9KIvtoXs-TGEN0xSsSt5NcqppSbuYKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075891869622-tcbcfdm0at0d49i3fstmm263ocn3e77b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

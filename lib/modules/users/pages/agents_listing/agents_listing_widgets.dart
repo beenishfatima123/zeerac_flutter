@@ -3,16 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/modules/users/models/agents_listing_response_model.dart';
+import 'package:zeerac_flutter/modules/users/models/chat_user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/project_details_page.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_utils.dart';
+import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 import '../../../../common/common_widgets.dart';
 import '../../../../common/styles.dart';
 import '../../../../dio_networking/app_apis.dart';
+import '../chat/chat_screen.dart';
 
 Widget agentsListingWidget(AgentsModel result) {
   String firstImage = ((result.photo ?? '').isEmpty)
@@ -101,7 +105,19 @@ Widget agentsListingWidget(AgentsModel result) {
                         ),
                         hSpace,
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (UserDefaults.getUserSession() != null) {
+                              Get.toNamed(ChatScreen.id,
+                                  arguments: ChatUserModel(
+                                      otherUserId: result.id!.toString(),
+                                      otherUserProfileImage: firstImage,
+                                      otherUserContact:
+                                          result.phoneNumber ?? '123',
+                                      otherUserName: result.firstName ?? ''));
+                            } else {
+                              Get.toNamed(LoginPage.id);
+                            }
+                          },
                           child: const Text(
                             'Message',
                           ),

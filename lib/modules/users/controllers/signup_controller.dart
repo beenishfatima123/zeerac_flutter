@@ -122,7 +122,7 @@ class SignupController extends GetxController {
       if (response.response?.data != null) {
         completion(response.response?.data!);
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: "Failed to register user",
             dialogType: DialogType.ERROR);
@@ -131,7 +131,7 @@ class SignupController extends GetxController {
       print(error);
 
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -174,14 +174,14 @@ class SignupController extends GetxController {
       if (response.response?.data != null) {
         completion(response.response?.data!);
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: "Failed to register company",
             dialogType: DialogType.ERROR);
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

@@ -4,17 +4,21 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/project_details_page.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_utils.dart';
+import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 import '../../../../common/common_widgets.dart';
 import '../../../../common/styles.dart';
 import '../../../../dio_networking/app_apis.dart';
+import '../../models/chat_user_model.dart';
+import '../chat/chat_screen.dart';
 
-mixin companyWidgets {
+mixin CompanyWidgetsMixin {
   Widget companyListingWidget(CompanyModel result) {
-    String firstImage = result.logo == null
+    String logo = result.logo == null
         ? ApiConstants.imageNetworkPlaceHolder
         : "${ApiConstants.baseUrl}${result.logo ?? ''}";
 
@@ -31,7 +35,7 @@ mixin companyWidgets {
               Expanded(
                 flex: 4,
                 child: NetworkPlainImage(
-                  url: firstImage,
+                  url: logo,
                 ),
               ),
 
@@ -94,7 +98,18 @@ mixin companyWidgets {
                           ),
                           hSpace,
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (UserDefaults.getUserSession() != null) {
+                                Get.toNamed(ChatScreen.id,
+                                    arguments: ChatUserModel(
+                                        otherUserId: result.id!.toString(),
+                                        otherUserProfileImage: logo,
+                                        otherUserContact: result.phone ?? '123',
+                                        otherUserName: result.name ?? ''));
+                              } else {
+                                Get.toNamed(LoginPage.id);
+                              }
+                            },
                             child: const Text(
                               'Message',
                             ),

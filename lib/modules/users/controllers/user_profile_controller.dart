@@ -97,7 +97,7 @@ class UserProfileController extends GetxController {
             context: myContext!,
             color: AppColor.green);
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Failed to update profile',
             description: response.response?.responseMessage ?? '-',
             dialogType: DialogType.ERROR);
@@ -107,7 +107,7 @@ class UserProfileController extends GetxController {
 
       ///not showing any dialog because this method will be called on the app start when controller gets initialized
 
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

@@ -7,6 +7,7 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
@@ -179,6 +180,23 @@ class SideBar extends GetView<DashBoardController> {
                 onTap: () {
                   if (session != null) {
                     Get.toNamed(ChangeUserPreferencesPage.id);
+                  } else {
+                    Get.toNamed(LoginPage.id);
+                  }
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
+            ///Chats
+            if (session != null)
+              ListTile(
+                leading: const Icon(Entypo.chat),
+                selected: controller.selectedIndex.value == 9,
+                title:
+                    Text('Chats', style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  if (session != null) {
+                    Get.toNamed(ChatAllHomePage.id);
                   } else {
                     Get.toNamed(LoginPage.id);
                   }

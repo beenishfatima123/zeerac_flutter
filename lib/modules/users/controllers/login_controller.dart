@@ -57,7 +57,7 @@ class LoginController extends GetxController {
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);
@@ -86,7 +86,7 @@ class LoginController extends GetxController {
 
       ///not showing any dialog because this method will be called on the app start when controller gets initialized
 
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

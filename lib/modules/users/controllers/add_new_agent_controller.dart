@@ -86,7 +86,7 @@ class AddNewAgentController extends GetxController {
       if (response.response?.data != null) {
         completion(response.response?.responseMessage ?? '');
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: "Failed to register user",
             dialogType: DialogType.ERROR);
@@ -94,7 +94,7 @@ class AddNewAgentController extends GetxController {
     }).catchError((error) {
       print("error in catch");
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

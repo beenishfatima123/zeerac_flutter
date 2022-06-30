@@ -11,7 +11,7 @@ import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
 
 class CompanyListingPage extends GetView<CompanyListingController>
-    with companyWidgets {
+    with CompanyWidgetsMixin {
   const CompanyListingPage({Key? key}) : super(key: key);
   static const id = '/CompanyListingPage';
 

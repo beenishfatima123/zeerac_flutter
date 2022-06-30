@@ -19,6 +19,8 @@ enum APIType {
   loadTutorials,
   postUserPreference,
   getUserPreferences,
+  updateUserPreferences,
+
   getUserPreferenceListing
 }
 

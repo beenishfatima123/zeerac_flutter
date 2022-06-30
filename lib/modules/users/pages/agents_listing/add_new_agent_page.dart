@@ -290,7 +290,7 @@ class AddNewAgentPage extends GetView<AddNewAgentController>
                               controller.addNewAgentToCompany(
                                   onComplete: (String message) {
                                 Get.back();
-                                AppPopUps.showDialog(
+                                AppPopUps.showDialogContent(
                                     title: 'Success',
                                     description: message,
                                     dialogType: DialogType.SUCCES);

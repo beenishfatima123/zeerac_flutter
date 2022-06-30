@@ -56,14 +56,14 @@ class TrendsController extends GetxController {
       if (trendsModelList.isNotEmpty) {
         onComplete();
       } else {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Alert',
             description: 'No data found..',
             dialogType: DialogType.INFO);
       }
     }).catchError((error) {
       isLoading.value = false;
-      AppPopUps.showDialog(
+      AppPopUps.showDialogContent(
           title: 'Error',
           description: error.toString(),
           dialogType: DialogType.ERROR);

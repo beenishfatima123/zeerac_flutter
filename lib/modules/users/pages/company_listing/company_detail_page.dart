@@ -7,12 +7,16 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
+import 'package:zeerac_flutter/modules/users/models/chat_user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_listing_widgets.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
+import '../../../../utils/user_defaults.dart';
 import '../../models/property_listing_model.dart';
+import '../chat/chat_screen.dart';
+import '../login/login_page.dart';
 
 class CompanyDetailPage extends GetView<CompanyDetailController>
     with PropertyListingWidgets {
@@ -306,7 +310,25 @@ class CompanyDetailPage extends GetView<CompanyDetailController>
                                   hSpace,
                                   Flexible(
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        if (UserDefaults.getUserSession() !=
+                                            null) {
+                                          Get.toNamed(ChatScreen.id,
+                                              arguments: ChatUserModel(
+                                                  otherUserId: companyModel?.id!
+                                                      .toString(),
+                                                  otherUserProfileImage:
+                                                      companyModel?.logo,
+                                                  otherUserContact:
+                                                      companyModel?.phone ??
+                                                          '123',
+                                                  otherUserName:
+                                                      companyModel?.name ??
+                                                          ''));
+                                        } else {
+                                          Get.toNamed(LoginPage.id);
+                                        }
+                                      },
                                       child: Container(
                                         padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(

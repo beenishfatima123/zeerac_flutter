@@ -27,6 +27,7 @@ import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_p
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/google_map_nearby_places_page.dart';
@@ -40,9 +41,12 @@ import 'package:zeerac_flutter/modules/users/pages/tutorials/video_player_scorin
 import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_profile/user_profile_page.dart';
 import '../modules/users/controllers/change_user_preferences_controller.dart';
+import '../modules/users/controllers/chat_home_controller.dart';
+import '../modules/users/controllers/chat_with_user_controller.dart';
 import '../modules/users/controllers/login_controller.dart';
 import '../modules/users/controllers/project_detail_controller.dart';
 import '../modules/users/pages/agents_listing/add_new_agent_page.dart';
+import '../modules/users/pages/chat/chat_screen.dart';
 import '../modules/users/pages/login/login_page.dart';
 import '../modules/users/pages/projects_listing/project_details_page.dart';
 import '../modules/users/pages/property_listing/property_listing_page.dart';
@@ -192,6 +196,22 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<ChangeUserPreferenceController>(
             () => ChangeUserPreferenceController(),
+          );
+        })),
+    GetPage(
+        name: ChatScreen.id,
+        page: () => ChatScreen(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<ChatWithUserController>(
+            () => ChatWithUserController(),
+          );
+        })),
+    GetPage(
+        name: ChatAllHomePage.id,
+        page: () => ChatAllHomePage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<ChatHomeController>(
+            () => ChatHomeController(),
           );
         })),
   ];

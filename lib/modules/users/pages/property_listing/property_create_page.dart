@@ -29,7 +29,7 @@ class PropertyCreatePage extends GetView<PropertyCreateController>
         appBar: myAppBar(goBack: true, title: 'Create Property', actions: [
           InkWell(
             onTap: () {
-              AppPopUps.showDialog(
+              AppPopUps.showDialogContent(
                 description: 'Are you sure to cancel?',
                 onOkPress: () {
                   return Get.back();

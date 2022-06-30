@@ -60,6 +60,7 @@ class UserDefaults {
 
   static saveUserSession(UserModel userModel) async {
     String user = json.encode(userModel.toJson());
+    setCurrentUserId(userModel.id!.toString());
     return await getPref().then((value) => value..setString('userData', user));
     printWrapped("user session saved");
   }
@@ -89,5 +90,13 @@ class UserDefaults {
 
   static setApiToken(String value) async {
     return await sharedPreferences?.setString('ApiToken', "token $value");
+  }
+
+  static setCurrentUserId(String value) {
+    return sharedPreferences?.setString('userId', value);
+  }
+
+  static String? getCurrentUserId() {
+    return sharedPreferences?.getString('userId');
   }
 }

@@ -50,7 +50,7 @@ class TutorialsController extends GetxController {
         filteredItemList.addAll(response.response!.data!);
       } else {
         if (showAlert) {
-          AppPopUps.showDialog(
+          AppPopUps.showDialogContent(
               title: 'Alert',
               description: 'No result found',
               dialogType: DialogType.INFO);
@@ -59,7 +59,7 @@ class TutorialsController extends GetxController {
     }).catchError((error) {
       isLoading.value = false;
       if (showAlert) {
-        AppPopUps.showDialog(
+        AppPopUps.showDialogContent(
             title: 'Error',
             description: error.toString(),
             dialogType: DialogType.ERROR);
