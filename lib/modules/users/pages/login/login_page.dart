@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sign_button/constants.dart';
+import 'package:sign_button/create_button.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
@@ -9,11 +11,11 @@ import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
-
 import '../../../../common/common_widgets.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/styles.dart';
 import '../../controllers/login_controller.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends GetView<LoginController> {
   LoginPage({Key? key}) : super(key: key);
@@ -40,6 +42,7 @@ class LoginPage extends GetView<LoginController> {
       body: GetX<LoginController>(initState: (state) {
         controller.emailController.clear();
         controller.passwordController.clear();
+        // controller.onInit();
       }, builder: (_) {
         return SafeArea(
           child: Stack(
@@ -47,7 +50,7 @@ class LoginPage extends GetView<LoginController> {
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding:const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Form(
                       key: controller.formKey,
@@ -123,13 +126,54 @@ class LoginPage extends GetView<LoginController> {
                               if (controller.formKey.currentState!.validate()) {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 controller.login(
-                                  completion: (UserLoginResponseModel userModel) {
+                                  completion:
+                                      (UserLoginResponseModel userModel) {
                                     Get.offNamed(DashBoardPage.id);
                                   },
                                 );
                               }
                             },
                           ),
+                          vSpace,
+                          vSpace,
+                          vSpace,
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Expanded(
+                                    child: Divider(color: AppColor.blackColor)),
+                                Flexible(
+                                    child: Text(' Or ',
+                                        style: AppTextStyles
+                                            .textStyleBoldBodyMedium)),
+                                const Expanded(
+                                    child: Divider(color: AppColor.blackColor)),
+                              ]),
+                          vSpace,
+                          vSpace,
+                          SignInButton(
+                            buttonType: ButtonType.google,
+                            btnText: 'Sign in with google',
+                            onPressed: () {
+                              controller.googleLogin();
+                            },
+                          ),
+                          vSpace,
+                          SignInButton(
+                            buttonType: ButtonType.facebook,
+                            btnText: 'Sign in with facebook',
+                            onPressed: () {
+                              controller.facebookLogin();
+                            },
+                          ),
+                          vSpace,
+                          vSpace,
+                          vSpace,
+                          vSpace,
+                          vSpace,
+                          vSpace,
+                          vSpace,
                           vSpace,
                           Text(
                             "Don't have an account?",

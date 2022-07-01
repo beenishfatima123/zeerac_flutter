@@ -20,8 +20,8 @@ enum APIType {
   postUserPreference,
   getUserPreferences,
   updateUserPreferences,
-
-  getUserPreferenceListing
+  getUserPreferenceListing,
+  checkUniqueMail,
 }
 
 class ApiConstants {
@@ -50,4 +50,5 @@ class ApiConstants {
   static const loadTutorials = 'users/video-course/';
   static const userPreferences = '/users/preference/';
   static const getUserPreference = '/users/preference/listings/';
+  static const checkUniqueMail = '/users/unique-email/';
 }

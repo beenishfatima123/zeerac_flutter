@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1075891869622-5csdf6n6dvco4pbkm1nv8vukp07infkb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1075891869622-5csdf6n6dvco4pbkm1nv8vukp07infkb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA5vgNydF_j_mwCQsPmya-5_qVTITJPYxo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1075891869622</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.beelogix.zeerac.zeeracFlutter</string>
+	<key>PROJECT_ID</key>
+	<string>zeerac-8328d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>zeerac-8328d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1075891869622:ios:a27ad2e641ed3f73a29317</string>
+</dict>
+</plist>

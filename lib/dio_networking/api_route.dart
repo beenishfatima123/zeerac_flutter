@@ -171,6 +171,13 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.get,
         );
+      case APIType.checkUniqueMail:
+        return RequestOptions(
+          path: ApiConstants.checkUniqueMail,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(
           path: ApiConstants.googleNearByPlacesSearch,

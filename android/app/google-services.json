@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1075891869622",
-    "project_id": "zeerac-8328d",
-    "storage_bucket": "zeerac-8328d.appspot.com"
+    "project_number": "619327053789",
+    "project_id": "chat-app-2577a",
+    "storage_bucket": "chat-app-2577a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1075891869622:android:5563f61e719aa1f3a29317",
+        "mobilesdk_app_id": "1:619327053789:android:c53cf283047bdc005c2034",
         "android_client_info": {
           "package_name": "com.beelogix.zeerac.zeerac_flutter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1075891869622-tcbcfdm0at0d49i3fstmm263ocn3e77b.apps.googleusercontent.com",
+          "client_id": "619327053789-4vjj6ollej4hjj2jeb3a5512ufqkg12v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAi9KIvtoXs-TGEN0xSsSt5NcqppSbuYKE"
+          "current_key": "AIzaSyDRodzvoMlDhoKi3oiMwksarUw-YW7GYAQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1075891869622-tcbcfdm0at0d49i3fstmm263ocn3e77b.apps.googleusercontent.com",
+              "client_id": "619327053789-4vjj6ollej4hjj2jeb3a5512ufqkg12v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

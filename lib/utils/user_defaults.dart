@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
@@ -19,6 +20,7 @@ class UserDefaults {
   }
 
   static Future<bool?> clearAll() async {
+    FirebaseAuth.instance.signOut();
     return await sharedPreferences?.clear();
   }
 

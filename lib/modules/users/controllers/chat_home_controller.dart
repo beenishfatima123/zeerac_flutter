@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import '../../../my_application.dart';
 import '../../../utils/app_pop_ups.dart';
+import '../../../utils/firebase_paths.dart';
 import '../../../utils/helpers.dart';
 
 class ChatHomeController extends GetxController {
@@ -36,6 +37,19 @@ class ChatHomeController extends GetxController {
       onComplete(true);
     } else {
       onComplete(false);
+    }
+  }
+
+  void loadTest() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('messages')
+        .doc('BJhkOUBINhUj19v5zUIfuCETrGP23BLaQncsWwZTkafcvAGnYLJinMw2')
+        .collection('chat')
+        .get();
+
+    for (var element in snapshot.docs) {
+      printWrapped(element.data().toString());
     }
   }
 }

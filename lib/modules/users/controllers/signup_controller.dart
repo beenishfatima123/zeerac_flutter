@@ -14,6 +14,7 @@ import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../dio_networking/api_client.dart';
+import '../../../utils/firebase_auth_service.dart';
 import '../models/user_login_response_model.dart';
 
 class SignupController extends GetxController {
@@ -112,7 +113,7 @@ class SignupController extends GetxController {
             ),
             create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _registerUser)
-        .then((response) {
+        .then((response) async {
       if (!isSignUpAsAgency.value) {
         isLoading.value = false;
       }
@@ -120,6 +121,10 @@ class SignupController extends GetxController {
           "registering user response ${response.response?.data.toString()}");
 
       if (response.response?.data != null) {
+        ///creating user in firebase database....
+        await FirebaseAuthService().handleSignUp(emailController.text,
+            passwordController.text, usernameController.text);
+
         completion(response.response?.data!);
       } else {
         AppPopUps.showDialogContent(
