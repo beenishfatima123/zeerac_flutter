@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttericon/fontelico_icons.dart';
@@ -191,7 +192,7 @@ class SideBar extends GetView<DashBoardController> {
             if (session != null)
               ListTile(
                 leading: const Icon(Entypo.chat),
-                selected: controller.selectedIndex.value == 9,
+                selected: false,
                 title:
                     Text('Chats', style: AppTextStyles.textStyleBoldBodyMedium),
                 onTap: () {
@@ -200,6 +201,19 @@ class SideBar extends GetView<DashBoardController> {
                   } else {
                     Get.toNamed(LoginPage.id);
                   }
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
+            ///testNotification
+            if (session != null && FirebaseAuth.instance.currentUser != null)
+              ListTile(
+                leading: const Icon(Icons.notification_important_outlined),
+                selected: false,
+                title: Text('Test Notification',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () async {
+                  controller.sendTestNotificationToSelf();
                   controller.scaffoldKey.currentState?.closeDrawer();
                 },
               ),

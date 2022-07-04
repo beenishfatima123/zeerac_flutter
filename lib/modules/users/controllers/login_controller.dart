@@ -1,5 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -8,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/dio_networking/api_response.dart';
 import 'package:zeerac_flutter/dio_networking/api_route.dart';
+import 'package:zeerac_flutter/modules/users/models/firebase_user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
@@ -64,7 +67,7 @@ class LoginController extends GetxController {
             onComplete: (UserModel user) {
               UserDefaults.saveUserSession(user);
               isLoading.value = false;
-              completion(response.response?.data);
+              completion(userLoginResponseModel);
             });
       }
     }).catchError((error) {
@@ -121,7 +124,6 @@ class LoginController extends GetxController {
             create: () => APIResponse(decoding: false),
             apiFunction: _checkIfEmailAlreadyExists)
         .then((response) {
-      isLoading.value = false;
       if (response.response?.responseMessage == 'Email Already Exists') {
         onComplete(true);
       } else {
@@ -188,9 +190,11 @@ class LoginController extends GetxController {
         // Create a credential from the access token
         final OAuthCredential facebookAuthCredential =
             FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithCredential(facebookAuthCredential);
         printWrapped('............Facebook logged in................');
+
         authenticationWithCredentials(userCredential);
       }
     } catch (error) {
@@ -225,7 +229,6 @@ class LoginController extends GetxController {
             create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _socialSignUp)
         .then((response) {
-      isLoading.value = false;
       if (response.response?.data != null) {
         onComplete(response.response!.data!);
       } else {
@@ -256,36 +259,45 @@ class LoginController extends GetxController {
 
     ///checking if already exists
     _checkIfEmailAlreadyExists(
-        email: userCredential.user!.email!,
+        email: emailController.text,
         onComplete: (bool result) async {
           if (result) {
-            /// if account already exists then do login
-            login(
-              completion: (UserLoginResponseModel userModel) {
-                Get.offNamed(DashBoardPage.id);
-              },
-            );
-          } else {
-            ///signup then login..
-            /// creating firebase user
-            await FirebaseAuthService().createFirebaseUserInFireStore({
-              'createdAt': DateTime.now().toString(),
-              'emailForFirebase': emailController.text,
-              'isOnline': true,
-              'uid': userCredential.user?.uid,
-              'username': userCredential.user?.displayName ?? '--'
-            });
+            String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
+            ///temporary todo
+            await FirebaseAuthService.createFireStoreUserEntry(
+                userModel: FirebaseUserModel(
+                    uid: userId,
+                    deviceToken:
+                        await FirebaseMessaging.instance.getToken() ?? '',
+                    isOnline: true,
+                    password: passwordController.text.trim(),
+                    emailForFirebase: emailController.text.trim(),
+                    username: userCredential.user?.displayName ?? ''));
+
+            login(completion: (UserLoginResponseModel? userLoginResponseModel) {
+              Get.offAndToNamed(DashBoardPage.id);
+            });
+          } else {
             ///signup in rest api database
             _socialSignUp(
                 email: emailController.text,
                 password: passwordController.text,
                 name: userCredential.user?.displayName ?? '--',
                 provider: userCredential.credential?.providerId ?? 'google.com',
-                onComplete: (UserModel userModel) {
-                  ///login user....
-                  login(completion: (UserLoginResponseModel userModel) {
-                    Get.offNamed(DashBoardPage.id);
+                onComplete: (UserModel userModel) async {
+                  ///creating user entry in firebase....
+                  await FirebaseAuthService.createFireStoreUserEntry(
+                      userModel: FirebaseUserModel(
+                          uid: passwordController.text,
+                          emailForFirebase: emailController.text,
+                          password: passwordController.text,
+                          username: userCredential.user?.displayName ?? '--'));
+
+                  ///do login
+                  login(completion:
+                      (UserLoginResponseModel? userLoginResponseModel) {
+                    Get.offAndToNamed(DashBoardPage.id);
                   });
                 });
           }

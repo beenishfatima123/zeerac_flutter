@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 
+import 'dio_networking/Push_notifications_manager.dart';
 import 'my_application.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -21,6 +22,6 @@ void main() async {
   await Firebase.initializeApp();
   HttpOverrides.global = MyHttpOverrides();
   await UserDefaults.getPref();
-//  await PushNotificationsManager().init();
+  await PushNotificationsManager().init();
   runApp(const MyApplication());
 }

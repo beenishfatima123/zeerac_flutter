@@ -1,49 +1,64 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
+import 'package:zeerac_flutter/my_application.dart';
+import 'package:zeerac_flutter/utils/app_pop_ups.dart';
+import 'package:zeerac_flutter/utils/firebase_paths.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
+
+import '../modules/users/models/firebase_user_model.dart';
 
 class FirebaseAuthService {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<User> handleSignInEmail(String email, String password) async {
-    UserCredential result =
-        await auth.signInWithEmailAndPassword(email: email, password: password);
-    final User user = result.user!;
-
-    return user;
+  static Future<bool> signInWithEmailAndPassword(
+      String email, String password) async {
+    await auth.signOut();
+    try {
+      UserCredential user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return Future.value(user.user != null);
+    } catch (e) {
+      AppPopUps.showSnackBar(message: e.toString(), context: myContext!);
+      return Future.value(false);
+    }
   }
 
-  Future<User> handleSignUp(
-      String email, String password, String userName) async {
-    UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    final User user = result.user!;
-    await createFirebaseUserInFireStore({
-      'createdAt': DateTime.now().toString(),
-      'emailForFirebase': email,
-      'isOnline': true,
-      'uid': user.uid,
-      'username': userName
-    });
-
-    return user;
+  static Future<bool> createAuthUserFirebase(
+      {required FirebaseUserModel userModel}) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: userModel.emailForFirebase!, password: userModel.password!);
+      return Future.value(userCredential.user == null);
+    } catch (e) {
+      AppPopUps.showSnackBar(message: e.toString(), context: myContext!);
+      return Future.value(false);
+    }
   }
 
-  Future<void> createFirebaseUserInFireStore(
-      Map<String, dynamic> userMap) async {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userMap['uid'])
-        .set(userMap);
+  static Future<void> createFireStoreUserEntry(
+      {required FirebaseUserModel userModel}) async {
+    try {
+      return await FirebaseFirestore.instance
+          .collection(FirebasePathNodes.users)
+          .doc(userModel.uid)
+          .set(userModel.toMap(), SetOptions(merge: true));
+    } catch (e) {
+      AppPopUps.showSnackBar(message: e.toString(), context: myContext!);
+      return Future.value();
+    }
   }
 
-  Future<Map<String, dynamic>?> getFirebaseUserMapFireStore(String id) async {
-    DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection('users').doc(id).get();
-    if (snapshot.exists) {
-      return snapshot.data() as Map<String, dynamic>;
-    } else {
-      return null;
+  static Future<bool> checkIfUserExistsInDb({required String userId}) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection(FirebasePathNodes.users)
+          .doc(userId)
+          .get();
+      return Future.value(snapshot.exists);
+    } catch (e) {
+      AppPopUps.showSnackBar(message: e.toString(), context: myContext!);
+      return Future.value(false);
     }
   }
 }

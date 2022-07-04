@@ -26,7 +26,6 @@ class ChatAllHomePage extends GetView<ChatHomeController> {
       //temp
       controller.haveChat.value;
 
-      controller.loadTest();
       return Scaffold(
         appBar: myAppBar(goBack: true, title: "Your Chats", actions: [
           MyAnimSearchBar(

@@ -8,6 +8,7 @@ import 'package:zeerac_flutter/modules/users/controllers/blog_detail_controller.
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/blog_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_widgets.dart';
+import 'package:zeerac_flutter/utils/app_utils.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/styles.dart';
@@ -52,7 +53,7 @@ class BlogDetailPage extends GetView<BlogDetailController> with BlogsWidgets {
                                         .copyWith(color: AppColor.whiteColor),
                                   ),
                                   Text(
-                                    formatDateTime(DateTime.parse(
+                                    formatDateTime(DateTime.tryParse(
                                             controller.blogModel?.createdAt ??
                                                 '-'))
                                         .toString(),
@@ -127,13 +128,20 @@ class BlogDetailPage extends GetView<BlogDetailController> with BlogsWidgets {
                             vSpace,
                             Text("Reference",
                                 style: AppTextStyles.textStyleBoldBodyMedium),
-                            Text(blogModel?.references ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyles.textStyleBoldBodyMedium
-                                    .copyWith(
-                                        color: AppColor.primaryBlueColor,
-                                        decoration: TextDecoration.underline)),
+                            InkWell(
+                              onTap: () {
+                                AppUtils.launchUriUrl(
+                                    blogModel?.references ?? 'google.com');
+                              },
+                              child: Text(blogModel?.references ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.textStyleBoldBodyMedium
+                                      .copyWith(
+                                          color: AppColor.primaryBlueColor,
+                                          decoration:
+                                              TextDecoration.underline)),
+                            ),
                           ],
                         ),
                       ),

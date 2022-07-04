@@ -304,7 +304,7 @@ class ChatScreen extends GetView<ChatWithUserController> {
           otherUserPhone: otherUserModel?.otherUserContact ?? '',
           otherUserName: otherUserModel?.otherUserName ?? '',
           otherUserImage: otherUserModel?.otherUserProfileImage ?? '',
-          mode: ChatModel(
+          model: ChatModel(
               message: controller.chatSendTextController.text,
               fromId: currentUserId ?? "",
               toId: otherUserModel?.otherUserId ?? '',

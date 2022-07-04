@@ -11,57 +11,60 @@ import '../../../../common/spaces_boxes.dart';
 
 mixin BlogsWidgets {
   Widget getBlogWidget(BlogModel blogModel) {
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        NetworkPlainImage(
-          url: "${ApiConstants.baseUrl}${blogModel.blogPhoto}",
-          height: 250.h,
-          fit: BoxFit.fill,
-        ),
-        Container(
-          padding: const EdgeInsets.all(4),
-          color: AppColor.blackColor.withOpacity(0.5),
-          height: 120.h,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              hSpace,
-              NetworkCircularImage(
-                url: "${ApiConstants.baseUrl}${blogModel.authorPhoto}",
-                radius: 150.r,
-              ),
-              hSpace,
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(blogModel.authorName ?? '-',
-                        style: AppTextStyles.textStyleNormalBodyMedium
-                            .copyWith(color: AppColor.whiteColor)),
-                    Text(
-                        formatDateTime(
-                                DateTime.tryParse(blogModel.createdAt ?? '-'))
-                            .toString(),
-                        style: AppTextStyles.textStyleNormalBodyXSmall
-                            .copyWith(color: AppColor.whiteColor)),
-                    Flexible(
-                        child: Text(
-                      blogModel.title ?? '-',
-                      style: AppTextStyles.textStyleNormalBodyXSmall
-                          .copyWith(color: AppColor.whiteColor),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                  ],
-                ),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        alignment: Alignment.bottomLeft,
+        children: [
+          NetworkPlainImage(
+            url: "${ApiConstants.baseUrl}${blogModel.blogPhoto}",
+            height: 250.h,
+            fit: BoxFit.fill,
           ),
-        )
-      ],
+          Container(
+            padding: const EdgeInsets.all(4),
+            color: AppColor.blackColor.withOpacity(0.5),
+            height: 120.h,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                hSpace,
+                NetworkCircularImage(
+                  url: "${ApiConstants.baseUrl}${blogModel.authorPhoto}",
+                  radius: 150.r,
+                ),
+                hSpace,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(blogModel.authorName ?? '-',
+                          style: AppTextStyles.textStyleNormalBodyMedium
+                              .copyWith(color: AppColor.whiteColor)),
+                      Text(
+                          formatDateTime(
+                                  DateTime.tryParse(blogModel.createdAt ?? '-'))
+                              .toString(),
+                          style: AppTextStyles.textStyleNormalBodyXSmall
+                              .copyWith(color: AppColor.whiteColor)),
+                      Flexible(
+                          child: Text(
+                        blogModel.title ?? '-',
+                        style: AppTextStyles.textStyleNormalBodyXSmall
+                            .copyWith(color: AppColor.whiteColor),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

@@ -111,14 +111,15 @@ class AppUtils {
   static Future<void> dialNumber(
       {required String phoneNumber, required BuildContext context}) async {
     final url = "tel:$phoneNumber";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      AppPopUps.showSnackBar(
-          message: "Unable to call $phoneNumber", context: context);
-    }
+    launchUriUrl(url);
+  }
 
-    return;
+  static launchUriUrl(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      AppPopUps.showSnackBar(message: "Unable to launch", context: myContext!);
+    }
   }
 
   static void pickWebImage({required onCompleteWebUnit8List}) async {

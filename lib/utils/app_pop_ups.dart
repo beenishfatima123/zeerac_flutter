@@ -5,8 +5,48 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:flutter/material.dart';
 
+import '../common/styles.dart';
+
 class AppPopUps {
- static bool isDialogShowing = true;
+  static bool isDialogShowing = true;
+  static Future<bool> showConfirmDialog({
+    onSubmit,
+    required String title,
+    required String message,
+  }) async {
+    return await showDialog(
+        context: myContext!,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: AppTextStyles.textStyleBoldBodyMedium,
+            ),
+            content: Text(
+              message,
+              style: AppTextStyles.textStyleNormalBodyMedium,
+            ),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+              FlatButton(
+                color: Colors.green,
+                textColor: Colors.white,
+                child: const Text('Confirm'),
+                onPressed: () {
+                  onSubmit();
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   static void showSnackBar(
       {required String message,
@@ -52,7 +92,7 @@ class AppPopUps {
     }
   }
 
- static showProgressDialog({BuildContext? context, bool? barrierDismissal}) {
+  static showProgressDialog({BuildContext? context, bool? barrierDismissal}) {
     isDialogShowing = true;
     showDialog(
         useRootNavigator: false,

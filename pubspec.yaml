@@ -83,10 +83,13 @@ dependencies:
   flutter_chat_bubble:
   file_picker:
   sign_button: ^2.0.2
+  simple_rich_text:
 #authetications
   google_sign_in: ^5.3.3  #remains setup for ios
   flutter_facebook_auth: '^3.5.0'
   firebase_auth: ^3.3.20
+  flutter_local_notifications:
+  firebase_messaging:
 
 
 dev_dependencies:

@@ -11,7 +11,7 @@ import '../../../utils/app_pop_ups.dart';
 import '../../../utils/helpers.dart';
 import '../../../utils/user_defaults.dart';
 import '../models/chat_model.dart';
-import '../models/fire_base_user_model.dart';
+import '../models/last_firebase_message_model.dart';
 
 class ChatWithUserController extends GetxController {
   List<ChatModel> listOfChat = [];
@@ -40,62 +40,62 @@ class ChatWithUserController extends GetxController {
   }
 
   void sendMessage(
-      {required ChatModel mode,
+      {required ChatModel model,
       required String otherUserName,
       required String otherUserPhone,
       required String otherUserImage}) async {
-    FirebaseUser otherFirebaseUser = FirebaseUser(
+    LastFirebaseMessageModel otherFirebaseUser = LastFirebaseMessageModel(
         mobile: otherUserPhone,
         name: otherUserName,
         image: otherUserImage,
-        time: mode.timeStamp,
-        id: mode.toId,
-        lastMessage: mode.message);
+        time: model.timeStamp,
+        id: model.toId,
+        lastMessage: model.message);
 
     ///current user information
-    FirebaseUser? currentFireBaseUser = FirebaseUser(
+    LastFirebaseMessageModel? currentFireBaseUser = LastFirebaseMessageModel(
         mobile: currentUser?.phoneNumber ?? '',
         name: currentUser?.firstName ?? '',
         image: currentUser?.photo ?? '',
-        time: mode.timeStamp,
-        id: mode.fromId,
-        lastMessage: mode.message);
+        time: model.timeStamp,
+        id: model.fromId,
+        lastMessage: model.message);
 
-    if (mode.message.startsWith('http')) {
+    if (model.message.startsWith('http')) {
       currentFireBaseUser.lastMessage = 'file';
       otherFirebaseUser.lastMessage = 'file';
     }
 
     FirebaseFirestore.instance
         .collection('Messages')
-        .doc(mode.fromId)
-        .set({mode.toId: otherFirebaseUser.toMap()}, SetOptions(merge: true));
+        .doc(model.fromId)
+        .set({model.toId: otherFirebaseUser.toMap()}, SetOptions(merge: true));
 
-    FirebaseFirestore.instance.collection('Messages').doc(mode.toId).set(
-        {mode.fromId: currentFireBaseUser.toMap()}, SetOptions(merge: true));
+    FirebaseFirestore.instance.collection('Messages').doc(model.toId).set(
+        {model.fromId: currentFireBaseUser.toMap()}, SetOptions(merge: true));
 
     ////transactionss
     var fromUserMessage = FirebaseFirestore.instance
         .collection('Messages')
-        .doc(mode.fromId)
-        .collection(mode.toId)
+        .doc(model.fromId)
+        .collection(model.toId)
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
     var toUserMessage = FirebaseFirestore.instance
         .collection('Messages')
-        .doc(mode.toId)
-        .collection(mode.fromId)
+        .doc(model.toId)
+        .collection(model.fromId)
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(
         fromUserMessage,
-        mode.toMap(),
+        model.toMap(),
       );
 
       transaction.set(
         toUserMessage,
-        mode.toMap(),
+        model.toMap(),
       );
     });
     listScrollController?.animateTo(0.0,
@@ -137,7 +137,7 @@ class ChatWithUserController extends GetxController {
           otherUserPhone: otherUserMobile,
           otherUserName: otherUserName,
           otherUserImage: otherUserImage,
-          mode: ChatModel(
+          model: ChatModel(
               message: url,
               fromId: fromUserId,
               toId: toId,

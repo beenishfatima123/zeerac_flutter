@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/dio_networking/api_response.dart';
 import 'package:zeerac_flutter/dio_networking/api_route.dart';
@@ -15,6 +17,7 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../dio_networking/api_client.dart';
 import '../../../utils/firebase_auth_service.dart';
+import '../models/firebase_user_model.dart';
 import '../models/user_login_response_model.dart';
 
 class SignupController extends GetxController {
@@ -122,10 +125,29 @@ class SignupController extends GetxController {
 
       if (response.response?.data != null) {
         ///creating user in firebase database....
-        await FirebaseAuthService().handleSignUp(emailController.text,
-            passwordController.text, usernameController.text);
+        var userModel = FirebaseUserModel(
+            emailForFirebase: emailController.text,
+            password: passwordController.text,
+            username: usernameController.text,
+            isOnline: true,
+            deviceToken: '');
+        bool result = await FirebaseAuthService.createAuthUserFirebase(
+            userModel: userModel);
 
-        completion(response.response?.data!);
+        if (result) {
+          bool loginResult =
+              await FirebaseAuthService.signInWithEmailAndPassword(
+                  emailController.text, passwordController.text);
+          if (loginResult) {
+            await FirebaseAuthService.createFireStoreUserEntry(
+                userModel: userModel.copyWith(uid: const Uuid().v4()));
+            completion(response.response?.data!);
+          } else {
+            throw ('unable to create user');
+          }
+        } else {
+          throw ('unable to create user');
+        }
       } else {
         AppPopUps.showDialogContent(
             title: 'Error',

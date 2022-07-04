@@ -69,6 +69,7 @@ class BlogListingPage extends GetView<BlogListingController> with BlogsWidgets {
                                 onNotification: controller.onScrollNotification,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   itemCount: controller.filteredItemList.length,
                                   itemBuilder: (context, index) {
                                     return InkWell(

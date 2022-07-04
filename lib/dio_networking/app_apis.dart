@@ -25,6 +25,9 @@ enum APIType {
 }
 
 class ApiConstants {
+  static const pushServerKey =
+      'AAAAkDLE390:APA91bHJH74hzogmPBkCTvksOCHEsJ1eUgBjYoylfr4Oi4F_C79KBQUdJyfRjyc6VP63fdjFO6P9Fyma-evm_Wx9JWyHDf2eZczP2ViQKJRz-e-JKNNhcfuEt98f5S5yKWkIAInlNdLU';
+
   static var imageNetworkPlaceHolder =
       'https://rsjlawang.com/assets/images/lightbox/image-3.jpg';
   static const googleApiKey = 'AIzaSyC0-5OqwY75sPwoncSujsbkJD6wDU7BvOw';
@@ -46,7 +49,7 @@ class ApiConstants {
   static const users = 'users/user/';
   static const createProperty = '/users/property/';
   static const uploadImages = '/users/images/';
-  static const searchForTrends = 'users/property/trends/';
+  static const searchForTrends = 'users/property-trends/';
   static const loadTutorials = 'users/video-course/';
   static const userPreferences = '/users/preference/';
   static const getUserPreference = '/users/preference/listings/';

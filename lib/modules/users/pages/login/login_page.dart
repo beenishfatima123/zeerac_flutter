@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,10 +7,14 @@ import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
+import 'package:zeerac_flutter/modules/users/models/firebase_user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/sign_up/sign_up_page.dart';
+import 'package:zeerac_flutter/my_application.dart';
+import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
+import 'package:zeerac_flutter/utils/firebase_auth_service.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/common_widgets.dart';
@@ -122,15 +128,49 @@ class LoginPage extends GetView<LoginController> {
                             padding: 16 /*context.height * 0.04*/,
                             textColor: AppColor.whiteColor,
                             color: AppColor.primaryBlueDarkColor,
-                            onTap: () {
+                            onTap: () async {
                               if (controller.formKey.currentState!.validate()) {
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                controller.login(
-                                  completion:
-                                      (UserLoginResponseModel userModel) {
-                                    Get.offNamed(DashBoardPage.id);
-                                  },
-                                );
+
+                                bool result = await FirebaseAuthService
+                                    .signInWithEmailAndPassword(
+                                        controller.emailController.text.trim(),
+                                        controller.passwordController.text
+                                            .trim());
+
+                                if (result) {
+                                  String userId =
+                                      FirebaseAuth.instance.currentUser?.uid ??
+                                          '';
+
+                                  ///todo temporary
+                                  await FirebaseAuthService
+                                      .createFireStoreUserEntry(
+                                          userModel:
+                                              FirebaseUserModel(
+                                                  uid: userId,
+                                                  deviceToken:
+                                                      await FirebaseMessaging
+                                                              .instance
+                                                              .getToken() ??
+                                                          '',
+                                                  isOnline: true,
+                                                  password:
+                                                      controller
+                                                          .passwordController
+                                                          .text
+                                                          .trim(),
+                                                  emailForFirebase: controller
+                                                      .emailController.text
+                                                      .trim(),
+                                                  username: 'user_name'));
+
+                                  controller.login(completion:
+                                      (UserLoginResponseModel?
+                                          userLoginResponseModel) {
+                                    Get.offAndToNamed(DashBoardPage.id);
+                                  });
+                                }
                               }
                             },
                           ),

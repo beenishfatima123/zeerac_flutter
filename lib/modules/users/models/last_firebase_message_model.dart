@@ -1,4 +1,4 @@
-class FirebaseUser {
+class LastFirebaseMessageModel {
   String name;
   String image;
   String id;
@@ -8,7 +8,7 @@ class FirebaseUser {
 
 //<editor-fold desc="Data Methods">
 
-  FirebaseUser({
+  LastFirebaseMessageModel({
     required this.name,
     required this.image,
     required this.id,
@@ -20,7 +20,7 @@ class FirebaseUser {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is FirebaseUser &&
+      (other is LastFirebaseMessageModel &&
           runtimeType == other.runtimeType &&
           name == other.name &&
           image == other.image &&
@@ -50,7 +50,7 @@ class FirebaseUser {
         '}';
   }
 
-  FirebaseUser copyWith({
+  LastFirebaseMessageModel copyWith({
     String? name,
     String? image,
     String? id,
@@ -58,7 +58,7 @@ class FirebaseUser {
     String? time,
     String? mobile,
   }) {
-    return FirebaseUser(
+    return LastFirebaseMessageModel(
       name: name ?? this.name,
       image: image ?? this.image,
       id: id ?? this.id,
@@ -79,8 +79,8 @@ class FirebaseUser {
     };
   }
 
-  factory FirebaseUser.fromMap(Map<String, dynamic> map) {
-    return FirebaseUser(
+  factory LastFirebaseMessageModel.fromMap(Map<String, dynamic> map) {
+    return LastFirebaseMessageModel(
       name: map['name'] as String,
       image: map['image'] as String,
       id: map['id'] as String,
