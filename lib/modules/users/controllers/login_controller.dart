@@ -37,13 +37,25 @@ class LoginController extends GetxController {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String emailForSocial = '';
+  String passwordForSocial = '';
 
-  login({required completion}) async {
+  login(
+      {required completion,
+      required String email,
+      String provider = '',
+      required String password}) async {
     isLoading.value = true;
-    Map<String, dynamic> body = {
-      "email": emailController.text,
-      "password": passwordController.text,
-    };
+
+    Map<String, dynamic> body;
+    if (provider.isEmpty) {
+      body = {
+        "email": email,
+        "password": password,
+      };
+    } else {
+      body = {"email": email, "u_uid": password, "provider": provider};
+    }
 
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
     client
@@ -132,22 +144,23 @@ class LoginController extends GetxController {
     }).catchError((error) {
       isLoading.value = false;
       printWrapped(error.toString());
-      if (error.toString() == 'Email Already Exists') {
+
+      if ((error.toString() == 'Email Already Exists') ||
+          error.toString() == 'More than one account found') {
         onComplete(true);
-      } else {
+      } else if (error.toString() == 'No such Email Exists') {
         onComplete(false);
       }
     });
   }
 
-  signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
   Future<void> googleLogin() async {
     isLoading.value = true;
     try {
-      signOut();
+      emailForSocial = '';
+      passwordForSocial = '';
+      await UserDefaults.clearAll();
+
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
@@ -171,8 +184,6 @@ class LoginController extends GetxController {
     } catch (error) {
       printWrapped("...........Error............");
       printWrapped(error.toString());
-    } finally {
-      isLoading.value = false;
     }
   }
 
@@ -180,7 +191,9 @@ class LoginController extends GetxController {
     // Trigger the sign-in flow
     isLoading.value = true;
     try {
-      signOut();
+      emailForSocial = '';
+      passwordForSocial = '';
+      await UserDefaults.clearAll();
       final LoginResult loginResult =
           await FacebookAuth.instance.login().catchError((onError) {
         printWrapped('............Facebook login error...........');
@@ -248,10 +261,11 @@ class LoginController extends GetxController {
     printWrapped(userCredential.user?.displayName ?? '--');
     printWrapped(userCredential.user?.uid ?? '--');
     printWrapped(userCredential.user?.email ?? '--');
-    emailController.text = userCredential.user?.email ?? '';
-    passwordController.text = userCredential.user?.uid ?? '';
+    emailForSocial = (userCredential.user?.email ?? '').trim();
+    passwordForSocial = (userCredential.user?.uid ?? '').trim();
 
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    if (emailForSocial.isEmpty || passwordForSocial.isEmpty) {
+      isLoading.value = false;
       AppPopUps.showSnackBar(
           message: 'User creation failed', context: myContext!);
       return;
@@ -259,46 +273,54 @@ class LoginController extends GetxController {
 
     ///checking if already exists
     _checkIfEmailAlreadyExists(
-        email: emailController.text,
+        email: emailForSocial,
         onComplete: (bool result) async {
           if (result) {
-            String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-
             ///temporary todo
             await FirebaseAuthService.createFireStoreUserEntry(
                 userModel: FirebaseUserModel(
-                    uid: userId,
+                    uid: passwordForSocial,
                     deviceToken:
                         await FirebaseMessaging.instance.getToken() ?? '',
                     isOnline: true,
-                    password: passwordController.text.trim(),
-                    emailForFirebase: emailController.text.trim(),
+                    password: passwordForSocial,
+                    emailForFirebase: emailForSocial,
                     username: userCredential.user?.displayName ?? ''));
 
-            login(completion: (UserLoginResponseModel? userLoginResponseModel) {
-              Get.offAndToNamed(DashBoardPage.id);
-            });
+            login(
+                email: emailForSocial,
+                password: passwordForSocial,
+                provider: userCredential.credential?.providerId ?? 'google.com',
+                completion: (UserLoginResponseModel? userLoginResponseModel) {
+                  Get.offAndToNamed(DashBoardPage.id);
+                });
           } else {
             ///signup in rest api database
             _socialSignUp(
-                email: emailController.text,
-                password: passwordController.text,
+                email: emailForSocial,
+                password: passwordForSocial,
                 name: userCredential.user?.displayName ?? '--',
                 provider: userCredential.credential?.providerId ?? 'google.com',
                 onComplete: (UserModel userModel) async {
                   ///creating user entry in firebase....
                   await FirebaseAuthService.createFireStoreUserEntry(
                       userModel: FirebaseUserModel(
-                          uid: passwordController.text,
-                          emailForFirebase: emailController.text,
-                          password: passwordController.text,
+                          uid: passwordForSocial,
+                          emailForFirebase: emailForSocial,
+                          password: passwordForSocial,
                           username: userCredential.user?.displayName ?? '--'));
 
                   ///do login
-                  login(completion:
-                      (UserLoginResponseModel? userLoginResponseModel) {
-                    Get.offAndToNamed(DashBoardPage.id);
-                  });
+                  login(
+                    email: emailForSocial,
+                    password: passwordForSocial,
+                    provider:
+                        userCredential.credential?.providerId ?? 'google.com',
+                    completion:
+                        (UserLoginResponseModel? userLoginResponseModel) {
+                      Get.offAndToNamed(DashBoardPage.id);
+                    },
+                  );
                 });
           }
         });

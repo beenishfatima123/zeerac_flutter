@@ -142,6 +142,7 @@ class LoginPage extends GetView<LoginController> {
                                   String userId =
                                       FirebaseAuth.instance.currentUser?.uid ??
                                           '';
+                                  printWrapped("firebase logged in  $userId");
 
                                   ///todo temporary
                                   await FirebaseAuthService
@@ -165,11 +166,16 @@ class LoginPage extends GetView<LoginController> {
                                                       .trim(),
                                                   username: 'user_name'));
 
-                                  controller.login(completion:
-                                      (UserLoginResponseModel?
-                                          userLoginResponseModel) {
-                                    Get.offAndToNamed(DashBoardPage.id);
-                                  });
+                                  controller.login(
+                                    email:
+                                        controller.emailController.text.trim(),
+                                    password: controller.passwordController.text
+                                        .trim(),
+                                    completion: (UserLoginResponseModel?
+                                        userLoginResponseModel) {
+                                      Get.offAndToNamed(DashBoardPage.id);
+                                    },
+                                  );
                                 }
                               }
                             },

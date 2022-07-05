@@ -20,9 +20,7 @@ class ErrorMapper {
   static String dioError(DioError error) {
     switch (error.type) {
       case DioErrorType.sendTimeout:
-        break;
       case DioErrorType.connectTimeout:
-        break;
       case DioErrorType.receiveTimeout:
         return "Connect with internet";
 

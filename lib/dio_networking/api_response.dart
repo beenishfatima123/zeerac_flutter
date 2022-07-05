@@ -96,6 +96,6 @@ class ErrorResponse implements Exception {
 
   @override
   String toString() {
-    return message!;
+    return message ?? '';
   }
 }

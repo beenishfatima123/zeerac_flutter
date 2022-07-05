@@ -57,7 +57,7 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding:const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Form(
                       key: controller.formKeyUserInfo,
@@ -151,7 +151,8 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                           vSpace,
                           Obx(
                             () => MyTextField(
-                                controller: controller.confirmPasswordController,
+                                controller:
+                                    controller.confirmPasswordController,
                                 contentPadding: 20,
                                 suffixIconWidet: GestureDetector(
                                     onTap: () {
@@ -187,7 +188,8 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                                 children: [
                                   Text(
                                     'Address Information',
-                                    style: AppTextStyles.textStyleBoldBodyMedium,
+                                    style:
+                                        AppTextStyles.textStyleBoldBodyMedium,
                                   ),
                                   vSpace,
                                   DropdownSearch<Predictions>(
@@ -204,15 +206,17 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                                         isFilterOnline: true,
                                         searchFieldProps: TextFieldProps(
                                             decoration: const InputDecoration(
-                                                labelText: 'search for the city'),
-                                            controller: TextEditingController())),
+                                                labelText:
+                                                    'search for the city'),
+                                            controller:
+                                                TextEditingController())),
                                     asyncItems: (String filter) async {
                                       var response = await Dio().get(
                                         "https://maps.googleapis.com/maps/api/place/autocomplete/json?sensor=false&types=(cities)&key=${ApiConstants.googleApiKey}&components=country:pk",
                                         queryParameters: {"input": filter},
                                       );
-                                      var models =
-                                          CitySuggestions.fromJson(response.data);
+                                      var models = CitySuggestions.fromJson(
+                                          response.data);
                                       return Future.value(models.predictions);
                                     },
                                     onChanged: (Predictions? data) {
@@ -249,8 +253,8 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                                               " ${controller.addressCityController.text},$filter}"
                                         },
                                       );
-                                      var models =
-                                          CitySuggestions.fromJson(response.data);
+                                      var models = CitySuggestions.fromJson(
+                                          response.data);
                                       return Future.value(models.predictions);
                                     },
                                     onChanged: (List<Predictions?>? data) {
@@ -258,10 +262,11 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                                           "*******on changed called*****");
                                       data?.forEach(
                                         (element) {
-                                          String s =
-                                              controller.areasTextController.text;
+                                          String s = controller
+                                              .areasTextController.text;
                                           s = "$s,${element?.description ?? 'null'}";
-                                          controller.areasTextController.text = s;
+                                          controller.areasTextController.text =
+                                              s;
                                         },
                                       );
                                       printWrapped(
@@ -305,6 +310,9 @@ class SignupPage extends GetView<SignupController> with SignupWidgetsMixin {
                                   mainCompletion: (String message) {
                                 AppPopUps.showDialogContent(
                                     title: 'Success',
+                                    onOkPress: () {
+                                      Get.back();
+                                    },
                                     description: message,
                                     dialogType: DialogType.SUCCES);
                               });

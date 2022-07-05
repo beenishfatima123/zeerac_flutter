@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:zeerac_flutter/dio_networking/log_interceptor.dart';
 import '../utils/user_defaults.dart';
 import '../utils/helpers.dart';
 import 'app_apis.dart';
@@ -24,14 +25,14 @@ class APIClient implements BaseAPIClient {
   bool isDialoigOpen;
 
   APIClient(
-      {this.isCache = true,
+      {this.isCache = false,
       this.baseUrl = ApiConstants.baseUrl,
       this.isDialoigOpen = true,
       this.contentType = 'application/json'}) {
     instance = Dio();
 
     if (instance != null) {
-      instance!.interceptors.add(LogInterceptor());
+      instance!.interceptors.add(MyLogInterceptor());
       if (isCache) {
         List<String> allowedSHa = [];
         //   allowedSHa.add('KEZJOdneURbhMeANe+HVaw0mcmPp6zKFKr6jHc85o0E=');
@@ -66,8 +67,7 @@ class APIClient implements BaseAPIClient {
     config.validateStatus = (status) {
       return status! <= 500;
     };
-
-    final response = await instance!.fetch(config).catchError((error) {
+    final response = await instance?.fetch(config).catchError((error) {
       printWrapped("error in response ${error.toString()}");
 
       if ((error as DioError).type == DioErrorType.connectTimeout) {
@@ -76,13 +76,9 @@ class APIClient implements BaseAPIClient {
       throw 'Something went wrong';
     });
 
-    final responseData = response.data;
-    print(response.toString());
-    printWrapped('\n************response Data=***********\n' +
-        response.data.toString() +
-        " \n**************\n");
+    final responseData = response?.data;
 
-    int statusCode = response.statusCode!;
+    int statusCode = response?.statusCode ?? -1;
 
     switch (statusCode) {
       case 422:
@@ -99,7 +95,7 @@ class APIClient implements BaseAPIClient {
           return ResponseWrapper.init(create: create, json: responseData);
         }
       default:
-        final errorResponse = ErrorResponse(message: 'Something went wrong');
+        final errorResponse = ErrorResponse.fromJson(responseData);
         throw errorResponse;
     }
   }

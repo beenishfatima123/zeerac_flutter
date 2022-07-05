@@ -64,14 +64,14 @@ class UserProfilePage extends GetView<UserProfileController>
                       vSpace,
                       getTextField(
                           hintText: 'User name',
-                          controller: controller.usernameController,
-                          enabled: false),
+                          enabled: true,
+                          controller: controller.usernameController),
 
                       vSpace,
                       getTextField(
                           hintText: 'Email',
                           controller: controller.emailController,
-                          enabled: true),
+                          enabled: false),
                       vSpace,
                       getTextField(
                           hintText: 'First name',
@@ -79,8 +79,7 @@ class UserProfilePage extends GetView<UserProfileController>
                       vSpace,
                       getTextField(
                           hintText: 'Last name',
-                          controller: controller.lastNameController,
-                          enabled: false),
+                          controller: controller.lastNameController),
                       vSpace,
                       getTextField(
                           hintText: 'Address',

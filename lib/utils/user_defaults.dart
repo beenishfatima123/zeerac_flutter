@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zeerac_flutter/modules/users/models/user_model.dart';
 import 'package:zeerac_flutter/modules/users/models/user_login_response_model.dart';
@@ -20,7 +22,7 @@ class UserDefaults {
   }
 
   static Future<bool?> clearAll() async {
-    FirebaseAuth.instance.signOut();
+    await _logout();
     return await sharedPreferences?.clear();
   }
 
@@ -100,5 +102,13 @@ class UserDefaults {
 
   static String? getCurrentUserId() {
     return sharedPreferences?.getString('userId');
+  }
+
+  static _logout() async {
+    return Future.wait([
+      GoogleSignIn().signOut(),
+      FirebaseAuth.instance.signOut(),
+      FacebookAuth.instance.logOut()
+    ]);
   }
 }

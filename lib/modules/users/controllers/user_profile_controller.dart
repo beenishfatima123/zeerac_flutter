@@ -67,7 +67,7 @@ class UserProfileController extends GetxController {
           ? await dio.MultipartFile.fromFile(profileImage.value!.path,
               filename: 'user_image.png')
           : null,
-      /*"username": "zohaib778",*/
+      "username": usernameController.text,
       "email": emailController.text,
       "first_name": firstNameController.text,
       "last_name": lastNameController.text,

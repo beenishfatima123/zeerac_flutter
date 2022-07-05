@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -68,7 +69,8 @@ class SignupController extends GetxController {
             _registerCompany(
                 registerUserResponseModel: responseModel,
                 completion: (RegisterCompanyResponse registerCompanyResponse) {
-                  mainCompletion("Company registered successfully");
+                  mainCompletion(
+                      "Company registered successfully goto confirm mail");
                 });
           });
         } else {
@@ -79,7 +81,7 @@ class SignupController extends GetxController {
       if (formKeyUserInfo.currentState!.validate()) {
         if (profileImage.value != null) {
           _registerUser(completion: (UserModel registerUserResponseModel) {
-            mainCompletion("User registered successfully");
+            mainCompletion("User registered successfully goto confirm mail");
           });
         } else {
           AppPopUps.showSnackBar(message: "Select Image", context: myContext!);
@@ -117,9 +119,6 @@ class SignupController extends GetxController {
             create: () => APIResponse<UserModel>(create: () => UserModel()),
             apiFunction: _registerUser)
         .then((response) async {
-      if (!isSignUpAsAgency.value) {
-        isLoading.value = false;
-      }
       printWrapped(
           "registering user response ${response.response?.data.toString()}");
 
@@ -140,7 +139,8 @@ class SignupController extends GetxController {
                   emailController.text, passwordController.text);
           if (loginResult) {
             await FirebaseAuthService.createFireStoreUserEntry(
-                userModel: userModel.copyWith(uid: const Uuid().v4()));
+                userModel: userModel.copyWith(
+                    uid: FirebaseAuth.instance.currentUser?.uid));
             completion(response.response?.data!);
           } else {
             throw ('unable to create user');
@@ -154,9 +154,11 @@ class SignupController extends GetxController {
             description: "Failed to register user",
             dialogType: DialogType.ERROR);
       }
+      if (!isSignUpAsAgency.value) {
+        isLoading.value = false;
+      }
     }).catchError((error) {
       print(error);
-
       isLoading.value = false;
       AppPopUps.showDialogContent(
           title: 'Error',
