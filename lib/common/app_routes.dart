@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:video_player/video_player.dart';
 import 'package:zeerac_flutter/modules/users/controllers/add_new_agent_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/agent_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/agents_listing_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/auction_bid_detail_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/auctions_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/blog_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/blog_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_detail_controller.dart';
@@ -24,9 +25,8 @@ import 'package:zeerac_flutter/modules/users/controllers/tutorials_controller.da
 import 'package:zeerac_flutter/modules/users/controllers/user_profile_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/video_player_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agent_detail_page.dart';
-import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auction_bid_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
-import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
@@ -82,6 +82,7 @@ appRoutes() {
           Get.put(TrendsController());
           Get.put(TutorialsController());
           Get.put(LookingForController());
+          Get.put(AuctionsListingController());
         })),
     GetPage(
         name: SearchFilterListingPage.id,
@@ -202,17 +203,20 @@ appRoutes() {
         name: ChatScreen.id,
         page: () => ChatScreen(),
         binding: BindingsBuilder(() {
-          Get.lazyPut<ChatWithUserController>(
-            () => ChatWithUserController(),
-          );
+          Get.lazyPut<ChatWithUserController>(() => ChatWithUserController());
         })),
     GetPage(
         name: ChatAllHomePage.id,
         page: () => ChatAllHomePage(),
         binding: BindingsBuilder(() {
-          Get.lazyPut<ChatHomeController>(
-            () => ChatHomeController(),
-          );
+          Get.lazyPut<ChatHomeController>(() => ChatHomeController());
+        })),
+    GetPage(
+        name: AuctionBidDetailPage.id,
+        page: () => AuctionBidDetailPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<AuctionBidDetailController>(
+              () => AuctionBidDetailController());
         })),
   ];
 }

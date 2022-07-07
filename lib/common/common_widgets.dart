@@ -269,7 +269,7 @@ class Button extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: textStyle ??
                         AppTextStyles.textStyleBoldBodySmall
-                            .copyWith(color: textColor),
+                            .copyWith(color: textColor ?? AppColor.whiteColor),
                   ),
                 ),
               ),

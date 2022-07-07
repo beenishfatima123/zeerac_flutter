@@ -8,6 +8,7 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';
@@ -175,7 +176,7 @@ class SideBar extends GetView<DashBoardController> {
             if (session != null)
               ListTile(
                 leading: const Icon(Icons.account_tree),
-                selected: controller.selectedIndex.value == 8,
+                selected: false,
                 title: Text('Change Preferences',
                     style: AppTextStyles.textStyleBoldBodyMedium),
                 onTap: () {
@@ -201,6 +202,19 @@ class SideBar extends GetView<DashBoardController> {
                   } else {
                     Get.toNamed(LoginPage.id);
                   }
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
+            ///Auctions
+            if (session != null)
+              ListTile(
+                leading: const Icon(Entypo.progress_0),
+                selected: controller.selectedIndex.value == 8,
+                title: Text('Auctions',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  controller.selectedIndex.value = 8;
                   controller.scaffoldKey.currentState?.closeDrawer();
                 },
               ),

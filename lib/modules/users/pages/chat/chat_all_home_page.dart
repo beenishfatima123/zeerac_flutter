@@ -199,33 +199,4 @@ class ChatAllHomePage extends GetView<ChatHomeController> {
       );
     });
   }
-
-  Widget getUsersOfChatRow() {
-    return InkWell(
-      onTap: () {
-        Get.toNamed(ChatScreen.id);
-      },
-      child: Card(
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage:
-                const AssetImage('assets/images/place_your_image.png'),
-            radius: 180.r,
-          ),
-          title: Text(
-            'User Name',
-            style: AppTextStyles.textStyleBoldBodyMedium,
-          ),
-          subtitle: Text(
-            'Hello last message',
-            style: AppTextStyles.textStyleNormalBodyXSmall,
-          ),
-          trailing: Text(
-            '09:00 am',
-            style: AppTextStyles.textStyleNormalBodyMedium,
-          ),
-        ),
-      ),
-    );
-  }
 }

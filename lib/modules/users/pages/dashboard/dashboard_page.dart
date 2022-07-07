@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/side_bar_widget.dart';
@@ -69,14 +70,15 @@ class DashBoardPage extends GetView<DashBoardController> {
                 child: IndexedStack(
                     index: controller.selectedIndex.value,
                     children: [
-                      HomePage(),
-                      const ProjectsPage(),
-                      const CompanyListingPage(),
-                      const AgentsListingPage(),
-                      const BlogListingPage(),
-                      TrendsPage(),
-                      const TutorialsPage(),
-                      const LookingForPage()
+                      HomePage(), //0
+                      const ProjectsPage(), //1
+                      const CompanyListingPage(), //2
+                      const AgentsListingPage(), //3
+                      const BlogListingPage(), //4
+                      TrendsPage(), //5
+                      const TutorialsPage(), //6
+                      const LookingForPage(), //7
+                      AuctionsListingPage() //7
                     ]),
               );
             }),

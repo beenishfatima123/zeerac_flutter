@@ -22,6 +22,9 @@ enum APIType {
   updateUserPreferences,
   getUserPreferenceListing,
   checkUniqueMail,
+  userPropertyFiles,
+  getPropertyFilesBid,
+  placeYourPropertyBid
 }
 
 class ApiConstants {
@@ -54,4 +57,6 @@ class ApiConstants {
   static const userPreferences = '/users/preference/';
   static const getUserPreference = '/users/preference/listings/';
   static const checkUniqueMail = '/users/unique-email/';
+  static const userPropertyFiles = '/users/property-files/';
+  static const propertyFilesBid = '/users/property-files-bid/';
 }

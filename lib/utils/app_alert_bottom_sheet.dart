@@ -15,7 +15,7 @@ class AppBottomSheets {
   static showAppAlertBottomSheet(
       {isDismissable,
       required Widget child,
-      BuildContext? context,
+      required BuildContext context,
       String title = '',
       bool isFull = false}) {
     //   isDialogShowing =true;
@@ -23,8 +23,8 @@ class AppBottomSheets {
         backgroundColor: Colors.transparent,
         elevation: 0,
         isScrollControlled: isFull,
-        enableDrag: false,
-        context: context!,
+        enableDrag: isDismissable,
+        context: context,
         builder: (context) {
           return Container(
             margin: EdgeInsets.only(top: 80.h, left: 30.w, right: 30.w),

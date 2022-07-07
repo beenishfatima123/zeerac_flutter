@@ -4,24 +4,30 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
+import 'package:zeerac_flutter/modules/users/models/biding_list_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auction_bid_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/projects_listing/project_details_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_detail_page.dart';
+import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_utils.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../../common/spaces_boxes.dart';
+import '../../models/acutions_listing_response_model.dart';
+import '../../models/chat_user_model.dart';
+import '../chat/chat_screen.dart';
 
-mixin ProjectWidgetsMixin{
-  Widget projectWidget(ProjectModel result) {
-    String firstImage = result.logo == null
+mixin AuctionWidgetMixin {
+  Widget auctionWidget(AuctionFileModel result) {
+    String firstImage = result.photos.isEmpty
         ? ApiConstants.imageNetworkPlaceHolder
-        : "${ApiConstants.baseUrl}${result.logo ?? ''}";
+        : "${ApiConstants.baseUrl}${result.photos.first}";
 
     return InkWell(
       onTap: () {
-        Get.toNamed(ProjectDetailPage.id, arguments: result);
+        Get.toNamed(AuctionBidDetailPage.id, arguments: result);
       },
       child: Card(
         child: SizedBox(
@@ -37,7 +43,7 @@ mixin ProjectWidgetsMixin{
                     NetworkPlainImage(
                       url: firstImage,
                     ),
-                    Container(
+                    /*Container(
                       padding: const EdgeInsets.all(4),
                       color: AppColor.alphaGrey,
                       margin: const EdgeInsets.all(10),
@@ -45,7 +51,7 @@ mixin ProjectWidgetsMixin{
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "${result.content?.length ?? 0}",
+                            "${result.?.length ?? 0}",
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
@@ -55,7 +61,7 @@ mixin ProjectWidgetsMixin{
                           )
                         ],
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),
@@ -75,7 +81,7 @@ mixin ProjectWidgetsMixin{
                         children: [
                           Flexible(
                             child: Text(
-                              result.propertyType ?? '-',
+                              result.type ?? '-',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.textStyleBoldBodyXSmall,
@@ -84,7 +90,8 @@ mixin ProjectWidgetsMixin{
                           Row(
                             children: [
                               Text("Verified",
-                                  style: AppTextStyles.textStyleNormalBodyXSmall),
+                                  style:
+                                      AppTextStyles.textStyleNormalBodyXSmall),
                               hSpace,
                               const Icon(
                                 Icons.verified_outlined,
@@ -113,7 +120,7 @@ mixin ProjectWidgetsMixin{
                     ),
                     Flexible(
                       child: Text(
-                        "Price: ${(result.minPrice ?? '-')} - ${(result.maxPrice ?? '-')} ",
+                        "Files: ${(result.minFiles ?? '-')} - ${(result.maxFiles ?? '-')} ",
                         style: AppTextStyles.textStyleNormalBodySmall,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -153,20 +160,34 @@ mixin ProjectWidgetsMixin{
                   ),*/
                     vSpace,
                     Expanded(
-                      child: Opacity(
-                        opacity: 0.2,
-                        child: Row(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {}, child: const Text('Call')),
-                            hSpace,
-                            ElevatedButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Message',
-                                )),
-                          ],
-                        ),
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                AppUtils.dialNumber(
+                                    context: myContext!,
+                                    phoneNumber:
+                                        result.userFk?.phoneNumber ?? '');
+                              },
+                              child: const Text('Call')),
+                          hSpace,
+                          ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed(ChatScreen.id,
+                                    arguments: ChatUserModel(
+                                        otherUserId:
+                                            result.userFk?.id.toString(),
+                                        otherUserProfileImage:
+                                            result.userFk?.photo,
+                                        otherUserContact:
+                                            result.userFk?.phoneNumber ?? '123',
+                                        otherUserName:
+                                            result.userFk?.firstName ?? ''));
+                              },
+                              child: const Text(
+                                'Message',
+                              )),
+                        ],
                       ),
                     )
                   ],
@@ -179,79 +200,70 @@ mixin ProjectWidgetsMixin{
     );
   }
 
-  Widget projectContentWidget(Content content) {
-    String firstImage =
-    ((content.files == null) || (content.files?.length ?? 0) < 1)
-        ? ApiConstants.imageNetworkPlaceHolder
-        : "${ApiConstants.baseUrl}${(content.files?.first.file ?? '')}";
-
+  Widget biddingWidget(BidModel content) {
     return InkWell(
-      onTap: () {
-        // Get.toNamed(ProjectDetailPage.id, arguments: result);
-      },
+      onTap: () {},
       child: Card(
-        child: SizedBox(
-          height: 260.h,
-          child: Row(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ///images
-              Expanded(
-                flex: 4,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    NetworkPlainImage(
-                      url: firstImage,
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: NetworkCircularImage(
+                        url: content.userFk?.photo ??
+                            ApiConstants.imageNetworkPlaceHolder),
+                  ),
+                  hSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "By :${content.userFk?.firstName ?? ''}",
+                          style: const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Price :${content.price?.length ?? 0}",
+                          style: const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold),
+                        )
+                      ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      color: AppColor.alphaGrey,
-                      margin: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "${content.files?.length ?? 0}",
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          const Icon(
-                            Icons.file_copy_sharp,
-                            size: 12,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-
               hSpace,
 
               /// information
-              Expanded(
-                flex: 6,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      content.title ?? '-',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.textStyleBoldBodyXSmall,
-                    ),
-                    vSpace,
-                    Expanded(
-                      child: Text(
-                        content.body ?? '-',
+              Row(
+                children: [
+                  Text('Bid range:',
+                      style: AppTextStyles.textStyleBoldBodyMedium),
+                  Flexible(
+                      child: Row(
+                    children: [
+                      Text(
+                        " ${(content.startingRange ?? 0).toString()} - ",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.textStyleNormalBodySmall,
+                      ),
+                      vSpace,
+                      Text(
+                        (content.endingRange ?? 0).toString(),
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.textStyleBoldBodyMedium,
+                        style: AppTextStyles.textStyleNormalBodySmall,
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  )),
+                ],
               ),
             ],
           ),
@@ -260,6 +272,3 @@ mixin ProjectWidgetsMixin{
     );
   }
 }
-
-
-

@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/styles.dart';
-import 'package:zeerac_flutter/modules/users/controllers/projects_controller.dart';
-import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
-import 'package:zeerac_flutter/modules/users/pages/projects_listing/projects_widgets.dart';
+import 'package:zeerac_flutter/modules/users/controllers/auctions_listing_controller.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
+import 'auctions_widgets.dart';
 
-class ProjectsPage extends GetView<ProjectsController>
-    with ProjectWidgetsMixin {
-  const ProjectsPage({Key? key}) : super(key: key);
-  static const id = '/ProjectsPage';
+class AuctionsListingPage extends GetView<AuctionsListingController>
+    with AuctionWidgetMixin {
+  const AuctionsListingPage({Key? key}) : super(key: key);
+  static const id = '/AuctionsListingPage';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetX<ProjectsController>(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // controller.addNewAuction()
+..
+        },
+        child: const Icon(Icons.add, color: AppColor.whiteColor),
+      ),
+      body: GetX<AuctionsListingController>(
         initState: (state) {
-          if (controller.projectsList.isEmpty) {
-            controller.loadProjects();
+          if (controller.auctionsFileList.isEmpty) {
+            controller.loadAuctionsFile();
             controller.searchController.addListener(() {
               controller.searchFromList();
             });
@@ -30,7 +36,7 @@ class ProjectsPage extends GetView<ProjectsController>
             child: Stack(
               children: [
                 ((controller.isLoading.value == false &&
-                        controller.projectsList.isEmpty))
+                        controller.auctionsFileList.isEmpty))
                     ? Center(
                         child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +46,7 @@ class ProjectsPage extends GetView<ProjectsController>
                               style: AppTextStyles.textStyleBoldBodyMedium),
                           InkWell(
                             onTap: () {
-                              controller.loadProjects(showAlert: true);
+                              controller.loadAuctionsFile(showAlert: true);
                             },
                             child: Text(
                               "Refresh",
@@ -54,7 +60,7 @@ class ProjectsPage extends GetView<ProjectsController>
                       ))
                     : Column(
                         children: [
-                          myAppBar(goBack: false, title: 'Projects', actions: [
+                          myAppBar(goBack: false, title: 'Auctions', actions: [
                             MyAnimSearchBar(
                                 rtl: true,
                                 width: MediaQuery.of(context).size.width,
@@ -73,7 +79,7 @@ class ProjectsPage extends GetView<ProjectsController>
                                   physics: const BouncingScrollPhysics(),
                                   itemCount: controller.filteredItemList.length,
                                   itemBuilder: (context, index) {
-                                    return projectWidget(
+                                    return auctionWidget(
                                         controller.filteredItemList[index]!);
                                   },
                                 ),

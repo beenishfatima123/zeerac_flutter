@@ -17,7 +17,8 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
 
-class ProjectDetailPage extends GetView<ProjectDetailController> {
+class ProjectDetailPage extends GetView<ProjectDetailController>
+    with ProjectWidgetsMixin {
   ProjectDetailPage({Key? key}) : super(key: key);
   static const id = '/ProjectDetailPage';
 
