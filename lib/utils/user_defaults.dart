@@ -104,6 +104,14 @@ class UserDefaults {
     return sharedPreferences?.getString('userId');
   }
 
+  static setIsAdmin(bool value) {
+    return sharedPreferences?.setBool('isAdmin', value);
+  }
+
+  static bool? getIsAdmin() {
+    return sharedPreferences?.getBool('isAdmin');
+  }
+
   static _logout() async {
     return Future.wait([
       GoogleSignIn().signOut(),

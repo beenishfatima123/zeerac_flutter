@@ -796,7 +796,7 @@ class PropertyFinalSubmitViewDetails extends GetView<PropertyCreateController>
                               padding: const EdgeInsets.all(14),
                               child: Center(
                                 child: Text(
-                                  "${controller.propertyPriceController.text} ${controller.selectedSpaceUnit.value}",
+                                  "${controller.propertySpaceController.text} ${controller.selectedSpaceUnit.value}",
                                   style: AppTextStyles.textStyleBoldTitleLarge,
                                 ),
                               ),
@@ -864,7 +864,7 @@ class PropertyFinalSubmitViewDetails extends GetView<PropertyCreateController>
                             keyValueRowWidget(
                                 title: "Price",
                                 value:
-                                    "${controller.propertyPriceController.text} ${controller.selectedSpaceUnit.value}",
+                                    "${controller.propertyPriceController.text} ${controller.selectedCurrencyType.value}",
                                 isGrey: true),
                             keyValueRowWidget(
                                 title: "Beds",
@@ -875,7 +875,7 @@ class PropertyFinalSubmitViewDetails extends GetView<PropertyCreateController>
                                 value: controller.selectedBaths.value,
                                 isGrey: true),
                             keyValueRowWidget(
-                                title: "Area",
+                                title: "Space",
                                 value:
                                     "${controller.propertySpaceController.text} ${controller.selectedSpaceUnit.value}",
                                 isGrey: false),

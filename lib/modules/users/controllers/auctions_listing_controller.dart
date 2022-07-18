@@ -44,7 +44,7 @@ class AuctionsListingController extends GetxController {
       if (before == max) {
         printWrapped("end of the page");
         if (hasNewPage) {
-          loadAuctionsFile();
+          loadAuctionsFile(showAlert: true);
         } // load next page
         // code here will be called only if scrolled to the very bottom
       }
@@ -53,7 +53,7 @@ class AuctionsListingController extends GetxController {
   }
 
   ///loading projects when app starts
-  void loadAuctionsFile({bool showAlert = false}) {
+  Future<void> loadAuctionsFile({bool showAlert = false}) async {
     isLoading.value = true;
 
     var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
@@ -61,7 +61,7 @@ class AuctionsListingController extends GetxController {
         .request(
             route: APIRoute(
               APIType.userPropertyFiles,
-              body: {},
+              body: {"page": pageToLoad},
             ),
             create: () => APIResponse<AuctionsListingResponseModel>(
                 create: () => AuctionsListingResponseModel()),
@@ -85,6 +85,7 @@ class AuctionsListingController extends GetxController {
               dialogType: DialogType.INFO);
         }
       }
+      return;
     }).catchError((error) {
       isLoading.value = false;
 
@@ -95,7 +96,15 @@ class AuctionsListingController extends GetxController {
             description: error.toString(),
             dialogType: DialogType.ERROR);
       }
-      return Future.value(null);
+      return;
     });
+  }
+
+  Future<void> refreshList() async {
+    auctionsFileList.clear();
+    filteredItemList.clear();
+    pageToLoad = 1;
+    hasNewPage = false;
+    return await loadAuctionsFile(showAlert: true);
   }
 }

@@ -6,9 +6,6 @@ import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/auction_bid_detail_controller.dart';
-import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
-import 'package:zeerac_flutter/modules/users/controllers/project_detail_controller.dart';
-import 'package:zeerac_flutter/modules/users/controllers/property_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/acutions_listing_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/property_listing_model.dart'
@@ -57,12 +54,29 @@ class AuctionBidDetailPage extends GetView<AuctionBidDetailController>
                         Stack(
                           alignment: Alignment.bottomLeft,
                           children: [
-                            NetworkPlainImage(
-                                height: 300.h,
-                                fit: BoxFit.fill,
-                                url: controller.auctionFileModel!.photos.isEmpty
-                                    ? ApiConstants.imageNetworkPlaceHolder
-                                    : "${ApiConstants.baseUrl}${controller.auctionFileModel?.photos.first}"),
+                            CarouselSlider(
+                              options: CarouselOptions(
+                                  height: 300.h, autoPlay: true),
+                              items:
+                                  controller.auctionFileModel!.photos.map((i) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: const EdgeInsets.all(1),
+                                      child: Opacity(
+                                        opacity: 0.8,
+                                        child: NetworkPlainImage(
+                                            fit: BoxFit.contain,
+                                            height: 300.h,
+                                            url:
+                                                "${ApiConstants.baseUrl}${i.filePhoto}"),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }).toList(),
+                            ),
                             Container(
                               width: double.infinity,
                               color: AppColor.blackColor.withOpacity(0.5),

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/languages.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/pages/agents_listing/agents_page.dart';
-import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/blogs/blog_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/side_bar_widget.dart';

@@ -49,11 +49,11 @@ class BidingListResponseModel implements Decodeable {
 
 class BidModel {
   int? id;
-  String? price;
-  int? startingRange;
-  int? endingRange;
+  int? price;
+  int? fileCount;
   bool? isClosed;
   String? createdAt;
+  bool? isInvalid;
   String? updatedAt;
   UserModel? userFk;
   int? propertyFilesFk;
@@ -61,10 +61,10 @@ class BidModel {
   BidModel(
       {this.id,
       this.price,
-      this.startingRange,
-      this.endingRange,
+      this.fileCount,
       this.isClosed,
       this.createdAt,
+      this.isInvalid,
       this.updatedAt,
       this.userFk,
       this.propertyFilesFk});
@@ -72,10 +72,10 @@ class BidModel {
   BidModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
-    startingRange = json['starting_range'];
-    endingRange = json['ending_range'];
+    fileCount = json['file_count'];
     isClosed = json['is_closed'];
     createdAt = json['created_at'];
+    isInvalid = json['is_invalid'];
     updatedAt = json['updated_at'];
     userFk = json['user_fk'] != null
         ? new UserModel.fromJson(json['user_fk'])
@@ -87,10 +87,10 @@ class BidModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['price'] = this.price;
-    data['starting_range'] = this.startingRange;
-    data['ending_range'] = this.endingRange;
+    data['file_count'] = this.fileCount;
     data['is_closed'] = this.isClosed;
     data['created_at'] = this.createdAt;
+    data['is_invalid'] = this.isInvalid;
     data['updated_at'] = this.updatedAt;
     if (this.userFk != null) {
       data['user_fk'] = this.userFk!.toJson();

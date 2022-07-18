@@ -24,7 +24,9 @@ enum APIType {
   checkUniqueMail,
   userPropertyFiles,
   getPropertyFilesBid,
-  placeYourPropertyBid
+  placeYourPropertyBid,
+  createFile,
+  postFileImages,
 }
 
 class ApiConstants {
@@ -59,4 +61,5 @@ class ApiConstants {
   static const checkUniqueMail = '/users/unique-email/';
   static const userPropertyFiles = '/users/property-files/';
   static const propertyFilesBid = '/users/property-files-bid/';
+  static const postFileImages = '/users/property-files-images/';
 }

@@ -63,7 +63,8 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
                           title: Text(property?.name ?? '',
                               style: AppTextStyles.textStyleNormalBodyMedium
                                   .copyWith(color: AppColor.whiteColor)),
-                          background: CarouselSlider(
+                          background:
+                          CarouselSlider(
                             options:
                                 CarouselOptions(height: 300.h, autoPlay: true),
                             items: property?.image.map((i) {

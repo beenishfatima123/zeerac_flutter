@@ -72,6 +72,7 @@ class LoginController extends GetxController {
       UserLoginResponseModel? userLoginResponseModel = response.response?.data;
       if (userLoginResponseModel != null) {
         UserDefaults.setApiToken(userLoginResponseModel.token ?? '');
+        UserDefaults.setIsAdmin(userLoginResponseModel.isAdmin ?? false);
 
         ///getting user detail from different api
         _getUserDetails(

@@ -5,6 +5,7 @@ import 'package:zeerac_flutter/modules/users/controllers/auctions_listing_contro
 import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/loading_widget.dart';
+import 'auction_create_page.dart';
 import 'auctions_widgets.dart';
 
 class AuctionsListingPage extends GetView<AuctionsListingController>
@@ -17,8 +18,8 @@ class AuctionsListingPage extends GetView<AuctionsListingController>
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // controller.addNewAuction()
-..
+          ///to create new auction listing page...
+          Get.toNamed(AuctionCreatePage.id);
         },
         child: const Icon(Icons.add, color: AppColor.whiteColor),
       ),
@@ -75,13 +76,17 @@ class AuctionsListingPage extends GetView<AuctionsListingController>
                               padding: const EdgeInsets.all(14),
                               child: NotificationListener(
                                 onNotification: controller.onScrollNotification,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: controller.filteredItemList.length,
-                                  itemBuilder: (context, index) {
-                                    return auctionWidget(
-                                        controller.filteredItemList[index]!);
-                                  },
+                                child: RefreshIndicator(
+                                  onRefresh: controller.refreshList,
+                                  child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount:
+                                        controller.filteredItemList.length,
+                                    itemBuilder: (context, index) {
+                                      return auctionWidget(
+                                          controller.filteredItemList[index]!);
+                                    },
+                                  ),
                                 ),
                               ),
                             ),

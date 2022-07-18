@@ -183,7 +183,10 @@ mixin PropertyListingWidgets {
       bool validate = true,
       bool enabled = true,
       int minLines = 1,
+      double? leftPadding,
+      double? rightPadding,
       int maxLines = 2,
+      onChanged,
       List<TextInputFormatter> inputFormatters = const [],
       TextInputType inputType = TextInputType.text,
       validator}) {
@@ -193,13 +196,16 @@ mixin PropertyListingWidgets {
         hintText: hintText,
         minLines: minLines,
         maxLines: maxLines,
-        contentPadding: 20,
+        contentPadding: 8,
+        leftPadding: leftPadding,
+        rightPadding: rightPadding,
         keyboardType: inputType,
         inputFormatters: inputFormatters,
         focusBorderColor: AppColor.alphaGrey,
         textColor: AppColor.blackColor,
         hintColor: AppColor.blackColor,
         fillColor: AppColor.alphaGrey,
+        onChanged: onChanged,
         validator: validator ??
             (String? value) => validate
                 ? (value!.trim().isEmpty ? validateText ?? "Required" : null)

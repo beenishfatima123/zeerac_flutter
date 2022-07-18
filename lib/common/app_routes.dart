@@ -9,6 +9,7 @@ import 'package:zeerac_flutter/modules/users/controllers/blog_detail_controller.
 import 'package:zeerac_flutter/modules/users/controllers/blog_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_detail_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/company_listing_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/create_auction_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/google_map_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
@@ -46,6 +47,7 @@ import '../modules/users/controllers/chat_with_user_controller.dart';
 import '../modules/users/controllers/login_controller.dart';
 import '../modules/users/controllers/project_detail_controller.dart';
 import '../modules/users/pages/agents_listing/add_new_agent_page.dart';
+import '../modules/users/pages/auctions/auction_create_page.dart';
 import '../modules/users/pages/chat/chat_screen.dart';
 import '../modules/users/pages/login/login_page.dart';
 import '../modules/users/pages/projects_listing/project_details_page.dart';
@@ -217,6 +219,12 @@ appRoutes() {
         binding: BindingsBuilder(() {
           Get.lazyPut<AuctionBidDetailController>(
               () => AuctionBidDetailController());
+        })),
+    GetPage(
+        name: AuctionCreatePage.id,
+        page: () => AuctionCreatePage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<CreateAuctionController>(() => CreateAuctionController());
         })),
   ];
 }

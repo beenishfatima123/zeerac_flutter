@@ -8,7 +8,7 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/companies_response_model.dart';
-import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/auctions/auctions_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/user_preferences/change_user_preferences_page.dart';

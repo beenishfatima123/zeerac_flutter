@@ -182,7 +182,7 @@ class APIRoute implements APIRouteConfigurable {
       case APIType.userPropertyFiles:
         return RequestOptions(
           path: ApiConstants.userPropertyFiles,
-          data: body,
+          queryParameters: body,
           headers: headers,
           method: APIMethod.get,
         );
@@ -197,6 +197,22 @@ class APIRoute implements APIRouteConfigurable {
       case APIType.placeYourPropertyBid:
         return RequestOptions(
           path: ApiConstants.propertyFilesBid,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.createFile:
+        return RequestOptions(
+          path: ApiConstants.userPropertyFiles,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.postFileImages:
+        return RequestOptions(
+          path: ApiConstants.postFileImages,
           data: body,
           headers: headers,
           method: APIMethod.post,

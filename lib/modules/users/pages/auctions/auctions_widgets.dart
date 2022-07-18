@@ -23,7 +23,8 @@ mixin AuctionWidgetMixin {
   Widget auctionWidget(AuctionFileModel result) {
     String firstImage = result.photos.isEmpty
         ? ApiConstants.imageNetworkPlaceHolder
-        : "${ApiConstants.baseUrl}${result.photos.first}";
+        : "${ApiConstants.baseUrl}${result.photos.first.filePhoto}";
+    printWrapped(firstImage);
 
     return InkWell(
       onTap: () {
@@ -229,7 +230,7 @@ mixin AuctionWidgetMixin {
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Price :${content.price?.length ?? 0}",
+                          "Price :${content.price ?? 0}",
                           style: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         )
@@ -246,23 +247,13 @@ mixin AuctionWidgetMixin {
                   Text('Bid range:',
                       style: AppTextStyles.textStyleBoldBodyMedium),
                   Flexible(
-                      child: Row(
-                    children: [
-                      Text(
-                        " ${(content.startingRange ?? 0).toString()} - ",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.textStyleNormalBodySmall,
-                      ),
-                      vSpace,
-                      Text(
-                        (content.endingRange ?? 0).toString(),
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.textStyleNormalBodySmall,
-                      ),
-                    ],
-                  )),
+                    child: Text(
+                      " ${(content.fileCount ?? 0).toString()} - ",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.textStyleNormalBodySmall,
+                    ),
+                  ),
                 ],
               ),
             ],

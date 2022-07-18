@@ -48,7 +48,7 @@ class AuctionsListingResponseModel implements Decodeable {
   }
 }
 
-class AuctionFileModel {
+class AuctionFileModel implements Decodeable {
   int? id;
   UserModel? userFk;
   String? companyFk;
@@ -174,6 +174,47 @@ class AuctionFileModel {
     data['sold_files'] = this.soldFiles;
     data['photos'] = photos.map((v) => v.toJson()).toList();
     return data;
+  }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    userFk =
+        json['user_fk'] != null ? UserModel.fromJson(json['user_fk']) : null;
+    companyFk = json['company_fk'];
+    purpose = json['purpose'];
+    type = json['type'];
+    price = json['price'];
+    space = json['space'];
+    unit = json['unit'];
+    description = json['description'];
+    neighborhood = json['neighborhood'];
+    currency = json['currency'];
+    address = json['address'];
+    country = json['country'];
+    city = json['city'];
+    area = json['area'];
+    isSold = json['is_sold'];
+    isActiveListing = json['is_active_listing'];
+    /*if (json['tag_fks'] != null) {
+      tagFks = <Null>[];
+      */ /*json['tag_fks'].forEach((v) {
+        tagFks!.add(new Null.fromJson(v));
+      });*/ /*
+    }*/
+    updatedAt = json['updated_at'];
+    minFiles = json['min_files'];
+    maxFiles = json['max_files'];
+    isVerified = json['is_verified'];
+    createdAt = json['created_at'];
+    soldFiles = json['sold_files'];
+    if (json['photos'] != null) {
+      photos = <Photos>[];
+      json['photos'].forEach((v) {
+        photos.add(Photos.fromJson(v));
+      });
+    }
+    return this;
   }
 }
 
