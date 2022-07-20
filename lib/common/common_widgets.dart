@@ -261,16 +261,14 @@ class Button extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               prefixIcon ?? const IgnorePointer(),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    buttonText,
-                    textAlign: TextAlign.center,
-                    style: textStyle ??
-                        AppTextStyles.textStyleBoldBodySmall
-                            .copyWith(color: textColor ?? AppColor.whiteColor),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text(
+                  buttonText,
+                  textAlign: TextAlign.center,
+                  style: textStyle ??
+                      AppTextStyles.textStyleBoldBodySmall
+                          .copyWith(color: textColor ?? AppColor.whiteColor),
                 ),
               ),
               postFixIcon ?? const IgnorePointer(),

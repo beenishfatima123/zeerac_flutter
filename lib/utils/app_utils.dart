@@ -31,9 +31,9 @@ class AppUtils {
       time = format.format(date);
     } else if (diff.inDays > 0 && diff.inDays < 7) {
       if (diff.inDays == 1) {
-        time = diff.inDays.toString() + ' DAY AGO';
+        time = '${diff.inDays} DAY AGO';
       } else {
-        time = diff.inDays.toString() + ' DAYS AGO';
+        time = '${diff.inDays} DAYS AGO';
       }
     } else {
       if (diff.inDays == 7) {
@@ -88,7 +88,8 @@ class AppUtils {
   static void _pickImage({required int source, required onCompletedd}) async {
     try {
       final pickedFile = await ImagePicker().pickImage(
-          source: source == 1 ? ImageSource.camera : ImageSource.gallery);
+          source: source == 1 ? ImageSource.camera : ImageSource.gallery,
+          imageQuality: 50);
       if (pickedFile != null) {
         int fileSize = await pickedFile.length();
         printWrapped('file size = ${fileSize}');

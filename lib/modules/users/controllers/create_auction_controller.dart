@@ -108,7 +108,7 @@ class CreateAuctionController extends GetxController {
 
     Map<String, dynamic> body = {
       "user_fk": (user?.id ?? 0).toString(),
-      "company_fk": UserDefaults.getIsAdmin(),
+      "company_fk": (UserDefaults.getIsAdmin() ?? false) ? user!.id : "",
       "purpose": selectedPurpose.value,
       "type": selectedSubPropertyType.value,
       "price": auctionPriceController.text,
