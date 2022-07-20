@@ -217,6 +217,13 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.post,
         );
+      case APIType.loadForums:
+        return RequestOptions(
+          path: ApiConstants.loadForums,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
 
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(

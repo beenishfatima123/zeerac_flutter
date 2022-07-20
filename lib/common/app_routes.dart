@@ -11,6 +11,8 @@ import 'package:zeerac_flutter/modules/users/controllers/company_detail_controll
 import 'package:zeerac_flutter/modules/users/controllers/company_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/create_auction_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/dash_board_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/forum_detail_controller.dart';
+import 'package:zeerac_flutter/modules/users/controllers/forums_page_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/google_map_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/home_controller.dart';
 import 'package:zeerac_flutter/modules/users/controllers/looking_for_controller.dart';
@@ -31,6 +33,7 @@ import 'package:zeerac_flutter/modules/users/pages/blogs/blog_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/chat/chat_all_home_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/company_listing/company_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/dashboard/dashboard_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/forums/forum_detail_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/google_map_nearby_places_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/search_filter_listing_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/property_listing/property_create_page.dart';
@@ -85,6 +88,7 @@ appRoutes() {
           Get.put(TutorialsController());
           Get.put(LookingForController());
           Get.put(AuctionsListingController());
+          Get.put(ForumsPageController());
         })),
     GetPage(
         name: SearchFilterListingPage.id,
@@ -225,6 +229,13 @@ appRoutes() {
         page: () => AuctionCreatePage(),
         binding: BindingsBuilder(() {
           Get.lazyPut<CreateAuctionController>(() => CreateAuctionController());
+        })),
+    GetPage(
+        name: ForumDetailPage.id,
+        page: () => ForumDetailPage(),
+        transition: Transition.rightToLeft,
+        binding: BindingsBuilder(() {
+          Get.lazyPut<ForumDetailController>(() => ForumDetailController());
         })),
   ];
 }

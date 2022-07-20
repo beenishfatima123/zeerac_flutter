@@ -219,6 +219,19 @@ class SideBar extends GetView<DashBoardController> {
                 },
               ),
 
+            ///Forums
+            if (session != null)
+              ListTile(
+                leading: const Icon(Entypo.flashlight),
+                selected: controller.selectedIndex.value == 9,
+                title: Text('Forums',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  controller.selectedIndex.value = 9;
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
             ///testNotification
             if (session != null && FirebaseAuth.instance.currentUser != null)
               ListTile(
