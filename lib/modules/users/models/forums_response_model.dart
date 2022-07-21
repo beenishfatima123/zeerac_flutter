@@ -46,7 +46,7 @@ class ForumsResponseModel implements Decodeable {
   }
 }
 
-class ForumModel {
+class ForumModel implements Decodeable {
   int? id;
   String? title;
   String? content;
@@ -59,7 +59,7 @@ class ForumModel {
   String? updatedAt;
   int? repliesCount;
   int? likesCount;
-  List<Replies>? replies;
+  List<ReplyModel>? replies;
 
   ForumModel(
       {this.id,
@@ -95,9 +95,9 @@ class ForumModel {
     repliesCount = json['replies_count'];
     likesCount = json['likes_count'];
     if (json['replies'] != null) {
-      replies = <Replies>[];
+      replies = <ReplyModel>[];
       json['replies'].forEach((v) {
-        replies!.add(new Replies.fromJson(v));
+        replies!.add(new ReplyModel.fromJson(v));
       });
     }
   }
@@ -123,6 +123,35 @@ class ForumModel {
       data['replies'] = this.replies!.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    title = json['title'];
+    content = json['content'];
+    /*if (json['likes'] != null) {
+      likes = <Null>[];
+      json['likes'].forEach((v) {
+        likes!.add(new Null.fromJson(v));
+      });
+    }*/
+    isPrivate = json['is_private'];
+    groupPhoto = json['group_photo'];
+    authorFk = json['author_fk'] != null
+        ? new AuthorFk.fromJson(json['author_fk'])
+        : null;
+    members = json['members'].cast<int>();
+    updatedAt = json['updated_at'];
+    repliesCount = json['replies_count'];
+    likesCount = json['likes_count'];
+    if (json['replies'] != null) {
+      replies = <ReplyModel>[];
+      json['replies'].forEach((v) {
+        replies!.add(new ReplyModel.fromJson(v));
+      });
+    }
+    return this;
   }
 }
 
@@ -235,7 +264,7 @@ class AuthorFk {
   }
 }
 
-class Replies {
+class ReplyModel implements Decodeable {
   int? id;
   String? content;
 
@@ -245,7 +274,7 @@ class Replies {
   int? groupFk;
   int? likesCount;
 
-  Replies(
+  ReplyModel(
       {this.id,
       this.content,
       //this.likes,
@@ -254,7 +283,7 @@ class Replies {
       this.groupFk,
       this.likesCount});
 
-  Replies.fromJson(Map<String, dynamic> json) {
+  ReplyModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     content = json['content'];
     /* if (json['likes'] != null) {
@@ -285,5 +314,24 @@ class Replies {
     data['group_fk'] = this.groupFk;
     data['likes_count'] = this.likesCount;
     return data;
+  }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    content = json['content'];
+    /* if (json['likes'] != null) {
+      likes = <Null>[];
+      json['likes'].forEach((v) {
+        likes!.add(new Null.fromJson(v));
+      });
+    }*/
+    authorFk = json['author_fk'] != null
+        ? new AuthorFk.fromJson(json['author_fk'])
+        : null;
+    updatedAt = json['updated_at'];
+    groupFk = json['group_fk'];
+    likesCount = json['likes_count'];
+    return this;
   }
 }

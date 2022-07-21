@@ -28,6 +28,8 @@ enum APIType {
   createFile,
   postFileImages,
   loadForums,
+  postNewForum,
+  replyToForum
 }
 
 class ApiConstants {
@@ -63,5 +65,6 @@ class ApiConstants {
   static const userPropertyFiles = '/users/property-files/';
   static const propertyFilesBid = '/users/property-files-bid/';
   static const postFileImages = '/users/property-files-images/';
-  static const loadForums = 'users/group-discussion/';
+  static const groupDiscussion = 'users/group-discussion/';
+  static const groupDiscussionReply = '/users/group-discussion-reply/';
 }

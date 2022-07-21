@@ -1,9 +1,13 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/modules/users/controllers/auctions_listing_controller.dart';
 import 'package:zeerac_flutter/modules/users/models/forums_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/forums/forums_widgets.dart';
+import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
+import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/myAnimSearchBar.dart';
 import '../../../../common/app_constants.dart';
@@ -21,7 +25,9 @@ class ForumsPage extends GetView<ForumsPageController> with ForumWidgetsMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _showBottomSheet(context);
+        },
         child: const Icon(Icons.add, color: AppColor.whiteColor),
       ),
       body: GetX<ForumsPageController>(
@@ -117,5 +123,86 @@ class ForumsPage extends GetView<ForumsPageController> with ForumWidgetsMixin {
         },
       ),
     );
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    controller.newThreadTitleController.clear();
+    controller.newThreadContentController.clear();
+    var _formKey = GlobalKey<FormState>();
+    AppBottomSheets.showAppAlertBottomSheet(
+        context: context,
+        isFull: true,
+        title: "Add New Thread",
+        isDismissable: false,
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                vSpace,
+                MyTextField(
+                  controller: controller.newThreadTitleController,
+                  hintText: "Title",
+                  contentPadding: 20,
+                  focusBorderColor: AppColor.primaryBlueDarkColor,
+                  textColor: AppColor.blackColor,
+                  hintColor: AppColor.blackColor,
+                  fillColor: AppColor.alphaGrey,
+                  validator: (String? value) {
+                    if ((value ?? '').isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                ),
+                vSpace,
+                MyTextField(
+                  controller: controller.newThreadContentController,
+                  hintText: "Content",
+                  minLines: 3,
+                  maxLines: 6,
+                  contentPadding: 20,
+                  focusBorderColor: AppColor.primaryBlueDarkColor,
+                  textColor: AppColor.blackColor,
+                  hintColor: AppColor.blackColor,
+                  fillColor: AppColor.alphaGrey,
+                  validator: (String? value) {
+                    if ((value ?? '').isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                ),
+                vSpace,
+                vSpace,
+                Button(
+                  buttonText: 'Submit',
+                  textColor: AppColor.whiteColor,
+                  onTap: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      Get.back();
+                      controller.postNewThread(
+                        onComplete: () {
+                          AppPopUps.showDialogContent(
+                              title: 'Success',
+                              description: 'New thread created success',
+                              // onOkPress: () {
+                              //   Get.back();
+                              // },
+                              // onCancelPress: () {
+                              //   Get.back();
+                              // },
+                              dialogType: DialogType.SUCCES);
+                        },
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

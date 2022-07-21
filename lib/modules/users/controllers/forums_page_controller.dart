@@ -8,6 +8,7 @@ import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/models/forums_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/projects_response_model.dart';
 import 'package:zeerac_flutter/utils/app_pop_ups.dart';
+import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 import '../../../utils/helpers.dart';
 import '../models/acutions_listing_response_model.dart';
@@ -23,6 +24,10 @@ class ForumsPageController extends GetxController {
 
   List<String> forumsType = ['Public', 'Private'];
   RxString selectedForumType = ''.obs;
+
+  TextEditingController newThreadTitleController = TextEditingController();
+
+  TextEditingController newThreadContentController = TextEditingController();
 
   void searchFromList() {
     filteredItemList.clear();
@@ -115,5 +120,46 @@ class ForumsPageController extends GetxController {
     pageToLoad = 1;
     hasNewPage = false;
     return await loadForums(showAlert: true);
+  }
+
+  void postNewThread({required onComplete}) {
+    isLoading.value = true;
+    String? userId = UserDefaults.getCurrentUserId();
+    Map<String, dynamic> body = {
+      "title": newThreadTitleController.text.trim(),
+      "content": newThreadContentController.text.trim(),
+      "is_private": selectedForumType.value == 'Private' ? 'True' : 'False',
+      "author_fk": userId,
+      "members": [userId]
+    };
+    var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
+    client
+        .request(
+            route: APIRoute(
+              APIType.postNewForum,
+              body: body,
+            ),
+            create: () => APIResponse<ForumModel>(create: () => ForumModel()),
+            apiFunction: postNewThread)
+        .then((response) {
+      isLoading.value = false;
+      ForumModel? forumModel = response.response?.data;
+      if (forumModel != null) {
+        forumsList.insert(0, forumModel);
+        filteredItemList.insert(0, forumModel);
+        onComplete();
+      } else {
+        AppPopUps.showDialogContent(
+            title: 'Error',
+            description: 'Failed to post new thread',
+            dialogType: DialogType.ERROR);
+      }
+    }).catchError((error) {
+      isLoading.value = false;
+      AppPopUps.showDialogContent(
+          title: 'Error',
+          description: error.toString(),
+          dialogType: DialogType.ERROR);
+    });
   }
 }

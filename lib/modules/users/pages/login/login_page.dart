@@ -67,14 +67,10 @@ class LoginPage extends GetView<LoginController> {
                           Stack(
                             children: [
                               Center(
-                                child: Hero(
-                                  tag: "logoSigUp",
-                                  child: Image.asset(
-                                    "assets/images/logo.png",
-                                    height: 300,
-                                    width: 300,
-                                    color: AppColor.blackColor,
-                                  ),
+                                child: Image.asset(
+                                  "assets/images/logo.png",
+                                  height: 300,
+                                  width: 300,
                                 ),
                               ),
                             ],
