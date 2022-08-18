@@ -11,16 +11,6 @@ import 'package:zeerac_flutter/utils/helpers.dart';
 class UserDefaults {
   static SharedPreferences? sharedPreferences;
 
-  setBoolValue(String key, bool value) async {
-    final SharedPreferences sharedPreferences = await getPref();
-    sharedPreferences.setBool(key, value);
-  }
-
-  setString(String key, String value) async {
-    final SharedPreferences sharedPreferences = await getPref();
-    sharedPreferences.setString(key, value);
-  }
-
   static Future<bool?> clearAll() async {
     await _logout();
     return await sharedPreferences?.clear();
@@ -29,6 +19,16 @@ class UserDefaults {
   static Future<SharedPreferences> getPref() async {
     sharedPreferences ??= await SharedPreferences.getInstance();
     return sharedPreferences!;
+  }
+
+  setBoolValue(String key, bool value) async {
+    final SharedPreferences sharedPreferences = await getPref();
+    sharedPreferences.setBool(key, value);
+  }
+
+  setString(String key, String value) async {
+    final SharedPreferences sharedPreferences = await getPref();
+    sharedPreferences.setString(key, value);
   }
 
   bool getBoolValue(String key, bool defaultValue) {

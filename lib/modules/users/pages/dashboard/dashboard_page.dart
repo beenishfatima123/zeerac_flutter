@@ -10,6 +10,7 @@ import 'package:zeerac_flutter/modules/users/pages/company_listing/company_listi
 import 'package:zeerac_flutter/modules/users/pages/dashboard/side_bar_widget.dart';
 import 'package:zeerac_flutter/modules/users/pages/forums/forums_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/home/home_page.dart';
+import 'package:zeerac_flutter/modules/users/pages/social_feed/social_feed_page.dart';
 import 'package:zeerac_flutter/modules/users/pages/tutorials/tutorials_page.dart';
 import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/common_widgets.dart';
@@ -80,7 +81,8 @@ class DashBoardPage extends GetView<DashBoardController> {
                       const TutorialsPage(), //6
                       const LookingForPage(), //7
                       const AuctionsListingPage(), //8
-                      const ForumsPage() //9
+                      const ForumsPage(), //9
+                      const SocialFeedPage() //10
                     ]),
               );
             }),

@@ -245,6 +245,19 @@ class SideBar extends GetView<DashBoardController> {
                 },
               ),
 
+            ///social group 10
+            if (session != null)
+              ListTile(
+                leading: const Icon(Entypo.facebook_circled),
+                selected: controller.selectedIndex.value == 10,
+                title: Text('Social Feed',
+                    style: AppTextStyles.textStyleBoldBodyMedium),
+                onTap: () {
+                  controller.selectedIndex.value = 10;
+                  controller.scaffoldKey.currentState?.closeDrawer();
+                },
+              ),
+
             ///logout
             if (session != null)
               ListTile(
