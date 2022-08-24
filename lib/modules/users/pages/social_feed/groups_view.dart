@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeerac_flutter/common/styles.dart';
@@ -13,7 +10,6 @@ import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
 
 import '../../../../common/common_widgets.dart';
 import '../../../../common/spaces_boxes.dart';
-import '../../../../utils/app_utils.dart';
 import '../../../../utils/user_defaults.dart';
 import '../../controllers/social_feed_controller.dart';
 
@@ -173,7 +169,7 @@ class GroupsView extends GetView<SocialFeedController>
                 var requestedMember = groupsMemberResponseModel?.membersRequests
                     ?.elementAt(index);
                 return Card(
-                    child: Container(
+                    child: SizedBox(
                   height: 150.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

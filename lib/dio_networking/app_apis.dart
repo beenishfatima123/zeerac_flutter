@@ -36,6 +36,7 @@ enum APIType {
   getOneSocialGroupById,
   socialGroupMemberRequestUpdate,
   requestJoinGroup,
+  getSocialPosts,
 }
 
 class ApiConstants {
@@ -77,4 +78,6 @@ class ApiConstants {
   static const socialGroups = '/users/social-group/';
 
   static const socialGroupMember = '/users/social-group-member/';
+
+  static const socialPosts = '/users/property-posts/';
 }

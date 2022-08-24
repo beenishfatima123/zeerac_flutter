@@ -30,6 +30,7 @@ class SocialFeedPage extends GetView<SocialFeedController> {
       body: GetX<SocialFeedController>(
         initState: (state) {
           controller.loadGroups();
+          controller.loadPosts();
         },
         builder: (_) {
           return SafeArea(
