@@ -13,9 +13,9 @@ class AppBottomSheets {
   AppBottomSheets._internal();
 
   static showAppAlertBottomSheet(
-      {isDismissable,
-      required Widget child,
+      {isDismissable = false,
       required BuildContext context,
+      required Widget child,
       String title = '',
       bool isFull = false}) {
     //   isDialogShowing =true;

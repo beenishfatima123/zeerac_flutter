@@ -12,21 +12,25 @@ class SocialFeedPage extends GetView<SocialFeedController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 20,
-        currentIndex: controller.selectedIndex.value,
-        onTap: (value) {
-          controller.selectedIndex.value = value;
-          controller.pageViewController.jumpToPage(value);
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.compost_outlined), label: 'Posts'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Groups')
-        ],
-      ),
+      bottomNavigationBar: Obx(() {
+        return BottomNavigationBar(
+          elevation: 20,
+          currentIndex: controller.selectedIndex.value,
+          onTap: (value) {
+            controller.selectedIndex.value = value;
+            controller.pageViewController.jumpToPage(value);
+          },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.compost_outlined), label: 'Posts'),
+            BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Groups')
+          ],
+        );
+      }),
       body: GetX<SocialFeedController>(
-        initState: (state) {},
+        initState: (state) {
+          controller.loadGroups();
+        },
         builder: (_) {
           return SafeArea(
             child: Stack(
@@ -36,7 +40,7 @@ class SocialFeedPage extends GetView<SocialFeedController> {
                     onPageChanged: (value) {
                       controller.selectedIndex.value = value;
                     },
-                    children: [PostsView(), GroupsView()]),
+                    children: [const PostsView(), GroupsView()]),
                 if (controller.isLoading.isTrue) LoadingWidget(),
               ],
             ),

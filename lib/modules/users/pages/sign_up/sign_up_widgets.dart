@@ -39,7 +39,7 @@ mixin SignupWidgetsMixin {
                 : null);
   }
 
-  Widget getImageWidget(Rx<File?> file, {String? networkImage}) {
+  Widget getImageWidget(Rx<File?> file, {String? networkImage = ''}) {
     return Stack(
       children: [
         (file.value != null)

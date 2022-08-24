@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
@@ -16,6 +15,7 @@ import 'package:zeerac_flutter/modules/users/pages/login/login_page.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_pop_ups.dart';
 import 'package:zeerac_flutter/utils/extension.dart';
+
 import '../../../../common/languages.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';

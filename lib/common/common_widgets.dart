@@ -235,7 +235,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       onDoubleTap: () {},
       child: Padding(
@@ -261,14 +261,16 @@ class Button extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               prefixIcon ?? const IgnorePointer(),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Text(
-                  buttonText,
-                  textAlign: TextAlign.center,
-                  style: textStyle ??
-                      AppTextStyles.textStyleBoldBodySmall
-                          .copyWith(color: textColor ?? AppColor.whiteColor),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                    buttonText,
+                    textAlign: TextAlign.center,
+                    style: textStyle ??
+                        AppTextStyles.textStyleBoldBodySmall
+                            .copyWith(color: textColor ?? AppColor.whiteColor),
+                  ),
                 ),
               ),
               postFixIcon ?? const IgnorePointer(),
@@ -585,7 +587,7 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
           borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
             image: imageProvider,
-            fit: BoxFit.cover,
+            fit: widget.fit ?? BoxFit.cover,
           ),
         ),
       ),
@@ -595,8 +597,8 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: AppColor.redColor.withOpacity(0.5)),
-        child: const Center(
-          child: Icon(Icons.error),
+        child: Center(
+          child: Text(error.toString()),
         ),
       ),
     );

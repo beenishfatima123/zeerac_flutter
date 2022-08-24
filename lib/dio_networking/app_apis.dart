@@ -29,7 +29,13 @@ enum APIType {
   postFileImages,
   loadForums,
   postNewForum,
-  replyToForum
+  replyToForum,
+  createSocialGroup,
+  updateSocialGroup,
+  getAllSocialGroups,
+  getOneSocialGroupById,
+  socialGroupMemberRequestUpdate,
+  requestJoinGroup,
 }
 
 class ApiConstants {
@@ -67,4 +73,8 @@ class ApiConstants {
   static const postFileImages = '/users/property-files-images/';
   static const groupDiscussion = 'users/group-discussion/';
   static const groupDiscussionReply = '/users/group-discussion-reply/';
+
+  static const socialGroups = '/users/social-group/';
+
+  static const socialGroupMember = '/users/social-group-member/';
 }

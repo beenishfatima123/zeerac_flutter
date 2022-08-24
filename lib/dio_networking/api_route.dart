@@ -238,6 +238,50 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.post,
         );
+      case APIType.createSocialGroup:
+        return RequestOptions(
+          path: ApiConstants.socialGroups,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateSocialGroup:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+
+      case APIType.getAllSocialGroups:
+        return RequestOptions(
+          path: ApiConstants.socialGroups,
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.getOneSocialGroupById:
+        return RequestOptions(
+          path: "${ApiConstants.socialGroups}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.socialGroupMemberRequestUpdate:
+        return RequestOptions(
+          path: "${ApiConstants.socialGroupMember}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.requestJoinGroup:
+        return RequestOptions(
+          path: ApiConstants.socialGroupMember,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
 
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(
