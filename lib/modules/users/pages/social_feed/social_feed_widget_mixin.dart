@@ -4,15 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:zeerac_flutter/common/app_constants.dart';
 import 'package:zeerac_flutter/common/common_widgets.dart';
 import 'package:zeerac_flutter/common/spaces_boxes.dart';
 import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/models/group_member_requests_response_model.dart';
 import 'package:zeerac_flutter/modules/users/models/social_group_response_model.dart';
+import 'package:zeerac_flutter/modules/users/models/social_posts_response_model.dart';
+import 'package:zeerac_flutter/modules/users/pages/social_feed/all_comments_view.dart';
+import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
 import 'package:zeerac_flutter/utils/user_defaults.dart';
 
 import '../../../../my_application.dart';
@@ -20,261 +23,7 @@ import '../../../../utils/app_utils.dart';
 import '../../controllers/social_feed_controller.dart';
 
 mixin SocialFeedWidgetMixin {
-  Widget makeStory({storyImage, userImage, userName}) {
-    return AspectRatio(
-      aspectRatio: 1.6 / 2,
-      child: Container(
-        margin: EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          image:
-              DecorationImage(image: AssetImage(storyImage), fit: BoxFit.cover),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient: LinearGradient(begin: Alignment.bottomRight, colors: [
-                Colors.black.withOpacity(.9),
-                Colors.black.withOpacity(.1),
-              ])),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                    image: DecorationImage(
-                        image: AssetImage(userImage), fit: BoxFit.cover)),
-              ),
-              Text(
-                userName,
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget makeFeed({userName, userImage, feedTime, feedText, feedImage}) {
-    return Card(
-      color: AppColor.alphaGrey,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        padding: const EdgeInsets.all(6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(userImage), fit: BoxFit.cover)),
-                    ),
-                    hSpace,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          userName,
-                          style: AppTextStyles.textStyleBoldBodyMedium
-                              .copyWith(letterSpacing: 1),
-                        ),
-                        hSpace,
-                        Text(
-                          feedTime,
-                          style: AppTextStyles.textStyleNormalBodySmall
-                              .copyWith(color: AppColor.greyColor),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    size: 30,
-                    color: AppColor.greyColor,
-                  ),
-                  onPressed: () {},
-                )
-              ],
-            ),
-            vSpace,
-            Text(
-              feedText,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.textStyleNormalBodyMedium.copyWith(),
-            ),
-            vSpace,
-            feedImage != ''
-                ? Container(
-                    height: 400.h,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: AssetImage(feedImage), fit: BoxFit.cover)),
-                  )
-                : const IgnorePointer(),
-            vSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    makeLike(),
-                    hSpace,
-                    Text(
-                      "2.5K",
-                      style: AppTextStyles.textStyleNormalBodyMedium
-                          .copyWith(color: AppColor.greyColor),
-                    )
-                  ],
-                ),
-                Text(
-                  "400 Comments",
-                  style: AppTextStyles.textStyleNormalBodyMedium
-                      .copyWith(color: AppColor.greyColor),
-                )
-              ],
-            ),
-            vSpace,
-
-            ///like comment share
-            SizedBox(
-              height: 50.h,
-              child: ListView(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  makeLikeButton(isActive: true),
-                  hSpace,
-                  makeActionButton(title: 'Comments', iconData: Icons.message),
-                  hSpace,
-                  makeActionButton(title: 'Share', iconData: Icons.share),
-                ],
-              ),
-            ),
-            vSpace,
-            previousComments(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget makeLike() {
-    return Container(
-      width: 25,
-      height: 25,
-      decoration: BoxDecoration(
-          color: Colors.blue,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white)),
-      child: Center(
-        child: Icon(Icons.thumb_up, size: 12, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget makeLikeButton({isActive}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColor.greyColor),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.thumb_up,
-              color: isActive ? Colors.blue : Colors.grey,
-              size: 18,
-            ),
-            hSpace,
-            Text(
-              "Like",
-              style: TextStyle(color: isActive ? Colors.blue : Colors.grey),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget makeActionButton({required String title, required IconData iconData}) {
-    return InkWell(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColor.greyColor),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(iconData, color: Colors.grey, size: 18),
-              hSpace,
-              Text(
-                title,
-                style: AppTextStyles.textStyleNormalBodySmall
-                    .copyWith(color: AppColor.greyColor),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget previousComments() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ///show if comments size is more than 100
-        Text(
-          'Load Previous Comments',
-          style: AppTextStyles.textStyleBoldBodySmall
-              .copyWith(color: AppColor.greyColor),
-        ),
-        vSpace,
-        commenterCommentView(),
-      ],
-    );
-  }
-
-  Widget commenterCommentView() {
-    return Container(
-      child: Row(
-        children: [
-          NetworkCircularImage(
-            url: 'url',
-            radius: 18,
-          ),
-        ],
-      ),
-    );
-  }
-
+  /////Groups items
   Widget getGroupView(
       {required onViewGroupTap,
       required onSettingsTap,
@@ -347,10 +96,9 @@ mixin SocialFeedWidgetMixin {
 
   Widget getImageWidget(Rx<File?> file, {String? networkImage = ''}) {
     return SizedBox(
-      height: 200.h,
-      width: double.infinity,
-      child: Obx(() {
-        return Stack(
+        height: 200.h,
+        width: double.infinity,
+        child: Stack(
           children: [
             (file.value != null)
                 ? Image.file(file.value!,
@@ -394,9 +142,7 @@ mixin SocialFeedWidgetMixin {
               ),
             ),
           ],
-        );
-      }),
-    );
+        ));
   }
 
   createUpdateGroupView(SocialFeedController controller,
@@ -469,5 +215,122 @@ mixin SocialFeedWidgetMixin {
             (String? value) => validate
                 ? (value!.trim().isEmpty ? validateText ?? "Required" : null)
                 : null);
+  }
+
+  ///0 nutral 1 liked 2 diskliked
+  RxInt checkIsLiked({required Rx<SocialPostModel> postModel}) {
+    RxInt result = 0.obs;
+    Likes? like = postModel.value.likes.firstWhereOrNull((element) =>
+        ((element.userFk ?? -1).toString() ==
+            (UserDefaults.getCurrentUserId() ?? '')));
+
+    if (like != null) {
+      if ((like.like ?? false) && ((like.dislike ?? false) == false)) {
+        result.value = 1;
+      } else if ((like.dislike ?? false)) {
+        result.value = 2;
+      }
+    }
+
+    return result;
+  }
+
+  Widget getIconOnLiked(int value) {
+    switch (value) {
+      case 0: //nutral
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.thumb_up, color: AppColor.greyColor),
+              hSpace,
+              const Text("Like", style: TextStyle(color: AppColor.greyColor))
+            ]);
+      case 1: //liked
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.thumb_up, color: AppColor.primaryBlueColor),
+              hSpace,
+              const Text("Like", style: TextStyle(color: AppColor.greyColor))
+            ]);
+      case 2: //disliked
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.thumb_down, color: AppColor.redColor),
+              hSpace,
+              const Text("Disliked", style: TextStyle(color: AppColor.redColor))
+            ]);
+      default:
+        return IgnorePointer();
+    }
+  }
+
+  void showBottomSheetForComments({required Rx<SocialPostModel> postModel}) {
+    AppBottomSheets.showAppAlertBottomSheet(
+      isFull: true,
+      isDismissable: true,
+      title: 'Comments',
+      context: myContext!,
+      child: AllCommentsView(postModel: postModel),
+    );
+  }
+
+  Widget commentCommenterView({required Comments comment}) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              NetworkCircularImage(
+                url: "${ApiConstants.baseUrl}${comment.userFk?.photo}",
+                radius: 18,
+              ),
+              hSpace,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(comment.userFk?.firstName ?? '-',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.textStyleBoldBodyMedium),
+                    Text(comment.content ?? '-',
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.textStyleNormalBodyXSmall),
+                    vSpace,
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.thumb_up,
+                          size: 16,
+                          color: AppColor.greyColor,
+                        ),
+                        hSpace,
+                        hSpace,
+                        const Icon(
+                          Icons.reply,
+                          size: 16,
+                          color: AppColor.greyColor,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Text(
+                formatDateTime(DateTime.tryParse(
+                    comment.createdAt ?? DateTime.now().toString())),
+                style: AppTextStyles.textStyleNormalBodyXSmall,
+              ),
+            ],
+          ),
+          const Divider(),
+        ],
+      ),
+    );
   }
 }

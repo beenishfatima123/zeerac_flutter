@@ -111,8 +111,7 @@ mixin GroupControllerMixin implements Loading {
     printWrapped("getting social groups");
     isLoading.value = true;
 
-    var client = APIClient(isCache: false, baseUrl: ApiConstants.baseUrl);
-    client
+    APIClient(isCache: false, baseUrl: ApiConstants.baseUrl)
         .request(
             route: APIRoute(
               APIType.getAllSocialGroups,

@@ -41,7 +41,7 @@ class SocialFeedPage extends GetView<SocialFeedController> {
                     onPageChanged: (value) {
                       controller.selectedIndex.value = value;
                     },
-                    children: [const PostsView(), GroupsView()]),
+                    children: [PostsView(), GroupsView()]),
                 if (controller.isLoading.isTrue) LoadingWidget(),
               ],
             ),

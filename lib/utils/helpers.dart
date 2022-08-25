@@ -11,8 +11,8 @@ void printWrapped(String text) {
       (match) => print("***${match.group(0)}***"));
 }
 
-String formatDateTime(DateTime? dateTime) {
-  return DateFormat('dd-MM-yyyy').format(dateTime ?? DateTime.now());
+String formatDateTime(DateTime? dateTime, {String format = 'dd-MM-yyyy'}) {
+  return DateFormat(format).format(dateTime ?? DateTime.now());
 }
 
 int daysDifference({required DateTime from, required DateTime to}) {
