@@ -6,6 +6,8 @@ import 'package:zeerac_flutter/modules/users/pages/social_feed/widgets/post_feed
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
 import '../../../../common/styles.dart';
+import '../../../../my_application.dart';
+import '../../../../utils/app_alert_bottom_sheet.dart';
 import '../../controllers/social_feed_controller.dart';
 
 class PostsView extends GetView<SocialFeedController>
@@ -46,10 +48,15 @@ class PostsView extends GetView<SocialFeedController>
                           ),
                         ),
                         hSpace,
-                        Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey[800],
-                          size: 30,
+                        InkWell(
+                          onTap: () {
+                            _showPostCreateUpdateBottomSheet();
+                          },
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: AppColor.greyColor,
+                            size: 30,
+                          ),
                         )
                       ],
                     )
@@ -79,10 +86,20 @@ class PostsView extends GetView<SocialFeedController>
                   child: ListView.builder(
                     itemCount: controller.socialPostFilteredItemList.length,
                     physics: const BouncingScrollPhysics(),
+                    reverse: true,
                     itemBuilder: (context, index) {
-                      return PostFeedWidget(
-                          postModel: controller.socialPostFilteredItemList
-                              .elementAt(index)!);
+                      return InkWell(
+                        onTap: () {
+                          _showPostCreateUpdateBottomSheet(
+                              socialPostModel: controller
+                                  .socialPostFilteredItemList
+                                  .elementAt(index)!
+                                  .value);
+                        },
+                        child: PostFeedWidget(
+                            postModel: controller.socialPostFilteredItemList
+                                .elementAt(index)!),
+                      );
                     },
                   ),
                 ),
@@ -92,5 +109,24 @@ class PostsView extends GetView<SocialFeedController>
         }),
       ),
     );
+  }
+
+  void _showPostCreateUpdateBottomSheet({SocialPostModel? socialPostModel}) {
+    ///settings groups information
+    controller.postCoverImageFile.value = null;
+
+    controller.postDescriptionTextController.text =
+        socialPostModel?.description ?? '';
+    controller.postLinkTextController.text = socialPostModel?.link ?? '';
+    controller.postNetworkImageToUpdate =
+        socialPostModel?.propertyPostImage ?? '';
+
+    AppBottomSheets.showAppAlertBottomSheet(
+        context: myContext!,
+        isFull: true,
+        isDismissable: true,
+        title: "Posts",
+        child:
+            createUpdatePostView(controller, socialPostModel: socialPostModel));
   }
 }

@@ -29,7 +29,7 @@ mixin GroupControllerMixin implements Loading {
   bool groupHasNewPage = false;
 
   Rxn<File?> groupCoverImageFile = Rxn<File>();
-
+  String groupNetworkImageToUpdate = '';
   TextEditingController groupDescriptionController = TextEditingController();
 
   TextEditingController groupTitleNameController = TextEditingController();
@@ -37,8 +37,6 @@ mixin GroupControllerMixin implements Loading {
   RxList<SocialGroupModel?> socialGroupModelList = <SocialGroupModel?>[].obs;
   RxList<SocialGroupModel?> socialGroupFilteredItemList =
       <SocialGroupModel?>[].obs;
-
-  String groupNetworkImageToUpdate = '';
 
   void createUpdateGroup({GroupMembersRequestResponseModel? group}) async {
     if (groupTitleNameController.text.isEmpty) {

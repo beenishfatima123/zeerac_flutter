@@ -95,54 +95,56 @@ mixin SocialFeedWidgetMixin {
   }
 
   Widget getImageWidget(Rx<File?> file, {String? networkImage = ''}) {
-    return SizedBox(
-        height: 200.h,
-        width: double.infinity,
-        child: Stack(
-          children: [
-            (file.value != null)
-                ? Image.file(file.value!,
-                    fit: BoxFit.cover, width: double.infinity)
-                : (networkImage != '')
-                    ? NetworkPlainImage(
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        url: "${ApiConstants.baseUrl}$networkImage")
-                    : Image.asset(
-                        'assets/images/place_your_image.png',
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-            Positioned(
-              bottom: 5,
-              right: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(2, 4),
-                        color: Colors.black.withOpacity(
-                          0.3,
+    return Obx(() {
+      return SizedBox(
+          height: 200.h,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              (file.value != null)
+                  ? Image.file(file.value!,
+                      fit: BoxFit.cover, width: double.infinity)
+                  : (networkImage != '')
+                      ? NetworkPlainImage(
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          url: "${ApiConstants.baseUrl}$networkImage")
+                      : Image.asset(
+                          'assets/images/place_your_image.png',
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                         ),
-                        blurRadius: 3,
+              Positioned(
+                bottom: 5,
+                right: 10,
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 3,
+                        color: Colors.white,
                       ),
-                    ]),
-                child: const Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Icon(Icons.add_a_photo, color: Colors.black),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(2, 4),
+                          color: Colors.black.withOpacity(
+                            0.3,
+                          ),
+                          blurRadius: 3,
+                        ),
+                      ]),
+                  child: const Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: Icon(Icons.add_a_photo, color: Colors.black),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+            ],
+          ));
+    });
   }
 
   createUpdateGroupView(SocialFeedController controller,
@@ -180,6 +182,48 @@ mixin SocialFeedWidgetMixin {
           onTap: () {
             ///updating or creating
             controller.createUpdateGroup(group: group);
+          },
+        ),
+        vSpace,
+      ],
+    );
+  }
+
+  createUpdatePostView(SocialFeedController controller,
+      {SocialPostModel? socialPostModel}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        vSpace,
+        GestureDetector(
+          onTap: () async {
+            AppUtils.showPicker(
+              context: myContext!,
+              onComplete: (File? file) {
+                if (file != null) {
+                  controller.postCoverImageFile.value = file;
+                }
+              },
+            );
+          },
+          child: getImageWidget(controller.postCoverImageFile,
+              networkImage: controller.postNetworkImageToUpdate),
+        ),
+        vSpace,
+        getTextField(
+            hintText: 'Post description',
+            controller: controller.postDescriptionTextController),
+        vSpace,
+        getTextField(
+            hintText: 'Post Link',
+            controller: controller.postLinkTextController),
+        vSpace,
+        Button(
+          buttonText: socialPostModel != null ? 'Update Post' : 'Create Post',
+          onTap: () {
+            ///updating or creating
+            controller.createUpdatePost(socialPostModel: socialPostModel);
           },
         ),
         vSpace,

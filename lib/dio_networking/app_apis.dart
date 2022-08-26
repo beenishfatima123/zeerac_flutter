@@ -37,6 +37,8 @@ enum APIType {
   socialGroupMemberRequestUpdate,
   requestJoinGroup,
   getSocialPosts,
+  createSocialPosts,
+  updateSocialPosts
 }
 
 class ApiConstants {

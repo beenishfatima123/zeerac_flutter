@@ -83,6 +83,7 @@ class GroupsView extends GetView<SocialFeedController>
                 child: ListView.builder(
                   itemCount: controller.socialGroupFilteredItemList.length,
                   physics: const BouncingScrollPhysics(),
+                  reverse: true,
                   itemBuilder: (context, index) {
                     var socialGroupModel = controller
                         .socialGroupFilteredItemList

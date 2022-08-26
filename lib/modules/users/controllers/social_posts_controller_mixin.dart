@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:dio/dio.dart' as dio;
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -8,8 +11,10 @@ import '../../../dio_networking/api_client.dart';
 import '../../../dio_networking/api_response.dart';
 import '../../../dio_networking/api_route.dart';
 import '../../../dio_networking/app_apis.dart';
+import '../../../my_application.dart';
 import '../../../utils/app_pop_ups.dart';
 import '../../../utils/helpers.dart';
+import '../../../utils/user_defaults.dart';
 import '../models/social_posts_response_model.dart';
 
 mixin SocialPostsControllerMixin implements Loading {
@@ -21,6 +26,13 @@ mixin SocialPostsControllerMixin implements Loading {
   RxList<Rx<SocialPostModel>?> socialPostFilteredItemList =
       <Rx<SocialPostModel>?>[].obs;
   TextEditingController addNewCommentTextController = TextEditingController();
+
+  ///create post
+  TextEditingController postDescriptionTextController = TextEditingController();
+  TextEditingController postLinkTextController = TextEditingController();
+
+  Rxn<File?> postCoverImageFile = Rxn<File>();
+  String postNetworkImageToUpdate = '';
 
   loadPosts({bool showAlert = false}) {
     isLoading.value = true;
@@ -74,6 +86,72 @@ mixin SocialPostsControllerMixin implements Loading {
     postPageToLoad = 0;
     postHasNewPage = false;
     loadPosts(showAlert: true);
+  }
+
+  void createUpdatePost({SocialPostModel? socialPostModel}) async {
+    if (postDescriptionTextController.text.isEmpty) {
+      AppPopUps.showSnackBar(message: 'Enter description', context: myContext!);
+      return;
+    }
+    // if (postLinkTextController.text.isEmpty) {
+    //   AppPopUps.showSnackBar(message: 'Enter description', context: myContext!);
+    //   return;
+    // }
+
+    ///to close bottomsheet
+    Get.back();
+
+    isLoading.value = true;
+    Map<String, dynamic> dataMap = {};
+    if (postCoverImageFile.value != null) {
+      dataMap['property_post_image'] = await dio.MultipartFile.fromFile(
+          postCoverImageFile.value!.path,
+          filename: "postImage.png");
+    }
+    dataMap['description'] = postDescriptionTextController.text.trim();
+    dataMap['link'] = postLinkTextController.text.trim();
+
+    ///updating or creating....
+    if (socialPostModel == null) {
+      dataMap['user_fk'] = UserDefaults.getCurrentUserId() ?? '';
+    }
+
+    //dataMap['group_id'] = 'ceo_group';
+
+    var data = dio.FormData.fromMap(dataMap);
+    String url = socialPostModel == null
+        ? ApiConstants.baseUrl
+        : "${ApiConstants.baseUrl}${ApiConstants.socialPosts}/${socialPostModel.id.toString()}/";
+
+    var client = APIClient(isCache: false, baseUrl: url);
+    client
+        .request(
+            route: APIRoute(
+              socialPostModel == null
+                  ? APIType.createSocialPosts
+                  : APIType.updateSocialPosts,
+              body: data,
+            ),
+            create: () => APIResponse(decoding: false),
+            apiFunction: createUpdatePost)
+        .then((response) async {
+      isLoading.value = false;
+
+      if ((response.response?.success ?? false)) {
+        AppPopUps.showDialogContent(
+            title: 'Success', dialogType: DialogType.SUCCES);
+      } else {
+        AppPopUps.showDialogContent(
+            title: 'Error', dialogType: DialogType.ERROR);
+      }
+    }).catchError((error) {
+      isLoading.value = false;
+      AppPopUps.showDialogContent(
+          title: 'Error',
+          description: error.toString(),
+          dialogType: DialogType.ERROR);
+      return Future.value(null);
+    });
   }
 
   void addNewComment() {

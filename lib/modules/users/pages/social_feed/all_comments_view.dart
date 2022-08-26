@@ -84,12 +84,10 @@ class AllCommentsView extends GetView<SocialFeedController>
                         controller.update(['comments', 'feed']);
 //                        controller.addNewComment();
                       },
-                      child: const Expanded(
-                        child: SvgViewer(
-                          height: 20,
-                          width: 20,
-                          svgPath: "assets/icons/ic_send_message.svg",
-                        ),
+                      child: const SvgViewer(
+                        height: 20,
+                        width: 20,
+                        svgPath: "assets/icons/ic_send_message.svg",
                       ),
                     ),
                   ],
