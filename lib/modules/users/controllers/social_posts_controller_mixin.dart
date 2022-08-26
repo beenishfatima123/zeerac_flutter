@@ -154,7 +154,85 @@ mixin SocialPostsControllerMixin implements Loading {
     });
   }
 
-  void addNewComment() {
-    if (addNewCommentTextController.text.isNotEmpty) {}
+  void addNewComment(
+      {required SocialPostModel postModel, required completion}) {
+    if (addNewCommentTextController.text.isNotEmpty) {
+      isLoading.value = true;
+      Map<String, dynamic> body = {
+        "property_posts_fk": postModel.id.toString(),
+        "user_fk": UserDefaults.getCurrentUserId() ?? '',
+        "content": addNewCommentTextController.text.trim()
+      };
+
+      APIClient(isCache: false, baseUrl: ApiConstants.baseUrl)
+          .request(
+              route: APIRoute(
+                APIType.postSocialPostComment,
+                body: body,
+              ),
+              create: () => APIResponse<Comments>(create: () => Comments()),
+              apiFunction: addNewComment)
+          .then((response) {
+        isLoading.value = false;
+
+        Comments? model = response.response?.data;
+        if (model != null) {
+          completion(model);
+          addNewCommentTextController.clear();
+        }
+      }).catchError((error) {
+        isLoading.value = false;
+        AppPopUps.showDialogContent(
+            title: 'Error',
+            description: error.toString(),
+            dialogType: DialogType.ERROR);
+        return Future.value(null);
+      });
+    }
+  }
+
+  void addNewLike(
+      {required SocialPostModel postModel,
+      required completion,
+      required bool isLiked,
+      required int alreadyPresentCommentId,
+      required bool isDisliked}) {
+    isLoading.value = true;
+    //
+
+    Map<String, dynamic> body = {
+      "property_posts_fk": postModel.id.toString(),
+      "user_fk": UserDefaults.getCurrentUserId() ?? '',
+      "like": isLiked,
+      "dislike": isDisliked,
+    };
+    if (alreadyPresentCommentId != -1) {
+      body['id'] = alreadyPresentCommentId;
+    }
+    APIClient(isCache: false, baseUrl: ApiConstants.baseUrl)
+        .request(
+            route: APIRoute(
+              (alreadyPresentCommentId == -1)
+                  ? APIType.propertyPostCommentLikes
+                  : APIType.propertyPostCommentLikesPut,
+              body: body,
+            ),
+            create: () => APIResponse<LikesModel>(create: () => LikesModel()),
+            apiFunction: addNewLike)
+        .then((response) {
+      isLoading.value = false;
+
+      LikesModel? model = response.response?.data;
+      if (model != null) {
+        completion(model);
+      }
+    }).catchError((error) {
+      isLoading.value = false;
+      AppPopUps.showDialogContent(
+          title: 'Error',
+          description: error.toString(),
+          dialogType: DialogType.ERROR);
+      return Future.value(null);
+    });
   }
 }

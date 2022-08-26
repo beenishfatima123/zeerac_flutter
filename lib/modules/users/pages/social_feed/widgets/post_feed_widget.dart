@@ -13,6 +13,7 @@ import 'package:zeerac_flutter/modules/users/pages/social_feed/social_feed_widge
 import 'package:zeerac_flutter/utils/helpers.dart';
 
 import '../../../../../common/styles.dart';
+import '../../../../../utils/user_defaults.dart';
 import '../../../models/social_posts_response_model.dart';
 
 class PostFeedWidget extends GetView<SocialFeedController>
@@ -20,15 +21,16 @@ class PostFeedWidget extends GetView<SocialFeedController>
   PostFeedWidget({required this.postModel});
 
   late Rx<SocialPostModel> postModel;
+  int alreadyPresentCommentId = -1;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SocialFeedController>(
       id: 'feed',
       builder: (logic) {
-        var isLikedValue = checkIsLiked(postModel: postModel);
+        RxInt isLikedValue = checkIsLiked(postModel: postModel);
         int commentsLength = (postModel.value.comments.length);
-        RxInt likesCounts = (postModel.value.likesCount ?? 0).obs;
+
         return Card(
           color: AppColor.alphaGrey,
           child: Container(
@@ -97,30 +99,69 @@ class PostFeedWidget extends GetView<SocialFeedController>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                          width: 25,
-                          height: 25,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white)),
-                          child: const Center(
-                            child: Icon(Icons.thumb_up,
-                                size: 12, color: Colors.white),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 25,
+                                height: 25,
+                                decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white)),
+                                child: const Center(
+                                  child: Icon(Icons.thumb_up,
+                                      size: 12, color: Colors.white),
+                                ),
+                              ),
+                              hSpace,
+                              Text(
+                                postModel.value.likes
+                                    .where((element) =>
+                                        ((element.like ?? false) == true))
+                                    .toList()
+                                    .length
+                                    .toString(),
+                                style: AppTextStyles.textStyleNormalBodyMedium
+                                    .copyWith(color: AppColor.greyColor),
+                              )
+                            ],
                           ),
-                        ),
-                        hSpace,
-                        Text(
-                          likesCounts.value.toString(),
-                          style: AppTextStyles.textStyleNormalBodyMedium
-                              .copyWith(color: AppColor.greyColor),
-                        )
-                      ],
+                          hSpace,
+                          Row(
+                            children: [
+                              Container(
+                                width: 25,
+                                height: 25,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white)),
+                                child: const Center(
+                                  child: Icon(Icons.thumb_down,
+                                      size: 12, color: Colors.white),
+                                ),
+                              ),
+                              hSpace,
+                              Text(
+                                postModel.value.likes
+                                    .where((element) =>
+                                        ((element.dislike ?? false) == true))
+                                    .toList()
+                                    .length
+                                    .toString(),
+                                style: AppTextStyles.textStyleNormalBodyMedium
+                                    .copyWith(color: AppColor.greyColor),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
-                      "${postModel.value.commentsCount.toString()} Comments",
+                      "${postModel.value.comments.length.toString()} Comments",
                       style: AppTextStyles.textStyleNormalBodyMedium
                           .copyWith(color: AppColor.greyColor),
                     )
@@ -149,15 +190,43 @@ class PostFeedWidget extends GetView<SocialFeedController>
                               case 0: //nutral
                                 isLikedValue.value = 1;
                                 //send network request here////
-                                //    postModel.value.likes.add(Likes());
 
+                                controller.addNewLike(
+                                    postModel: postModel.value,
+                                    alreadyPresentCommentId:
+                                        alreadyPresentCommentId,
+                                    completion: (LikesModel likeModel) {
+                                      _updateValue(likeModel);
+                                    },
+                                    isLiked: true,
+                                    isDisliked: false);
                                 break;
                               case 1: //liked
                                 isLikedValue.value = 2;
 
+                                controller.addNewLike(
+                                    postModel: postModel.value,
+                                    alreadyPresentCommentId:
+                                        alreadyPresentCommentId,
+                                    completion: (LikesModel likeModel) {
+                                      _updateValue(likeModel);
+                                    },
+                                    isLiked: false,
+                                    isDisliked: true);
                                 break;
                               case 2: //disliked
+
                                 isLikedValue.value = 0;
+
+                                controller.addNewLike(
+                                    alreadyPresentCommentId:
+                                        alreadyPresentCommentId,
+                                    postModel: postModel.value,
+                                    completion: (LikesModel likeModel) {
+                                      _updateValue(likeModel);
+                                    },
+                                    isLiked: false,
+                                    isDisliked: false);
                                 break;
                             }
                           },
@@ -255,5 +324,39 @@ class PostFeedWidget extends GetView<SocialFeedController>
         ),
       ),
     );
+  }
+
+  ///0 nutral 1 liked 2 diskliked
+  RxInt checkIsLiked({required Rx<SocialPostModel> postModel}) {
+    RxInt result = 0.obs;
+    LikesModel? like = postModel.value.likes.firstWhereOrNull((element) =>
+        ((element.userFk ?? -1).toString() ==
+            (UserDefaults.getCurrentUserId() ?? '')));
+
+    if (like != null) {
+      ///required to make put request
+      alreadyPresentCommentId = like.id ?? -1;
+
+      if ((like.like ?? false) &&
+          ((like.dislike ?? false) == false) &&
+          (like.commentFk.toString() != UserDefaults.getCurrentUserId())) {
+        result.value = 1;
+      } else if ((like.dislike ?? false)) {
+        result.value = 2;
+      }
+    }
+
+    return result;
+  }
+
+  void _updateValue(LikesModel likeModel) {
+    if (alreadyPresentCommentId != -1) {
+      int index = postModel.value.likes
+          .indexWhere((element) => element.id == likeModel.id);
+      postModel.value.likes[index] = likeModel;
+    } else {
+      postModel.value.likes.add(likeModel);
+    }
+    controller.update(['feed']);
   }
 }

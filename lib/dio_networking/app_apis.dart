@@ -38,7 +38,10 @@ enum APIType {
   requestJoinGroup,
   getSocialPosts,
   createSocialPosts,
-  updateSocialPosts
+  updateSocialPosts,
+  postSocialPostComment,
+  propertyPostCommentLikes,
+  propertyPostCommentLikesPut,
 }
 
 class ApiConstants {
@@ -82,4 +85,8 @@ class ApiConstants {
   static const socialGroupMember = '/users/social-group-member/';
 
   static const socialPosts = '/users/property-posts/';
+
+  static const socialPostComments = '/users/property-post-comments/';
+
+  static const propertyPostCommentLikes = '/users/property-post-comment-likes/';
 }

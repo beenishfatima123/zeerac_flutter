@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zeerac_flutter/modules/users/models/social_posts_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/social_feed/social_feed_widget_mixin.dart';
 import 'package:zeerac_flutter/modules/users/pages/social_feed/widgets/post_feed_widget.dart';
+import 'package:zeerac_flutter/utils/helpers.dart';
 import '../../../../common/loading_widget.dart';
 import '../../../../common/spaces_boxes.dart';
 import '../../../../common/styles.dart';
@@ -86,15 +87,14 @@ class PostsView extends GetView<SocialFeedController>
                   child: ListView.builder(
                     itemCount: controller.socialPostFilteredItemList.length,
                     physics: const BouncingScrollPhysics(),
-                    reverse: true,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          _showPostCreateUpdateBottomSheet(
+                          /* _showPostCreateUpdateBottomSheet(
                               socialPostModel: controller
                                   .socialPostFilteredItemList
                                   .elementAt(index)!
-                                  .value);
+                                  .value);*/
                         },
                         child: PostFeedWidget(
                             postModel: controller.socialPostFilteredItemList
@@ -112,6 +112,8 @@ class PostsView extends GetView<SocialFeedController>
   }
 
   void _showPostCreateUpdateBottomSheet({SocialPostModel? socialPostModel}) {
+    printWrapped("id:${socialPostModel?.id.toString()}");
+
     ///settings groups information
     controller.postCoverImageFile.value = null;
 

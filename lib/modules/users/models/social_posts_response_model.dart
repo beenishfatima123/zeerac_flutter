@@ -59,7 +59,7 @@ class SocialPostModel {
   int? commentsCount;
   int? likesCount;
   List<Comments> comments = [];
-  List<Likes> likes = [];
+  List<LikesModel> likes = [];
 
   SocialPostModel(
       {this.id,
@@ -92,9 +92,9 @@ class SocialPostModel {
       });
     }
     if (json['likes'] != null) {
-      likes = <Likes>[];
+      likes = <LikesModel>[];
       json['likes'].forEach((v) {
-        likes.add(new Likes.fromJson(v));
+        likes.add(new LikesModel.fromJson(v));
       });
     }
   }
@@ -122,7 +122,7 @@ class SocialPostModel {
   }
 }
 
-class Comments {
+class Comments implements Decodeable {
   int? id;
   String? content;
   String? createdAt;
@@ -134,7 +134,7 @@ class Comments {
 
   //Null? parentId;
   int? likesCount;
-  List<Likes>? likes;
+  List<LikesModel>? likes;
 
   Comments(
       {this.id,
@@ -165,9 +165,9 @@ class Comments {
     // parentId = json['parent_id'];
     likesCount = json['likes_count'];
     if (json['likes'] != null) {
-      likes = <Likes>[];
+      likes = <LikesModel>[];
       json['likes'].forEach((v) {
-        likes!.add(new Likes.fromJson(v));
+        likes!.add(new LikesModel.fromJson(v));
       });
     }
   }
@@ -193,9 +193,35 @@ class Comments {
     }
     return data;
   }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    content = json['content'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['comment_replies'] != null) {
+      //commentReplies = <Null>[];
+      json['comment_replies'].forEach((v) {
+        //commentReplies!.add(new Null.fromJson(v));
+      });
+    }
+    userFk =
+        json['user_fk'] != null ? new UserFk.fromJson(json['user_fk']) : null;
+    propertyPostsFk = json['property_posts_fk'];
+    // parentId = json['parent_id'];
+    likesCount = json['likes_count'];
+    if (json['likes'] != null) {
+      likes = <LikesModel>[];
+      json['likes'].forEach((v) {
+        likes!.add(new LikesModel.fromJson(v));
+      });
+    }
+    return this;
+  }
 }
 
-class Likes {
+class LikesModel implements Decodeable {
   int? id;
   bool? like;
   bool? dislike;
@@ -205,7 +231,7 @@ class Likes {
   int? propertyPostsFk;
   int? commentFk;
 
-  Likes(
+  LikesModel(
       {this.id,
       this.like,
       this.dislike,
@@ -215,7 +241,7 @@ class Likes {
       this.propertyPostsFk,
       this.commentFk});
 
-  Likes.fromJson(Map<String, dynamic> json) {
+  LikesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     like = json['like'];
     dislike = json['dislike'];
@@ -237,5 +263,18 @@ class Likes {
     data['property_posts_fk'] = this.propertyPostsFk;
     data['comment_fk'] = this.commentFk;
     return data;
+  }
+
+  @override
+  decode(json) {
+    id = json['id'];
+    like = json['like'];
+    dislike = json['dislike'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    userFk = json['user_fk'];
+    propertyPostsFk = json['property_posts_fk'];
+    commentFk = json['comment_fk'];
+    return this;
   }
 }

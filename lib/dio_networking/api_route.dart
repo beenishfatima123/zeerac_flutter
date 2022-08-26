@@ -304,6 +304,27 @@ class APIRoute implements APIRouteConfigurable {
           headers: headers,
           method: APIMethod.put,
         );
+      case APIType.postSocialPostComment:
+        return RequestOptions(
+          path: ApiConstants.socialPostComments,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.propertyPostCommentLikes:
+        return RequestOptions(
+          path: ApiConstants.propertyPostCommentLikes,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.propertyPostCommentLikesPut:
+        return RequestOptions(
+          path: "${ApiConstants.propertyPostCommentLikes}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
 
       /*case APIType.googleNearByPlacesSearch:
         return RequestOptions(

@@ -261,24 +261,6 @@ mixin SocialFeedWidgetMixin {
                 : null);
   }
 
-  ///0 nutral 1 liked 2 diskliked
-  RxInt checkIsLiked({required Rx<SocialPostModel> postModel}) {
-    RxInt result = 0.obs;
-    Likes? like = postModel.value.likes.firstWhereOrNull((element) =>
-        ((element.userFk ?? -1).toString() ==
-            (UserDefaults.getCurrentUserId() ?? '')));
-
-    if (like != null) {
-      if ((like.like ?? false) && ((like.dislike ?? false) == false)) {
-        result.value = 1;
-      } else if ((like.dislike ?? false)) {
-        result.value = 2;
-      }
-    }
-
-    return result;
-  }
-
   Widget getIconOnLiked(int value) {
     switch (value) {
       case 0: //nutral

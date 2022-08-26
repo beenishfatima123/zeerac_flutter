@@ -78,11 +78,12 @@ class AllCommentsView extends GetView<SocialFeedController>
                     ),
                     InkWell(
                       onTap: () {
-                        print('on tap');
-                        postModel.value.comments
-                            .add(Comments(content: 'new content'));
-                        controller.update(['comments', 'feed']);
-//                        controller.addNewComment();
+                        controller.addNewComment(
+                            postModel: postModel.value,
+                            completion: (Comments comment) {
+                              postModel.value.comments.add(comment);
+                              controller.update(['comments', 'feed']);
+                            });
                       },
                       child: const SvgViewer(
                         height: 20,
