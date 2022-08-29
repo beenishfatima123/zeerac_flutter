@@ -18,10 +18,11 @@ import '../../../models/social_posts_response_model.dart';
 
 class PostFeedWidget extends GetView<SocialFeedController>
     with SocialFeedWidgetMixin {
-  PostFeedWidget({required this.postModel});
+  PostFeedWidget({required this.postModel, required this.onViewMoreTap});
 
   late Rx<SocialPostModel> postModel;
   int alreadyPresentCommentId = -1;
+  Function() onViewMoreTap;
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +71,11 @@ class PostFeedWidget extends GetView<SocialFeedController>
                     ),
                     IconButton(
                       icon: const Icon(
-                        Icons.more_horiz,
+                        Icons.more_vert,
                         size: 30,
                         color: AppColor.greyColor,
                       ),
-                      onPressed: () {},
+                      onPressed: onViewMoreTap,
                     )
                   ],
                 ),

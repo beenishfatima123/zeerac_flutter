@@ -5,9 +5,9 @@ import 'package:zeerac_flutter/common/styles.dart';
 import 'package:zeerac_flutter/dio_networking/app_apis.dart';
 import 'package:zeerac_flutter/modules/users/models/group_member_requests_response_model.dart';
 import 'package:zeerac_flutter/modules/users/pages/social_feed/social_feed_widget_mixin.dart';
+import 'package:zeerac_flutter/modules/users/pages/social_feed/view_groups_posts_view.dart';
 import 'package:zeerac_flutter/my_application.dart';
 import 'package:zeerac_flutter/utils/app_alert_bottom_sheet.dart';
-
 import '../../../../common/common_widgets.dart';
 import '../../../../common/spaces_boxes.dart';
 import '../../../../utils/user_defaults.dart';
@@ -87,7 +87,8 @@ class GroupsView extends GetView<SocialFeedController>
                     var socialGroupModel = controller
                         .socialGroupFilteredItemList
                         .elementAt(index)!;
-                    bool isOwns = (socialGroupModel.adminFk?.id.toString() ==
+                    bool isOwns = true;
+                    ((socialGroupModel.adminFk?.id ?? 0).toString() ==
                         UserDefaults.getCurrentUserId());
                     return getGroupView(
                         groupModel: socialGroupModel,
@@ -97,11 +98,21 @@ class GroupsView extends GetView<SocialFeedController>
                         },
                         onViewGroupTap: () {
                           ///view group...
+
+                          controller.getGroupInfo(
+                            group: socialGroupModel,
+                            onComplete: (GroupInfoResponseModel?
+                                groupsMemberResponseModel) {
+                              Get.to(ViewGroupsPostsPage(
+                                  groupInfoResponseModel:
+                                      groupsMemberResponseModel));
+                            },
+                          );
                         },
                         onSettingsTap: () {
-                          controller.getJoinRequestsOfGroup(
+                          controller.getGroupInfo(
                             group: socialGroupModel,
-                            onComplete: (GroupMembersRequestResponseModel?
+                            onComplete: (GroupInfoResponseModel?
                                 groupsMemberResponseModel) {
                               _showSettingBottomSheet(
                                   groupsMemberResponseModel);
@@ -134,7 +145,7 @@ class GroupsView extends GetView<SocialFeedController>
   }
 
   void _showSettingBottomSheet(
-      GroupMembersRequestResponseModel? groupsMemberResponseModel) {
+      GroupInfoResponseModel? groupsMemberResponseModel) {
     ///settings groups information
     controller.groupCoverImageFile.value = null;
     controller.groupTitleNameController.text =

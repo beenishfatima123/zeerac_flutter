@@ -56,7 +56,7 @@ class SocialGroupModel {
   String? updatedAt;
   AdminFk? adminFk;
   String? groupPhoto;
-  List<int>? members;
+  List<dynamic>? members = [];
   int? membersCount;
 
   SocialGroupModel(
@@ -68,7 +68,7 @@ class SocialGroupModel {
       this.updatedAt,
       this.adminFk,
       this.groupPhoto,
-      this.members,
+      this.members = const [],
       this.membersCount});
 
   SocialGroupModel.fromJson(Map<String, dynamic> json) {
@@ -82,7 +82,7 @@ class SocialGroupModel {
         ? new AdminFk.fromJson(json['admin_fk'])
         : null;
     groupPhoto = json['group_photo'];
-    members = json['members'].cast<int>();
+    members = json['members'];
     membersCount = json['members_count'];
   }
 

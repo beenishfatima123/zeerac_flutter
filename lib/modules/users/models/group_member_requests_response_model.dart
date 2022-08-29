@@ -1,7 +1,8 @@
 import 'package:zeerac_flutter/dio_networking/decodable.dart';
 import 'package:zeerac_flutter/modules/users/models/social_group_response_model.dart';
+import 'package:zeerac_flutter/modules/users/models/social_posts_response_model.dart';
 
-class GroupMembersRequestResponseModel implements Decodeable {
+class GroupInfoResponseModel implements Decodeable {
   int? id;
   String? groupName;
   String? groupId;
@@ -12,12 +13,12 @@ class GroupMembersRequestResponseModel implements Decodeable {
   String? groupPhoto;
   int? membersPostsCount;
 
-//  List<Null>? membersPosts;
+  List<SocialPostModel>? membersPosts;
   List<int>? members;
   int? membersCount;
   List<MembersRequests>? membersRequests;
 
-  GroupMembersRequestResponseModel(
+  GroupInfoResponseModel(
       {this.id,
       this.groupName,
       this.groupId,
@@ -27,12 +28,12 @@ class GroupMembersRequestResponseModel implements Decodeable {
       this.adminFk,
       this.groupPhoto,
       this.membersPostsCount,
-      //this.membersPosts,
+      this.membersPosts,
       this.members,
       this.membersCount,
       this.membersRequests});
 
-  GroupMembersRequestResponseModel.fromJson(Map<String, dynamic> json) {
+  GroupInfoResponseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     groupName = json['group_name'];
     groupId = json['group_id'];
@@ -44,12 +45,12 @@ class GroupMembersRequestResponseModel implements Decodeable {
         : null;
     groupPhoto = json['group_photo'];
     membersPostsCount = json['members_posts_count'];
-    /*if (json['members_posts'] != null) {
-      //membersPosts = <Null>[];
+    if (json['members_posts'] != null) {
+      membersPosts = <SocialPostModel>[];
       json['members_posts'].forEach((v) {
-        //membersPosts!.add(new Null.fromJson(v));
+        membersPosts!.add(SocialPostModel.fromJson(v));
       });
-    }*/
+    }
     members = json['members'].cast<int>();
     membersCount = json['members_count'];
     if (json['members_requests'] != null) {
@@ -73,10 +74,10 @@ class GroupMembersRequestResponseModel implements Decodeable {
     }
     data['group_photo'] = this.groupPhoto;
     data['members_posts_count'] = this.membersPostsCount;
-    /*  if (this.membersPosts != null) {
+    if (this.membersPosts != null) {
       data['members_posts'] =
           this.membersPosts!.map((v) => v.toJson()).toList();
-    }*/
+    }
     data['members'] = this.members;
     data['members_count'] = this.membersCount;
     if (this.membersRequests != null) {
@@ -98,12 +99,12 @@ class GroupMembersRequestResponseModel implements Decodeable {
         json['admin_fk'] != null ? AdminFk.fromJson(json['admin_fk']) : null;
     groupPhoto = json['group_photo'];
     membersPostsCount = json['members_posts_count'];
-    /*if (json['members_posts'] != null) {
-      //membersPosts = <Null>[];
+    if (json['members_posts'] != null) {
+      membersPosts = <SocialPostModel>[];
       json['members_posts'].forEach((v) {
-        //membersPosts!.add(new Null.fromJson(v));
+        membersPosts!.add(new SocialPostModel.fromJson(v));
       });
-    }*/
+    }
     members = json['members'].cast<int>();
     membersCount = json['members_count'];
     if (json['members_requests'] != null) {

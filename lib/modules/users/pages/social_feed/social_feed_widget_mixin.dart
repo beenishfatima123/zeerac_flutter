@@ -148,7 +148,7 @@ mixin SocialFeedWidgetMixin {
   }
 
   createUpdateGroupView(SocialFeedController controller,
-      {GroupMembersRequestResponseModel? group}) {
+      {GroupInfoResponseModel? group}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

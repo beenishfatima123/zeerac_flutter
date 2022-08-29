@@ -38,7 +38,7 @@ mixin GroupControllerMixin implements Loading {
   RxList<SocialGroupModel?> socialGroupFilteredItemList =
       <SocialGroupModel?>[].obs;
 
-  void createUpdateGroup({GroupMembersRequestResponseModel? group}) async {
+  void createUpdateGroup({GroupInfoResponseModel? group}) async {
     if (groupTitleNameController.text.isEmpty) {
       AppPopUps.showSnackBar(message: 'Enter title', context: myContext!);
       return;
@@ -172,8 +172,7 @@ mixin GroupControllerMixin implements Loading {
     loadGroups();
   }
 
-  void getJoinRequestsOfGroup(
-      {required SocialGroupModel group, required onComplete}) {
+  void getGroupInfo({required SocialGroupModel group, required onComplete}) {
     printWrapped("getting social groups");
     isLoading.value = true;
 
@@ -183,9 +182,9 @@ mixin GroupControllerMixin implements Loading {
               APIType.getOneSocialGroupById,
               body: {'id': group.id},
             ),
-            create: () => APIResponse<GroupMembersRequestResponseModel>(
-                create: () => GroupMembersRequestResponseModel()),
-            apiFunction: getJoinRequestsOfGroup)
+            create: () => APIResponse<GroupInfoResponseModel>(
+                create: () => GroupInfoResponseModel()),
+            apiFunction: getGroupInfo)
         .then((response) async {
       isLoading.value = false;
       onComplete(response.response?.data);

@@ -88,18 +88,17 @@ class PostsView extends GetView<SocialFeedController>
                     itemCount: controller.socialPostFilteredItemList.length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          /* _showPostCreateUpdateBottomSheet(
-                              socialPostModel: controller
-                                  .socialPostFilteredItemList
-                                  .elementAt(index)!
-                                  .value);*/
-                        },
-                        child: PostFeedWidget(
-                            postModel: controller.socialPostFilteredItemList
-                                .elementAt(index)!),
-                      );
+                      return PostFeedWidget(
+                          onViewMoreTap: () {
+                            print("on image tap");
+                            _showPostCreateUpdateBottomSheet(
+                                socialPostModel: controller
+                                    .socialPostFilteredItemList
+                                    .elementAt(index)!
+                                    .value);
+                          },
+                          postModel: controller.socialPostFilteredItemList
+                              .elementAt(index)!);
                     },
                   ),
                 ),
